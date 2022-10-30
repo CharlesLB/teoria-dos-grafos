@@ -1,6 +1,9 @@
 #include <fstream>
 #include <iostream>
 
+#include "./lib/edge.cpp"
+#include "./lib/graph.cpp"
+#include "./lib/node.cpp"
 #include "./lib/reader.cpp"
 #include "./lib/writer.cpp"
 
