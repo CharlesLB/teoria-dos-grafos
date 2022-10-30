@@ -8,6 +8,8 @@ using namespace std;
 
 class Reader {
    public:
+    Graph graph(string filename);
+
    private:
 };
 
