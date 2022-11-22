@@ -17,3 +17,9 @@ Graph Reader::graph(string filename) {
     Graph g;
     return g;
 }
+
+int Reader::integer() {
+    int i;
+    cin >> i;
+    return i;
+}

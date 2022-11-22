@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+using namespace std;
+
 Node::Node(int id) {
     this->id = id;
     this->degreeIn = 0;

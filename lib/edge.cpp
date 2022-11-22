@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+using namespace std;
+
 Edge::Edge(Node* head, Node* tail, int weight) {
     this->head = head;
     this->tail = tail;

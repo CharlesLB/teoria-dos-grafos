@@ -8,7 +8,9 @@ using namespace std;
 
 class Reader {
    public:
-    Graph graph(string filename);
+    static int integer();
+
+    static Graph graph(string filename);
 
    private:
 };

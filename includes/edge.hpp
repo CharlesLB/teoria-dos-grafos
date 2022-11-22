@@ -6,6 +6,8 @@
 #include "./graph.hpp"
 #include "./node.hpp"
 
+using namespace std;
+
 class Edge {
    public:
     Edge(Node* head, Node* tail, int weight);

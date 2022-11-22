@@ -23,9 +23,7 @@ class Graph {
     void addNode(Node* node);
     void addEdge(Edge* edge);
 
-    void removeNode(Node* node);
     void removeNode(int id);
-    void removeEdge(Edge* edge);
     void removeEdge(int id);
 
     Node* getNode(int id);

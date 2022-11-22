@@ -8,6 +8,8 @@ using namespace std;
 
 class Writer {
    public:
+    static void menu();
+
    private:
 };
 

@@ -2,9 +2,11 @@
 
 #include <iostream>
 
+using namespace std;
+
 Graph::Graph() {
-    this->nodes.clear();
-    this->edges.clear();
+    this->nodes = vector<Node*>();
+    this->edges = vector<Edge*>();
 }
 
 Graph::~Graph() {
@@ -36,28 +38,10 @@ void Graph::addEdge(Edge* edge) {
     this->edges.push_back(edge);
 }
 
-void Graph::removeNode(Node* node) {
-    for (int i = 0; i < this->nodes.size(); i++) {
-        if (this->nodes[i] == node) {
-            this->nodes.erase(this->nodes.begin() + i);
-            break;
-        }
-    }
-}
-
 void Graph::removeNode(int id) {
     for (int i = 0; i < this->nodes.size(); i++) {
         if (this->nodes[i]->getId() == id) {
             this->nodes.erase(this->nodes.begin() + i);
-            break;
-        }
-    }
-}
-
-void Graph::removeEdge(Edge* edge) {
-    for (int i = 0; i < this->edges.size(); i++) {
-        if (this->edges[i] == edge) {
-            this->edges.erase(this->edges.begin() + i);
             break;
         }
     }

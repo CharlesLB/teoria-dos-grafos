@@ -20,13 +20,12 @@ class Node {
     int getDegreeIn();
     int getDegreeOut();
 
+    Edge* getEdge(int id);
     vector<Edge*> getEdges();
 
     void addEdge(Edge* edge);
 
     void removeEdge(Edge* edge);
-
-    Edge* getEdge(int id);
 
     void setEdges(vector<Edge*> edges);
 
