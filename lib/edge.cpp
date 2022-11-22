@@ -14,6 +14,10 @@ Edge::~Edge() {
     this->weight = 0;
 }
 
+int Edge::getId() {
+    return this->id;
+}
+
 Node* Edge::getHead() {
     return this->head;
 }
