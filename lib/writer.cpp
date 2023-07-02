@@ -13,7 +13,7 @@
 
 using namespace std;
 
-void Writer::menu() {
+void Writer::printMenu() {
     cout << "\nEnter the functionality you want for the inserted graph: \n"
          << endl;
     cout

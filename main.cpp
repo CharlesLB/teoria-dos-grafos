@@ -14,7 +14,7 @@ using namespace std;
 void processOperation(char* argv[], bool hasWeightedNode, bool hasWeightedEdge, bool isDirected, Graph* graph) {
     int option;
 
-    Writer::menu();
+    Writer::printMenu();
     cin >> option;
 
     cout << option << endl;
@@ -37,12 +37,6 @@ int main(int argc, char* argv[]) {
     directed = atoi(argv[3]);
     weightedEdge = atoi(argv[4]);
     weightedNode = atoi(argv[5]);
-
-    cout << "Input path: " << inputPath << endl;
-    cout << "Output path: " << outputPath << endl;
-    cout << "Directed: " << directed << endl;
-    cout << "Weighted edge: " << weightedEdge << endl;
-    cout << "Weighted node: " << weightedNode << endl;
 
     Graph* graph = Reader::graph(inputPath, directed, weightedEdge, weightedNode);
     processOperation(argv, weightedNode, weightedEdge, directed, graph);
