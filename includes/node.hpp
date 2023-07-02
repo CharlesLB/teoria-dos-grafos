@@ -9,6 +9,7 @@
 
 using namespace std;
 
+class Edge;
 class Node {
    public:
     Node(int id);

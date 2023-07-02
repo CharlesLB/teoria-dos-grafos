@@ -13,8 +13,8 @@
 
 using namespace std;
 
-Graph Reader::graph(string filename) {
-    Graph g;
+Graph* Reader::graph(string filename, bool directed, bool weightedEdges, bool weightedNodes) {
+    Graph* g;
     return g;
 }
 

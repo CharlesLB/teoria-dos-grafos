@@ -6,8 +6,19 @@
 #include <sstream>
 
 #include "./lib/graph.cpp"
+#include "./lib/reader.cpp"
+#include "./lib/writer.cpp"
 
 using namespace std;
+
+void processOperation(char* argv[], bool hasWeightedNode, bool hasWeightedEdge, bool isDirected, Graph* graph) {
+    int option;
+
+    Writer::menu();
+    cin >> option;
+
+    cout << option << endl;
+}
 
 int main(int argc, char* argv[]) {
     string path, inputPath, outputPath;
@@ -32,6 +43,9 @@ int main(int argc, char* argv[]) {
     cout << "Directed: " << directed << endl;
     cout << "Weighted edge: " << weightedEdge << endl;
     cout << "Weighted node: " << weightedNode << endl;
+
+    Graph* graph = Reader::graph(inputPath, directed, weightedEdge, weightedNode);
+    processOperation(argv, weightedNode, weightedEdge, directed, graph);
 
     return 0;
 }

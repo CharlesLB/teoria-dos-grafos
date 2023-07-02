@@ -4,15 +4,19 @@
 #include <string>
 #include <vector>
 
+#include "./graph.hpp"
+
 using namespace std;
 
+class Graph;
 class Reader {
    public:
     static int integer();
 
-    static Graph graph(string filename);
+    static Graph* graph(string filename, bool directed, bool weightedEdges, bool weightedNodes);
 
    private:
+    static FILE* openFile(string filename);
 };
 
 #endif

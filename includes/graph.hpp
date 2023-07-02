@@ -6,6 +6,8 @@
 
 using namespace std;
 
+class Edge;
+class Node;
 class Graph {
    public:
     Graph();
