@@ -34,6 +34,11 @@ class Node {
     int degreeIn;
     int degreeOut;
     vector<Edge*> edges;
+
+    void decrementDegreeIn();
+    void decrementDegreeOut();
+    void incrementDegreeIn();
+    void incrementDegreeOut();
 };
 
 #endif

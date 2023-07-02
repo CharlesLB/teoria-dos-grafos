@@ -5,23 +5,33 @@
 #include <iostream>
 #include <sstream>
 
-#include "./lib/edge.cpp"
 #include "./lib/graph.cpp"
-#include "./lib/node.cpp"
-#include "./lib/reader.cpp"
-#include "./lib/writer.cpp"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    string path;
+    string path, inputPath, outputPath;
+    bool directed, weightedEdge, weightedNode;
 
-    if (argc != 2) {
-        cout << "Especifique o caminho da entrada com: " << argv[0] << " <input_folder>" << endl;
+    if (argc <= 5) {
+        cout << "Missing arguments.\n";
+        cout << "Usage: " << argv[0] << " <input_file>"
+             << " <output_file>"
+             << " <directed[0,1]> <weightedEdge[0,1]> <weightedNode[0,1]>";
         return 1;
     }
 
-    path = argv[1];
+    inputPath = argv[1];
+    outputPath = argv[2];
+    directed = atoi(argv[3]);
+    weightedEdge = atoi(argv[4]);
+    weightedNode = atoi(argv[5]);
+
+    cout << "Input path: " << inputPath << endl;
+    cout << "Output path: " << outputPath << endl;
+    cout << "Directed: " << directed << endl;
+    cout << "Weighted edge: " << weightedEdge << endl;
+    cout << "Weighted node: " << weightedNode << endl;
 
     return 0;
 }

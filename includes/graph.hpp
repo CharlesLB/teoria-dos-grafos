@@ -4,9 +4,6 @@
 #include <iostream>
 #include <vector>
 
-#include "./edge.hpp"
-#include "./graph.hpp"
-
 using namespace std;
 
 class Graph {
@@ -17,24 +14,19 @@ class Graph {
     int getNumNodes();
     int getNumEdges();
 
-    vector<Node*> getNodes();
-    vector<Edge*> getEdges();
-
-    void addNode(Node* node);
-    void addEdge(Edge* edge);
-
-    void removeNode(int id);
-    void removeEdge(int id);
-
-    Node* getNode(int id);
-    Edge* getEdge(int id);
-
-    void setNodes(vector<Node*> nodes);
-    void setEdges(vector<Edge*> edges);
+    bool isWeightedEdges();
+    bool isWeightedNodes();
+    bool isDirected();
 
    private:
-    vector<Node*> nodes;
+    Node* firstNode;
     vector<Edge*> edges;
+
+    int totalNodes;
+    int totalEdges;
+    bool weightedEdges;
+    bool weightedNodes;
+    bool directed;
 };
 
 #endif
