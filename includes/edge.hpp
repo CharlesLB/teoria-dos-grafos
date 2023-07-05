@@ -6,7 +6,6 @@
 #include "./graph.hpp"
 #include "./node.hpp"
 
-using namespace std;
 class Node;
 class Edge {
    public:
@@ -14,20 +13,20 @@ class Edge {
     ~Edge();
 
     int getId();
-
+    int getWeight();
     Node* getHead();
     Node* getTail();
-    int getWeight();
 
-    void setHead(Node* head);
-    void setTail(Node* tail);
-    void setWeight(int weight);
+    Edge* getNextEdge();
+    void setNextEdge(Edge* edge);
 
    private:
     int id;
+    int weight;
+
     Node* head;
     Node* tail;
-    int weight;
+    Edge* nextEdge;
 };
 
 #endif

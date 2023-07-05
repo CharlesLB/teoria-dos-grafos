@@ -5,7 +5,9 @@
 #include <iostream>
 #include <sstream>
 
+#include "./lib/edge.cpp"
 #include "./lib/graph.cpp"
+#include "./lib/node.cpp"
 #include "./lib/reader.cpp"
 #include "./lib/writer.cpp"
 

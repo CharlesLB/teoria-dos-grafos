@@ -13,12 +13,17 @@ class Graph {
     Graph(bool directed, bool weightedEdge, bool weightedNodes);
     ~Graph();
 
+    Node* getFirstNode();
     int getNumNodes();
     int getNumEdges();
-
     bool isWeightedEdges();
     bool isWeightedNodes();
     bool isDirected();
+
+    Node* createOrUpdateNode(int id, int weight);
+    Edge* createEdge(Node* head, Node* tail, int weight);
+    void deleteEdge(Edge* edge);
+    void deleteNode(Node* node);
 
    private:
     Node* firstNode;

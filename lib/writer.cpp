@@ -53,3 +53,6 @@ void Writer::printMenu() {
 
     std::cout << "(0) Exit" << std::endl;
 }
+
+void Writer::printGraph(Graph* graph) {
+}
