@@ -1,8 +1,8 @@
-#include "../includes/node.hpp"
+#include "../Node/node.hpp"
 
 #include <iostream>
 
-#include "../includes/edge.hpp"
+#include "../Edge/edge.hpp"
 
 Node::Node(int id, int weight)
     : id(id), weight(weight), degreeIn(0), degreeOut(0), nextNode(nullptr), firstEdge(nullptr) {}

@@ -4,8 +4,8 @@
 #include <iostream>
 #include <vector>
 
-#include "./edge.hpp"
-#include "./graph.hpp"
+#include "../Edge/edge.hpp"
+#include "../Graph/graph.hpp"
 
 using namespace std;
 

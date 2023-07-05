@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "./graph.hpp"
+#include "../../lib/Graph/graph.hpp"
 
 using namespace std;
 

@@ -1,4 +1,4 @@
-#include "../includes/writer.hpp"
+#include "./writer.hpp"
 
 #include <time.h>
 
@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "../includes/graph.hpp"
+#include "../../lib/Graph/graph.hpp"
 
 using namespace std;
 

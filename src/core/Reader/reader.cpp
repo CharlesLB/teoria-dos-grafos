@@ -1,4 +1,4 @@
-#include "../includes/reader.hpp"
+#include "./reader.hpp"
 
 #include <time.h>
 
@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "../includes/graph.hpp"
+#include "../../lib/Graph/graph.hpp"
 
 Graph* Reader::graph(string filename, bool directed, bool weightedEdges, bool weightedNodes) {
     FILE* file = openFile(filename);

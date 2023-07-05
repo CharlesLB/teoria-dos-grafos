@@ -1,8 +1,8 @@
-#include "../includes/edge.hpp"
+#include "./edge.hpp"
 
 #include <iostream>
 
-#include "../includes/node.hpp"
+#include "../Node/node.hpp"
 
 Edge::Edge(Node* head, Node* tail, int weight)
     : head(head), tail(tail), weight(weight), nextEdge(nullptr) {}

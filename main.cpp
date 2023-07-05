@@ -5,11 +5,11 @@
 #include <iostream>
 #include <sstream>
 
-#include "./lib/edge.cpp"
-#include "./lib/graph.cpp"
-#include "./lib/node.cpp"
-#include "./lib/reader.cpp"
-#include "./lib/writer.cpp"
+#include "./src/core/Reader/reader.cpp"
+#include "./src/core/Writer/writer.cpp"
+#include "./src/lib/Edge/edge.cpp"
+#include "./src/lib/Graph/graph.cpp"
+#include "./src/lib/Node/node.cpp"
 
 using namespace std;
 

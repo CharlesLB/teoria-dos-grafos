@@ -6,6 +6,8 @@
 
 using namespace std;
 
+#include "../../lib/Graph/graph.hpp"
+
 class Writer {
    public:
     static void printMenu();

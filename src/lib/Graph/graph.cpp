@@ -1,9 +1,9 @@
-#include "../includes/graph.hpp"
+#include "../Graph/graph.hpp"
 
 #include <iostream>
 
-#include "../includes/edge.hpp"
-#include "../includes/node.hpp"
+#include "../Edge/edge.hpp"
+#include "../Node/node.hpp"
 
 Graph::Graph(bool directed, bool weightedEdge, bool weightedNodes)
     : firstNode(nullptr), totalNodes(0), totalEdges(0), weightedEdges(weightedEdge), weightedNodes(weightedNodes), directed(directed) {}

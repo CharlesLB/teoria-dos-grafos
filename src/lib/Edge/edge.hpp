@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#include "./graph.hpp"
-#include "./node.hpp"
+#include "../Graph/graph.hpp"
+#include "../Node/node.hpp"
 
 class Node;
 class Edge {
