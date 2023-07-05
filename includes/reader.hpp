@@ -14,6 +14,7 @@ class Reader {
     static int integer();
 
     static Graph* graph(string filename, bool directed, bool weightedEdges, bool weightedNodes);
+    static char readChar();
 
    private:
     static FILE* openFile(string filename);

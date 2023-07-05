@@ -33,7 +33,6 @@
 
 *.bin
 *.csv
-*.txt
 
 # vscode
 /.vscode

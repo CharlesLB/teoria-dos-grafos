@@ -14,10 +14,24 @@ using namespace std;
 void processOperation(char* argv[], bool hasWeightedNode, bool hasWeightedEdge, bool isDirected, Graph* graph) {
     int option;
 
-    Writer::printMenu();
-    cin >> option;
+    while (true) {
+        Writer::printMenu();
+        cin >> option;
 
-    cout << option << endl;
+        switch (option) {
+            case 0:
+                cout << "Exiting...\n";
+                exit(0);
+                break;
+            case 'a':
+                cout << "Option a\n";
+                break;
+
+            default:
+                cout << "Invalid option\n";
+                break;
+        }
+    }
 }
 
 int main(int argc, char* argv[]) {

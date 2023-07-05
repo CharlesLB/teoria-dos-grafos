@@ -10,7 +10,7 @@ class Edge;
 class Node;
 class Graph {
    public:
-    Graph();
+    Graph(bool directed, bool weightedEdge, bool weightedNodes);
     ~Graph();
 
     int getNumNodes();

@@ -5,9 +5,13 @@
 #include "../includes/edge.hpp"
 #include "../includes/node.hpp"
 
-Graph::Graph() {
-    this->firstNode = NULL;
-    this->edges = std::vector<Edge*>();
+Graph::Graph(bool isDirected, bool weightedEdge, bool weightedNodes) {
+    this->firstNode = nullptr;
+    this->totalNodes = 0;
+    this->totalEdges = 0;
+    this->directed = isDirected;
+    this->weightedEdges = weightedEdge;
+    this->weightedNodes = weightedNodes;
 }
 
 Graph::~Graph() {
