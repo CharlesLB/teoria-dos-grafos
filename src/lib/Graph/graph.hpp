@@ -14,6 +14,7 @@ class Graph {
     ~Graph();
 
     Node* getFirstNode();
+    vector<Edge*> getEdges();
     int getNumNodes();
     int getNumEdges();
     bool isWeightedEdges();
@@ -21,7 +22,7 @@ class Graph {
     bool isDirected();
 
     Node* createOrUpdateNode(int id, int weight);
-    Edge* createEdge(Node* head, Node* tail, int weight);
+    Edge* createOrUpdateEdge(Node* head, Node* tail, int weight);
     void deleteEdge(Edge* edge);
     void deleteNode(Node* node);
 

@@ -13,7 +13,10 @@ class Edge {
     ~Edge();
 
     int getId();
+
     int getWeight();
+    void setWeight(int weight);
+
     Node* getHead();
     Node* getTail();
 

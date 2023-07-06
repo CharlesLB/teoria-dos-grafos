@@ -8,12 +8,6 @@ Node::Node(int id, int weight)
     : id(id), weight(weight), degreeIn(0), degreeOut(0), nextNode(nullptr), firstEdge(nullptr) {}
 
 Node::~Node() {
-    Edge* edge = firstEdge;
-    while (edge != nullptr) {
-        Edge* nextEdge = edge->getNextEdge();
-        delete edge;
-        edge = nextEdge;
-    }
 }
 
 int Node::getId() {
@@ -74,11 +68,11 @@ void Node::addEdge(Edge* edge) {
         return;
     }
 
-    if (edge->getTail() == this) {
+    if (edge->getHead() == this) {
         incrementDegreeOut();
     }
 
-    if (edge->getHead() == this) {
+    if (edge->getTail() == this) {
         incrementDegreeIn();
     }
 
@@ -91,11 +85,11 @@ void Node::removeEdge(Edge* edge) {
         return;
     }
 
-    if (edge->getHead() == this) {
+    if (edge->getTail() == this) {
         decrementDegreeIn();
     }
 
-    if (edge->getTail() == this) {
+    if (edge->getHead() == this) {
         decrementDegreeOut();
     }
 

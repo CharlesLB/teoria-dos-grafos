@@ -8,9 +8,6 @@ Edge::Edge(Node* head, Node* tail, int weight)
     : head(head), tail(tail), weight(weight), nextEdge(nullptr) {}
 
 Edge::~Edge() {
-    if (nextEdge != nullptr) {
-        delete nextEdge;
-    }
 }
 
 int Edge::getId() {
@@ -19,6 +16,10 @@ int Edge::getId() {
 
 int Edge::getWeight() {
     return weight;
+}
+
+void Edge::setWeight(int weight) {
+    this->weight = weight;
 }
 
 Node* Edge::getHead() {

@@ -34,6 +34,11 @@ class Node {
     void addEdge(Edge* edge);
     void removeEdge(Edge* edge);
 
+    void decrementDegreeIn();
+    void decrementDegreeOut();
+    void incrementDegreeIn();
+    void incrementDegreeOut();
+
    private:
     int id;
     int degreeIn;
@@ -41,11 +46,6 @@ class Node {
     int weight;
     Node* nextNode;
     Edge* firstEdge;
-
-    void decrementDegreeIn();
-    void decrementDegreeOut();
-    void incrementDegreeIn();
-    void incrementDegreeOut();
 };
 
 #endif

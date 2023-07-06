@@ -15,6 +15,8 @@ class Writer {
     static void printGraphInFile(Graph* graph, string filename);
 
    private:
+    static void printNodes(Graph* graph);
+    static void printEdges(Graph* graph);
 };
 
 #endif

@@ -25,6 +25,10 @@ Node* Graph::getFirstNode() {
     return firstNode;
 }
 
+vector<Edge*> Graph::getEdges() {
+    return edges;
+}
+
 int Graph::getNumNodes() {
     return totalNodes;
 }
@@ -69,16 +73,31 @@ Node* Graph::createOrUpdateNode(int id, int weight) {
     return newNode;
 }
 
-Edge* Graph::createEdge(Node* head, Node* tail, int weight) {
+Edge* Graph::createOrUpdateEdge(Node* head, Node* tail, int weight) {
     if (head == nullptr || tail == nullptr) {
         std::cout << "Invalid nodes for creating an edge." << std::endl;
         return nullptr;
     }
 
-    Edge* newEdge = new Edge(head, tail, weight);
-    head->addEdge(newEdge);
+    Edge* existingEdge = nullptr;
 
-    if (!directed) {
+    for (Edge* edge : edges) {
+        if (edge->getHead() == head && edge->getTail() == tail) {
+            existingEdge = edge;
+            break;
+        }
+    }
+
+    if (existingEdge != nullptr) {
+        deleteEdge(existingEdge);
+    }
+
+    Edge* newEdge = new Edge(head, tail, weight);
+
+    if (directed) {
+        head->addEdge(newEdge);
+        tail->incrementDegreeIn();
+    } else {
         Edge* reverseEdge = new Edge(tail, head, weight);
         tail->addEdge(reverseEdge);
     }
