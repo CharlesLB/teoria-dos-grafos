@@ -10,9 +10,8 @@ using namespace std;
 
 class Writer {
    public:
-    static void printMenu();
+    static void printMenu(string* options);
     static void printGraph(Graph* graph);
-    static void printGraphInFile(Graph* graph, string filename);
 
    private:
     static void printNodes(Graph* graph);

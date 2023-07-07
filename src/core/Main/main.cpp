@@ -7,36 +7,14 @@
 #include <iostream>
 #include <sstream>
 
-#include "../../lib/Edge/edge.cpp"
-#include "../../lib/Graph/graph.cpp"
-#include "../../lib/Node/node.cpp"
-#include "../Reader/reader.cpp"
-#include "../Writer/writer.cpp"
+#include "../../lib/Edge/edge.hpp"
+#include "../../lib/Graph/graph.hpp"
+#include "../../lib/Node/node.hpp"
+#include "../Controller/controller.hpp"
+#include "../Reader/reader.hpp"
+#include "../Writer/writer.hpp"
 
 using namespace std;
-
-void Main::processOperation(char* argv[], bool hasWeightedNode, bool hasWeightedEdge, bool isDirected, Graph* graph) {
-    int option;
-
-    while (true) {
-        Writer::printMenu();
-        cin >> option;
-
-        switch (option) {
-            case 0:
-                cout << "Exiting...\n";
-                exit(0);
-                break;
-            case 'a':
-                cout << "Option a\n";
-                break;
-
-            default:
-                cout << "Invalid option\n";
-                break;
-        }
-    }
-}
 
 int Main::main(int argc, char* argv[]) {
     string path, inputPath, outputPath;
@@ -57,7 +35,7 @@ int Main::main(int argc, char* argv[]) {
     weightedNode = atoi(argv[5]);
 
     Graph* graph = Reader::graph(inputPath, directed, weightedEdge, weightedNode);
-    processOperation(argv, weightedNode, weightedEdge, directed, graph);
+    Controller::processOperation(argv, weightedNode, weightedEdge, directed, graph);
 
     return 0;
 }
