@@ -10,13 +10,14 @@
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
+#include "../Manager/manager.hpp"
 #include "../Reader/reader.hpp"
 #include "../Writer/writer.hpp"
 
 using namespace std;
 
 void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWeightedEdge, bool isDirected, Graph* graph) {
-    int option;
+    char option;
 
     string options[] = {
         "Impressão do grafo em um arquivo",
@@ -44,14 +45,15 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
         "Apresentar as arestas ponte",
         "Apresentar o raio, o diâmetro, o centro e a periferia do grafo",
         "Apresentar a AGM do grafo ou, para grafos desconexos, as florestas de custo mínimo",
-        "Apresentar o caminho mínimo entre dois vértices usando o algoritmo de Dijkstra ou de Floyd (escolha do usuário)", ""};
+        "Apresentar o caminho mínimo entre dois vértices usando o algoritmo de Dijkstra ou de Floyd (escolha do usuário)", "Exit", ""};
 
     while (true) {
         Writer::printMenu(options);
-        cin >> option;
+        option = Reader::readChar();
+        bool invalidOption = false;
 
         switch (option) {
-            case 0:
+            case '0':
                 exitSystem();
                 break;
             case 'a':
@@ -159,9 +161,13 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
                 break;
 
             default:
+                invalidOption = true;
                 cout << "Invalid option\n";
                 break;
         }
+
+        if (invalidOption) continue;
+        Reader::continueConfirmation();
     }
 }
 
@@ -175,7 +181,7 @@ void Controller::printGraphToFile(Graph* graph, string outputPath) {
 }
 
 void Controller::nodeAndEdgeInsertionDeletion(Graph* graph) {
-    // TODO
+    Manager::processOperation(graph);
 }
 
 void Controller::getNodeDegree(Graph* graph) {

@@ -22,10 +22,13 @@ void Writer::printMenu(string* options) {
     char index = 'a';
     for (const std::string* option = options; *option != ""; option++) {
         std::cout << "(" << index << ") " << *option << std::endl;
-        index++;
-    }
 
-    std::cout << "(0) Exit" << std::endl;
+        if (index == 'z') {
+            index = '0';
+        } else {
+            index++;
+        }
+    }
 }
 
 void Writer::printNodes(Graph* graph) {

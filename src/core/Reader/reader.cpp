@@ -43,3 +43,35 @@ char Reader::readChar() {
 
     return ch;
 }
+
+int Reader::readInt() {
+    int num;
+    std::cout << "Enter an integer: ";
+    std::cin >> num;
+
+    while (std::cin.fail()) {
+        std::cout << "Invalid input. Please enter an integer: ";
+        std::cin.clear();
+        std::cin >> num;
+    }
+
+    return num;
+}
+
+void Reader::continueConfirmation() {
+    std::string answer;
+    do {
+        std::cout << "Continue? (y/n): ";
+        std::cin >> answer;
+        if (answer != "y" && answer != "n") {
+            std::cout << "Invalid input. Please enter 'y' or 'n'." << std::endl;
+        }
+    } while (answer != "y" && answer != "n");
+
+    if (answer == "y") {
+        return;
+    }
+
+    cout << "Good Bye!" << endl;
+    exit(0);
+}

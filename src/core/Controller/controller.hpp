@@ -4,9 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
-#include "../../lib/Node/node.hpp"
 
 using namespace std;
 

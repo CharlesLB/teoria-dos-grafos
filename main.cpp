@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include "./src/core/Controller/controller.cpp"
+#include "./src/core/Manager/manager.cpp"
 #include "./src/core/Reader/reader.cpp"
 #include "./src/core/Writer/writer.cpp"
 #include "./src/lib/Edge/edge.cpp"

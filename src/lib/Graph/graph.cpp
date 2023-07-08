@@ -49,6 +49,31 @@ bool Graph::isDirected() {
     return directed;
 }
 
+Node* Graph::findNodeById(int id) {
+    Node* currentNode = firstNode;
+    while (currentNode != nullptr) {
+        if (currentNode->getId() == id) {
+            return currentNode;
+        }
+        currentNode = currentNode->getNextNode();
+    }
+    return nullptr;
+}
+
+Edge* Graph::findEdgeByNodes(Node* head, Node* tail) {
+    if (head == nullptr || tail == nullptr) {
+        std::cout << "Invalid nodes for searching an edge." << std::endl;
+        return nullptr;
+    }
+
+    for (Edge* edge : edges) {
+        if (edge->getHead() == head && edge->getTail() == tail) {
+            return edge;
+        }
+    }
+    return nullptr;
+}
+
 Node* Graph::createOrUpdateNode(int id, int weight) {
     Node* existingNode = nullptr;
 

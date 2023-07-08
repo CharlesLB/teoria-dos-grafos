@@ -21,6 +21,8 @@ class Graph {
     bool isWeightedNodes();
     bool isDirected();
 
+    Node* findNodeById(int id);
+    Edge* findEdgeByNodes(Node* head, Node* tail);
     Node* createOrUpdateNode(int id, int weight);
     Edge* createOrUpdateEdge(Node* head, Node* tail, int weight);
     void deleteEdge(Edge* edge);
