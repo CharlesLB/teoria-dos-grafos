@@ -109,6 +109,10 @@ void Node::removeEdge(Edge* edge) {
     }
 }
 
+int Node::getDegree() {
+    return degreeIn + degreeOut;
+}
+
 void Node::decrementDegreeIn() {
     degreeIn--;
 }

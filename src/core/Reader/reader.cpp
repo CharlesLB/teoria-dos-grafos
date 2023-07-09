@@ -11,10 +11,60 @@
 
 #include "../../lib/Graph/graph.hpp"
 
+vector<string> Reader::readLines(string filename) {
+    FILE* file = openFile(filename);
+    std::vector<std::string> lines;
+
+    char buffer[256];
+    while (fgets(buffer, sizeof(buffer), file)) {
+        lines.emplace_back(buffer);
+    }
+
+    fclose(file);
+
+    return lines;
+}
+
 Graph* Reader::graph(string filename, bool directed, bool weightedEdges, bool weightedNodes) {
     FILE* file = openFile(filename);
+    std::vector<std::string> lines;
 
     Graph* graph = new Graph(directed, weightedEdges, weightedNodes);
+
+    lines = readLines(filename);
+    int totalNodes = stoi(lines[0]);
+
+    for (int i = 1; i <= totalNodes; i++) {
+        graph->createOrUpdateNode(i, 1);
+    }
+
+    lines.erase(lines.begin());
+
+    if (weightedEdges) {
+        for (const std::string& line : lines) {
+            std::istringstream iss(line);
+            int source, destination, weight;
+            iss >> source >> destination >> weight;
+
+            Node* sourceNode = graph->findNodeById(source);
+            Node* destinationNode = graph->findNodeById(destination);
+
+            graph->createOrUpdateEdge(sourceNode, destinationNode, weight);
+        }
+
+        return graph;
+    }
+
+    for (const std::string& line : lines) {
+        std::istringstream iss(line);
+        int source, destination;
+        iss >> source >> destination;
+
+        Node* sourceNode = graph->findNodeById(source);
+        Node* destinationNode = graph->findNodeById(destination);
+
+        graph->createOrUpdateEdge(sourceNode, destinationNode, 1);
+    }
 
     return graph;
 }

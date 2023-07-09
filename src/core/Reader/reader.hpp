@@ -21,6 +21,7 @@ class Reader {
 
    private:
     static FILE* openFile(string filename);
+    static vector<string> readLines(string filename);
 };
 
 #endif

@@ -119,12 +119,15 @@ Edge* Graph::createOrUpdateEdge(Node* head, Node* tail, int weight) {
 
     Edge* newEdge = new Edge(head, tail, weight);
 
+    head->addEdge(newEdge);
+
     if (directed) {
-        head->addEdge(newEdge);
         tail->incrementDegreeIn();
     } else {
         Edge* reverseEdge = new Edge(tail, head, weight);
         tail->addEdge(reverseEdge);
+        tail->incrementDegreeIn();
+        head->incrementDegreeIn();
     }
 
     edges.push_back(newEdge);
