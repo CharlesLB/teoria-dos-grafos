@@ -98,23 +98,10 @@ Node* Graph::createOrUpdateNode(int id, int weight) {
     return newNode;
 }
 
-Edge* Graph::createOrUpdateEdge(Node* head, Node* tail, int weight) {
+Edge* Graph::createEdge(Node* head, Node* tail, int weight) {
     if (head == nullptr || tail == nullptr) {
         std::cout << "Invalid nodes for creating an edge." << std::endl;
         return nullptr;
-    }
-
-    Edge* existingEdge = nullptr;
-
-    for (Edge* edge : edges) {
-        if (edge->getHead() == head && edge->getTail() == tail) {
-            existingEdge = edge;
-            break;
-        }
-    }
-
-    if (existingEdge != nullptr) {
-        deleteEdge(existingEdge);
     }
 
     Edge* newEdge = new Edge(head, tail, weight);

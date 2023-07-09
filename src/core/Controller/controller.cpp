@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "../../helpers/Validators/validators.hpp"
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
@@ -197,11 +198,25 @@ void Controller::getGraphOrder(Graph* graph) {
 }
 
 void Controller::isGraphTrivial(Graph* graph) {
-    // TODO
+    bool isTrivial = checkGraphIsTrivial(graph);
+
+    if (isTrivial) {
+        cout << "The graph is trivial\n";
+        return;
+    }
+
+    cout << "The graph is not trivial\n";
 }
 
 void Controller::isGraphNull(Graph* graph) {
-    // TODO
+    bool isNull = checkGraphIsNull(graph);
+
+    if (isNull) {
+        cout << "The graph is null\n";
+        return;
+    }
+
+    cout << "The graph is not null\n";
 }
 
 void Controller::showOpenNeighborhood(Graph* graph) {
@@ -213,15 +228,36 @@ void Controller::showClosedNeighborhood(Graph* graph) {
 }
 
 void Controller::checkMultigraph(Graph* graph) {
-    // TODO
+    bool isMultigraph = checkGraphIsMultigraph(graph);
+
+    if (isMultigraph) {
+        cout << "The graph is multigraph\n";
+        return;
+    }
+
+    cout << "The graph is not multigraph\n";
 }
 
 void Controller::checkCompleteGraph(Graph* graph) {
-    // TODO
+    bool isComplete = checkGraphIsComplete(graph);
+
+    if (isComplete) {
+        cout << "The graph is complete\n";
+        return;
+    }
+
+    cout << "The graph is not complete\n";
 }
 
 void Controller::checkBipartiteGraph(Graph* graph) {
-    // TODO
+    bool isBipartite = checkGraphIsBipartite(graph);
+
+    if (isBipartite) {
+        cout << "The graph is bipartite\n";
+        return;
+    }
+
+    cout << "The graph is not bipartite\n";
 }
 
 void Controller::getMinimumPathAndCost(Graph* graph) {
@@ -257,7 +293,14 @@ void Controller::getStronglyConnectedComponents(Graph* graph) {
 }
 
 void Controller::checkEulerianGraph(Graph* graph) {
-    // TODO
+    bool isEulerian = checkGraphIsEulerian(graph);
+
+    if (isEulerian) {
+        cout << "The graph is eulerian\n";
+        return;
+    }
+
+    cout << "The graph is not eulerian\n";
 }
 
 void Controller::getArticulationNodes(Graph* graph) {

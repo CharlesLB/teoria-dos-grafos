@@ -38,10 +38,10 @@ int main() {
     // Create edges
     it("Create edges");
 
-    Edge* edge1 = graph->createOrUpdateEdge(node1, node2, 10);
-    Edge* edge2 = graph->createOrUpdateEdge(node1, node3, 10);
-    Edge* edge3 = graph->createOrUpdateEdge(node2, node3, 20);
-    Edge* edge4 = graph->createOrUpdateEdge(node3, node1, 30);
+    Edge* edge1 = graph->createEdge(node1, node2, 10);
+    Edge* edge2 = graph->createEdge(node1, node3, 10);
+    Edge* edge3 = graph->createEdge(node2, node3, 20);
+    Edge* edge4 = graph->createEdge(node3, node1, 30);
 
     expect(graph->getNumNodes(), 3, "Should have 3 nodes");
     expect(graph->getNumEdges(), 4, "Should have 4 edges");
@@ -68,29 +68,7 @@ int main() {
     expect(graph->getNumNodes(), 3, "Should have 3 nodes");
     expect(graph->getNumEdges(), 4, "Should have 4 edges");
 
-    // Update edges
-    it("Update edges");
-
-    Edge* edge5 = graph->createOrUpdateEdge(node1, node2, 40);
-    Edge* edge6 = graph->createOrUpdateEdge(node1, node3, 40);
-    Edge* edge7 = graph->createOrUpdateEdge(node2, node3, 50);
-    Edge* edge8 = graph->createOrUpdateEdge(node3, node1, 30);
-
-    expect(graph->getNumNodes(), 3, "Should have 3 nodes");
-    expect(graph->getNumEdges(), 4, "Should have 4 edges");
-
-    expect(graph->getEdges()[0]->getWeight(), 40, "First edge should have weight 40");
-    expect(graph->getEdges()[1]->getWeight(), 40, "Second edge should have weight 40");
-    expect(graph->getEdges()[2]->getWeight(), 50, "Third edge should have weight 50");
-    expect(graph->getEdges()[3]->getWeight(), 30, "Fourth edge should have weight 30");
-    expect(graph->getFirstNode()->getDegreeIn(), 2, "First node should have degree in 2");
-    expect(graph->getFirstNode()->getDegreeOut(), 1, "First node should have degree out 1");
-    expect(graph->getFirstNode()->getNextNode()->getDegreeIn(), 1, "Second node should have degree in 1");
-    expect(graph->getFirstNode()->getNextNode()->getDegreeOut(), 1, "Second node should have degree out 1");
-    expect(graph->getFirstNode()->getNextNode()->getNextNode()->getDegreeIn(), 1, "Third node should have degree in 1");
-    expect(graph->getFirstNode()->getNextNode()->getNextNode()->getDegreeOut(), 2, "Third node should have degree out 2");
-
-    // delete edges
+     // delete edges
 
     it("Delete edges");
 

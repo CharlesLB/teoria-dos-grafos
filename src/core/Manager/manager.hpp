@@ -20,7 +20,7 @@ class Manager {
 
    private:
     static void createOrUpdateNode(Graph* graph);
-    static void createOrUpdateEdge(Graph* graph);
+    static void createEdge(Graph* graph);
     static void removeNode(Graph* graph);
     static void removeEdge(Graph* graph);
 };

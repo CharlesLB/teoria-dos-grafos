@@ -14,6 +14,7 @@
 #include "../lib/Edge/edge.cpp"
 #include "../lib/Graph/graph.cpp"
 #include "../lib/Node/node.cpp"
+#include "../utils/graph/graph.cpp"
 #include "../utils/tests/tests.cpp"
 
 string name = "Validators ";
@@ -29,11 +30,11 @@ void testCheckGraphIsKRegularByK() {
     Node* node4 = graph->createOrUpdateNode(4, 40);
     Node* node5 = graph->createOrUpdateNode(5, 50);
 
-    graph->createOrUpdateEdge(node1, node2, 10);
-    graph->createOrUpdateEdge(node2, node3, 20);
-    graph->createOrUpdateEdge(node3, node4, 30);
-    graph->createOrUpdateEdge(node4, node5, 40);
-    graph->createOrUpdateEdge(node5, node1, 50);
+    graph->createEdge(node1, node2, 10);
+    graph->createEdge(node2, node3, 20);
+    graph->createEdge(node3, node4, 30);
+    graph->createEdge(node4, node5, 40);
+    graph->createEdge(node5, node1, 50);
 
     expect(checkGraphIsKRegularByK(graph, 2), true, "Should be 2-regular");
     expect(checkGraphIsKRegularByK(graph, 3), false, "Should not be 3-regular");
@@ -51,8 +52,8 @@ void testCheckGraphIsTrivial() {
 
     Node* node2 = graph->createOrUpdateNode(2, 20);
     Node* node3 = graph->createOrUpdateNode(3, 30);
-    graph->createOrUpdateEdge(node1, node2, 10);
-    graph->createOrUpdateEdge(node2, node3, 20);
+    graph->createEdge(node1, node2, 10);
+    graph->createEdge(node2, node3, 20);
 
     expect(checkGraphIsTrivial(graph), false, "Should not be trivial");
 }
@@ -66,7 +67,7 @@ void testCheckGraphIsNull() {
 
     Node* node1 = graph->createOrUpdateNode(1, 10);
     Node* node2 = graph->createOrUpdateNode(2, 20);
-    graph->createOrUpdateEdge(node1, node2, 10);
+    graph->createEdge(node1, node2, 10);
 
     expect(checkGraphIsNull(graph), false, "Should not be null");
 }
@@ -82,9 +83,11 @@ void testCheckGraphIsComplete() {
 
     expect(checkGraphIsComplete(graph), false, "Should not be complete");
 
-    graph->createOrUpdateEdge(node1, node2, 10);
-    graph->createOrUpdateEdge(node1, node3, 20);
-    graph->createOrUpdateEdge(node2, node3, 30);
+    graph->createEdge(node1, node2, 10);
+    graph->createEdge(node1, node3, 20);
+    graph->createEdge(node2, node3, 30);
+
+    Writer::printGraph(graph);
 
     expect(checkGraphIsComplete(graph), true, "Should be complete");
 }
@@ -99,13 +102,13 @@ void testCheckGraphIsBipartite() {
     Node* node3 = graph->createOrUpdateNode(3, 30);
     Node* node4 = graph->createOrUpdateNode(4, 40);
 
-    graph->createOrUpdateEdge(node1, node3, 10);
-    graph->createOrUpdateEdge(node2, node4, 20);
+    graph->createEdge(node1, node3, 10);
+    graph->createEdge(node2, node4, 20);
 
     expect(checkGraphIsBipartite(graph), true, "Should be bipartite");
 
-    graph->createOrUpdateEdge(node1, node2, 30);
-    graph->createOrUpdateEdge(node1, node4, 30);
+    graph->createEdge(node1, node2, 30);
+    graph->createEdge(node1, node4, 30);
 
     expect(checkGraphIsBipartite(graph), false, "Should not be bipartite");
 }
@@ -118,9 +121,9 @@ void testEurelianUndirectedGraph() {
     Node* node1 = graph->createOrUpdateNode(1, 10);
     Node* node2 = graph->createOrUpdateNode(2, 20);
     Node* node3 = graph->createOrUpdateNode(3, 30);
-    Edge* edge1 = graph->createOrUpdateEdge(node1, node2, 10);
-    graph->createOrUpdateEdge(node2, node3, 20);
-    graph->createOrUpdateEdge(node3, node1, 30);
+    Edge* edge1 = graph->createEdge(node1, node2, 10);
+    graph->createEdge(node2, node3, 20);
+    graph->createEdge(node3, node1, 30);
 
     expect(checkGraphIsEulerian(graph), true, "Should be eurelian");
 
@@ -137,15 +140,32 @@ void testEurelianDirectedGraph() {
     Node* node1 = graph->createOrUpdateNode(1, 10);
     Node* node2 = graph->createOrUpdateNode(2, 20);
     Node* node3 = graph->createOrUpdateNode(3, 30);
-    Edge* edge1 = graph->createOrUpdateEdge(node1, node2, 10);
-    graph->createOrUpdateEdge(node2, node3, 20);
-    graph->createOrUpdateEdge(node3, node1, 30);
+    Edge* edge1 = graph->createEdge(node1, node2, 10);
+    graph->createEdge(node2, node3, 20);
+    graph->createEdge(node3, node1, 30);
 
     expect(checkGraphIsEulerian(graph), true, "Should be eurelian");
 
     graph->deleteEdge(edge1);
 
     expect(checkGraphIsEulerian(graph), false, "Should not be eurelian");
+}
+
+void testMultigraph() {
+    Graph* graph = new Graph(false, true, true);
+
+    Node* node1 = graph->createOrUpdateNode(1, 10);
+    Node* node2 = graph->createOrUpdateNode(2, 20);
+    Node* node3 = graph->createOrUpdateNode(3, 30);
+
+    graph->createEdge(node1, node2, 10);
+    graph->createEdge(node2, node3, 30);
+
+    expect(checkGraphIsMultigraph(graph), false, "Should not be multigraph");
+
+    graph->createEdge(node1, node2, 20);
+
+    expect(checkGraphIsMultigraph(graph), true, "Should be multigraph");
 }
 
 int main() {
@@ -158,6 +178,8 @@ int main() {
     testCheckGraphIsBipartite();
     testEurelianDirectedGraph();
     testEurelianUndirectedGraph();
+
+    testMultigraph();
 
     return 0;
 }

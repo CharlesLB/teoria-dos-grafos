@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include <queue>
 #include <unordered_map>
 #include <unordered_set>
@@ -7,6 +8,7 @@
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
+#include "../../utils/graph/graph.hpp"
 
 bool checkGraphIsKRegularByK(Graph* graph, int k) {
     Node* currentNode = graph->getFirstNode();
@@ -91,4 +93,32 @@ bool checkGraphIsEulerian(Graph* graph) {
     }
 
     return true;
+}
+
+struct checkGraphIsMultigraphPairHash {
+    template <class T1, class T2>
+    std::size_t operator()(const std::pair<T1, T2>& pair) const {
+        auto hash1 = std::hash<T1>{}(pair.first);
+        auto hash2 = std::hash<T2>{}(pair.second);
+        return hash1 ^ hash2;
+    }
+};
+
+bool checkGraphIsMultigraph(Graph* graph) {
+    std::unordered_map<std::pair<int, int>, int, checkGraphIsMultigraphPairHash> edgeCounts;
+
+    for (Edge* edge : graph->getEdges()) {
+        int source = edge->getHead()->getId();
+        int destination = edge->getTail()->getId();
+        std::pair<int, int> edgePair = std::make_pair(source, destination);
+        edgeCounts[edgePair]++;
+    }
+
+    for (auto& pair : edgeCounts) {
+        if (pair.second > 1) {
+            return true;
+        }
+    }
+
+    return false;
 }

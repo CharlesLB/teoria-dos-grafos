@@ -1,4 +1,5 @@
-#include "../Manager/manager.hpp"
+
+#include "./manager.hpp"
 
 #include <dirent.h>
 #include <stdlib.h>
@@ -7,12 +8,12 @@
 #include <iostream>
 #include <sstream>
 
+#include "../../helpers/Validators/validators.hpp"
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
 #include "../Reader/reader.hpp"
 #include "../Writer/writer.hpp"
-#include "./manager.hpp"
 
 using namespace std;
 
@@ -31,7 +32,7 @@ void Manager::processOperation(Graph* graph) {
                 break;
 
             case 'b':
-                createOrUpdateEdge(graph);
+                createEdge(graph);
                 break;
 
             case 'c':
@@ -80,7 +81,7 @@ void Manager::createOrUpdateNode(Graph* graph) {
     exists ? cout << "Node updated successfully\n" : cout << "Node created successfully\n";
 }
 
-void Manager::createOrUpdateEdge(Graph* graph) {
+void Manager::createEdge(Graph* graph) {
     int headId, tailId, weight = 1;
     Node* head;
     Node* tail;
@@ -124,7 +125,7 @@ void Manager::createOrUpdateEdge(Graph* graph) {
         weight = Reader::readInt();
     }
 
-    graph->createOrUpdateEdge(head, tail, weight);
+    graph->createEdge(head, tail, weight);
 
     exists ? cout << "Edge updated successfully\n" : cout << "Edge created successfully\n";
 }

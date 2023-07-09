@@ -1,5 +1,5 @@
-#ifndef TESTS_H
-#define TESTS_H
+#ifndef VALIDATORS_H
+#define VALIDATORS_H
 
 #include <iostream>
 #include <string>
@@ -19,5 +19,7 @@ bool checkGraphIsComplete(Graph* graph);
 bool checkGraphIsBipartite(Graph* graph);
 
 bool checkGraphIsEulerian(Graph* graph);
+
+bool checkGraphIsMultigraph(Graph* graph);
 
 #endif

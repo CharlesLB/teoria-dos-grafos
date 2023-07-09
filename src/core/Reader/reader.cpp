@@ -49,7 +49,7 @@ Graph* Reader::graph(string filename, bool directed, bool weightedEdges, bool we
             Node* sourceNode = graph->findNodeById(source);
             Node* destinationNode = graph->findNodeById(destination);
 
-            graph->createOrUpdateEdge(sourceNode, destinationNode, weight);
+            graph->createEdge(sourceNode, destinationNode, weight);
         }
 
         return graph;
@@ -63,7 +63,7 @@ Graph* Reader::graph(string filename, bool directed, bool weightedEdges, bool we
         Node* sourceNode = graph->findNodeById(source);
         Node* destinationNode = graph->findNodeById(destination);
 
-        graph->createOrUpdateEdge(sourceNode, destinationNode, 1);
+        graph->createEdge(sourceNode, destinationNode, 1);
     }
 
     return graph;
