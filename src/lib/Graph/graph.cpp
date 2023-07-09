@@ -126,6 +126,8 @@ Edge* Graph::createOrUpdateEdge(Node* head, Node* tail, int weight) {
     } else {
         Edge* reverseEdge = new Edge(tail, head, weight);
         tail->addEdge(reverseEdge);
+
+        totalEdges++;
         tail->incrementDegreeIn();
         head->incrementDegreeIn();
     }
@@ -191,4 +193,20 @@ void Graph::deleteNode(Node* node) {
     }
 
     std::cout << "Node not found in the graph." << std::endl;
+}
+
+int Graph::getDegree() {
+    int maxDegree = 0;
+    Node* nodeWithHighestDegree = nullptr;
+
+    Node* currentNode = firstNode;
+    while (currentNode != nullptr) {
+        if (currentNode->getDegree(isDirected()) > maxDegree) {
+            maxDegree = currentNode->getDegree(isDirected());
+            nodeWithHighestDegree = currentNode;
+        }
+        currentNode = currentNode->getNextNode();
+    }
+
+    return nodeWithHighestDegree->getId();
 }

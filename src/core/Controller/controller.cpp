@@ -185,7 +185,7 @@ void Controller::nodeAndEdgeInsertionDeletion(Graph* graph) {
 }
 
 void Controller::getNodeDegree(Graph* graph) {
-    // TODO
+    Manager::getNodeDegree(graph);
 }
 
 void Controller::checkGraphRegular(Graph* graph) {

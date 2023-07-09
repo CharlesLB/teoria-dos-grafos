@@ -19,7 +19,7 @@ using namespace std;
 void Manager::processOperation(Graph* graph) {
     char option;
 
-    string options[] = {"Adicionar nó", "Adicionar aresta", "Remover nó", "Remover aresta", ""};
+    string options[] = {"Adicionar nó", "Adicionar aresta", "Remover nó", "Remover aresta", "Exit", ""};
 
     while (true) {
         Writer::printMenu(options);
@@ -41,6 +41,9 @@ void Manager::processOperation(Graph* graph) {
             case 'd':
                 removeEdge(graph);
                 break;
+
+            case 'e':
+                return;
 
             default:
                 cout << "Invalid option\n";
@@ -183,4 +186,26 @@ void Manager::removeEdge(Graph* graph) {
     graph->deleteEdge(edge);
 
     cout << "Edge removed successfully.\n";
+}
+
+void Manager::getNodeDegree(Graph* graph) {
+    int id;
+    Node* node;
+
+    cout << "Enter the node's id (int): ";
+    id = Reader::readInt();
+
+    node = graph->findNodeById(id);
+
+    if (node == nullptr) {
+        cout << "Node doesn't exist. Skipping...\n";
+        return;
+    }
+
+    if (graph->isDirected()) {
+        cout << "Node's degree in: " << node->getDegreeIn() << endl;
+        cout << "Node's degree out: " << node->getDegreeOut() << endl;
+    } else {
+        cout << "Node's degree: " << node->getDegree(graph->isDirected()) / 2 << endl;
+    }
 }

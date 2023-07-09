@@ -34,7 +34,7 @@ class Node {
     void addEdge(Edge* edge);
     void removeEdge(Edge* edge);
 
-    int getDegree();
+    int getDegree(bool directed);
 
     void decrementDegreeIn();
     void decrementDegreeOut();
@@ -46,6 +46,9 @@ class Node {
     int degreeIn;
     int degreeOut;
     int weight;
+
+    int color;
+
     Node* nextNode;
     Edge* firstEdge;
 };

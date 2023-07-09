@@ -16,12 +16,6 @@
 
 string name = "CRUD";
 
-void createNodes(Graph* graph) {
-}
-
-void createEdges(Graph* graph) {
-}
-
 int main() {
     describe(name);
 

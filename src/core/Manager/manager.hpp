@@ -16,7 +16,7 @@ class Edge;
 class Manager {
    public:
     static void processOperation(Graph* graph);
-    static int getNodeDegree(Graph* graph, Node* node);
+    static void getNodeDegree(Graph* graph);
 
    private:
     static void createOrUpdateNode(Graph* graph);

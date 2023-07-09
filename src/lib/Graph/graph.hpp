@@ -28,6 +28,8 @@ class Graph {
     void deleteEdge(Edge* edge);
     void deleteNode(Node* node);
 
+    int getDegree();
+
    private:
     Node* firstNode;
     vector<Edge*> edges;
