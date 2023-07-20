@@ -39,3 +39,6 @@
 
 #.exe
 *.exe
+
+#.svg
+*.svg
