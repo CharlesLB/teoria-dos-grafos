@@ -26,3 +26,11 @@
 - [ ] x) Present the radius, diameter, center, and periphery of the graph.
 - [ ] y) Present the Minimum Spanning Tree (MST) of the graph, or for disconnected graphs, the minimum-cost forests.
 - [ ] z) Present the shortest path between two vertices using either Dijkstra's or Floyd's algorithm (user's choice).
+
+# Commands
+
+## Create SVG from DOT
+
+```bash
+ sfdp -x -Goverlap=scale  -Tsvg x.dot > x.svg
+```

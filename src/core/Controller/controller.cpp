@@ -178,7 +178,7 @@ void Controller::exitSystem() {
 }
 
 void Controller::printGraphToFile(Graph* graph, string outputPath) {
-    Writer::printGraph(graph);
+    Writer::printGraphInDotFile(graph, outputPath);
 }
 
 void Controller::nodeAndEdgeInsertionDeletion(Graph* graph) {

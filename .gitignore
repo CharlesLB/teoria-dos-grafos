@@ -40,5 +40,6 @@
 #.exe
 *.exe
 
-#.svg
+# outputs
 *.svg
+*.dot

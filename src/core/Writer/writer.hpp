@@ -12,10 +12,13 @@ class Writer {
    public:
     static void printMenu(string* options);
     static void printGraph(Graph* graph);
+    static void printGraphInDotFile(Graph* graph, string fileName);
 
    private:
     static void printNodes(Graph* graph);
     static void printEdges(Graph* graph);
+    static vector<string> getGraphDotFile(Graph* graph);
+    static vector<string> getDigraphDotFile(Graph* graph);
 };
 
 #endif
