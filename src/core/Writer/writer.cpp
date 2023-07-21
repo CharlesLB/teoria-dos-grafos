@@ -75,6 +75,7 @@ void Writer::printGraph(Graph* graph) {
 
 void Writer::printGraphInDotFile(Graph* graph, string fileName) {
     std::vector<string> dotFile;
+    string rawFileName = getRawFileName(fileName);
 
     if (graph->isDirected()) {
         dotFile = getDigraphDotFile(graph);
@@ -86,7 +87,7 @@ void Writer::printGraphInDotFile(Graph* graph, string fileName) {
         mkdirSync(output_directory);
     }
 
-    string filePath = output_directory + fileName + ".dot";
+    string filePath = output_directory + rawFileName + ".dot";
 
     ofstream file(filePath);
 
@@ -98,11 +99,11 @@ void Writer::printGraphInDotFile(Graph* graph, string fileName) {
 
     cout << "File saved in: " << filePath << endl;
 
-    string command = "sfdp -x -Goverlap=scale  -Tsvg " + filePath + " > " + output_directory + fileName + ".svg";
+    string command = "sfdp -x -Goverlap=scale  -Tsvg " + filePath + " > " + output_directory + rawFileName + ".svg";
 
     system(command.c_str());
 
-    cout << "Image saved in: " << output_directory << fileName << ".png" << endl;
+    cout << "Image saved in: " << output_directory << rawFileName << ".svg" << endl;
 
     cout << endl;
 }
@@ -188,8 +189,9 @@ vector<string> Writer::getDigraphDotFile(Graph* graph) {
 void Writer::printGraphInTxtFile(Graph* graph, string fileName) {
     std::vector<Edge*> edges = graph->getEdges();
     Node* node = graph->getFirstNode();
+    string rawFileName = getRawFileName(fileName);
 
-    std::string filePath = output_directory + fileName;
+    std::string filePath = output_directory + rawFileName + ".txt";
 
     ofstream file(filePath);
 
@@ -200,4 +202,6 @@ void Writer::printGraphInTxtFile(Graph* graph, string fileName) {
     }
 
     file.close();
+
+    cout << "File saved in: " << filePath << endl;
 }

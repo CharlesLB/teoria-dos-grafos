@@ -12,4 +12,6 @@ bool existsFile(string filePath);
 
 void mkdirSync(string folderPath);
 
+string getRawFileName(string fileName);
+
 #endif

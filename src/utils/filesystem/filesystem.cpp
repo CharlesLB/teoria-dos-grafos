@@ -19,3 +19,8 @@ bool existsFile(string filePath) {
 void mkdirSync(string folderPath) {
     mkdir(folderPath.c_str(), 0777);
 }
+
+string getRawFileName(string fileName) {
+    size_t lastIndex = fileName.find_last_of(".");
+    return fileName.substr(0, lastIndex);
+}
