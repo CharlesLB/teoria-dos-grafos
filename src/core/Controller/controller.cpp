@@ -178,7 +178,31 @@ void Controller::exitSystem() {
 }
 
 void Controller::printGraphToFile(Graph* graph, string outputPath) {
-    Writer::printGraphInDotFile(graph, outputPath);
+    char option;
+
+    string options[] = {"Imprimir em arquivo .dot", "Imprimir em arquivo .txt", "Exit", ""};
+
+    while (true) {
+        Writer::printMenu(options);
+        option = Reader::readChar();
+
+        switch (option) {
+            case 'a':
+                Writer::printGraphInDotFile(graph, outputPath);
+                break;
+
+            case 'b':
+                Writer::printGraphInTxtFile(graph, outputPath);
+                break;
+
+            case 'c':
+                return;
+
+            default:
+                cout << "Invalid option\n";
+                break;
+        }
+    }
 }
 
 void Controller::nodeAndEdgeInsertionDeletion(Graph* graph) {

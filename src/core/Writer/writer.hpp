@@ -13,6 +13,7 @@ class Writer {
     static void printMenu(string* options);
     static void printGraph(Graph* graph);
     static void printGraphInDotFile(Graph* graph, string fileName);
+    static void printGraphInTxtFile(Graph* graph, string fileName);
 
    private:
     static void printNodes(Graph* graph);

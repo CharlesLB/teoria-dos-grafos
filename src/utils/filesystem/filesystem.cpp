@@ -6,6 +6,7 @@
 #include <string>
 
 struct stat info;
+using namespace std;
 
 bool existsFolder(string folderPath) {
     return (stat(folderPath.c_str(), &info) == 0 && info.st_mode & S_IFDIR);

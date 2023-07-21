@@ -184,3 +184,20 @@ vector<string> Writer::getDigraphDotFile(Graph* graph) {
 
     return dotFile;
 }
+
+void Writer::printGraphInTxtFile(Graph* graph, string fileName) {
+    std::vector<Edge*> edges = graph->getEdges();
+    Node* node = graph->getFirstNode();
+
+    std::string filePath = output_directory + fileName;
+
+    ofstream file(filePath);
+
+    file << graph->getNumNodes() << std::endl;
+
+    for (Edge* edge : edges) {
+        file << edge->getHead()->getId() << " " << edge->getTail()->getId() << " " << edge->getWeight() << std::endl;
+    }
+
+    file.close();
+}

@@ -43,3 +43,4 @@
 # outputs
 *.svg
 *.dot
+/output
