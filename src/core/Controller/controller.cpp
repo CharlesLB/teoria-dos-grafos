@@ -348,12 +348,6 @@ void Controller::getMinimumPathAndCost(Graph* graph) {
             cout << "End of Floyd's algorithm\n";
             break;
 
-        case 'c':
-            cout << "Bellman Ford's algorithm\n";
-            minimumPathGraph = getMinimumPathAndCostByBellmanFord(graph, startNode, endNode);
-            cout << "End of Bellman Ford's algorithm\n";
-            break;
-
         case 'd':
             return;
 
@@ -370,11 +364,51 @@ void Controller::getGraphDegree(Graph* graph) {
 }
 
 void Controller::getDirectTransitiveClosure(Graph* graph) {
-    // TODO
+    Node* node = Manager::selectNode(graph);
+
+    vector<Node*> directTransitiveClosureGraph = getDirectTransitiveClosureByNode(node);
+
+    if (directTransitiveClosureGraph.size() == 0) {
+        cout << "The direct transitive closure of node " << node->getId() << " is empty\n";
+        return;
+    }
+
+    cout << "The direct transitive closure of node " << node->getId() << " is: {";
+
+    for (int i = 0; i < directTransitiveClosureGraph.size(); i++) {
+        cout << "(" << node->getId() << ", " << directTransitiveClosureGraph[i]->getId() << ")";
+
+        if (i == directTransitiveClosureGraph.size() - 1) {
+            cout << "}\n";
+            break;
+        }
+
+        cout << ", ";
+    }
 }
 
 void Controller::getIndirectTransitiveClosure(Graph* graph) {
-    // TODO
+    Node* node = Manager::selectNode(graph);
+
+    vector<Node*> indirectTransitiveClosureGraph = getIndirectTransitiveClosureByNode(graph, node);
+
+    if (indirectTransitiveClosureGraph.size() == 0) {
+        cout << "The indirect transitive closure of node " << node->getId() << " is empty\n";
+        return;
+    }
+
+    cout << "The indirect transitive closure of node " << node->getId() << " is: \n {";
+
+    for (int i = 0; i < indirectTransitiveClosureGraph.size(); i++) {
+        cout << "(" << indirectTransitiveClosureGraph[i]->getId() << ", " << node->getId() << ")";
+
+        if (i == indirectTransitiveClosureGraph.size() - 1) {
+            cout << "}\n";
+            break;
+        }
+
+        cout << ", ";
+    }
 }
 
 void Controller::getDegreeSequence(Graph* graph) {

@@ -12,10 +12,10 @@
 - [x] j) Check if the graph is a multigraph.
 - [x] k) Check if the graph is complete.
 - [x] l) Check if the graph is bipartite.
-- [x] m) Given two vertices provided by the user, display the shortest path and its cost between those vertices (using either Dijkstra's or Floyd's algorithm, as requested by the user).
+- [ ] m) Given two vertices provided by the user, display the shortest path and its cost between those vertices (using either Dijkstra's or Floyd's algorithm, as requested by the user).
 - [x] n) Return the degree of the graph.
-- [ ] o) Return the direct transitive closure of a given node provided by the user.
-- [ ] p) Return the indirect transitive closure of a given node provided by the user.
+- [x] o) Return the direct transitive closure of a given node provided by the user.
+- [x] p) Return the indirect transitive closure of a given node provided by the user.
 - [ ] q) Present the degree sequence.
 - [ ] r) Present the subgraph induced by a given set of vertices provided by the user.
 - [ ] s) Present the complement of the graph.

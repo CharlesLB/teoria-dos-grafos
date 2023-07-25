@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <limits>
 #include <map>
@@ -74,12 +75,12 @@ Graph* getMinimumPathAndCostByDijkstra(Graph* graph, Node* sourceNode, Node* tar
         return nullptr;
     }
 
-    std::unordered_map<Node*, int> distances;
+    unordered_map<Node*, int> distances;
     for (Node* node = graph->getFirstNode(); node != nullptr; node = node->getNextNode()) {
-        distances[node] = (node == sourceNode) ? 0 : std::numeric_limits<int>::max();
+        distances[node] = (node == sourceNode) ? 0 : numeric_limits<int>::max();
     }
 
-    std::priority_queue<NodeDistance, std::vector<NodeDistance>, std::greater<NodeDistance>> pq;
+    priority_queue<NodeDistance, vector<NodeDistance>, greater<NodeDistance>> pq;
     pq.push(NodeDistance(sourceNode, 0));
 
     while (!pq.empty()) {
@@ -134,79 +135,6 @@ Graph* getMinimumPathAndCostByDijkstra(Graph* graph, Node* sourceNode, Node* tar
     return shortestPathGraph;
 }
 
-Graph* getMinimumPathAndCostByBellmanFord(Graph* graph, Node* sourceNode, Node* targetNode) {
-    if (graph == nullptr || sourceNode == nullptr || targetNode == nullptr) {
-        return nullptr;
-    }
-
-    std::vector<Node*> nodes;
-    for (Node* node = graph->getFirstNode(); node != nullptr; node = node->getNextNode()) {
-        nodes.push_back(node);
-    }
-
-    // Step 1: Initialize distances to all nodes as infinity except the source node, which is 0.
-    std::unordered_map<Node*, int> distances;
-    for (Node* node : nodes) {
-        distances[node] = (node == sourceNode) ? 0 : std::numeric_limits<int>::max();
-    }
-
-    // Step 2: Relax edges iteratively V-1 times (where V is the number of nodes)
-    for (size_t i = 1; i < nodes.size(); ++i) {
-        for (Edge* edge : graph->getEdges()) {
-            Node* u = edge->getHead();
-            Node* v = edge->getTail();
-            int weight = edge->getWeight();
-
-            if (distances[u] != std::numeric_limits<int>::max() && distances[u] + weight < distances[v]) {
-                distances[v] = distances[u] + weight;
-            }
-        }
-    }
-
-    // Step 3: Check for negative weight cycles
-    for (Edge* edge : graph->getEdges()) {
-        Node* u = edge->getHead();
-        Node* v = edge->getTail();
-        int weight = edge->getWeight();
-
-        if (distances[u] != std::numeric_limits<int>::max() && distances[u] + weight < distances[v]) {
-            return nullptr;
-        }
-    }
-
-    // Step 4: Create a new Graph to store the shortest path from sourceNode to targetNode.
-    Graph* shortestPathGraph = new Graph(graph->isDirected(), graph->isWeightedEdges(), graph->isWeightedNodes());
-
-    Node* currentNode = targetNode;
-    while (currentNode != sourceNode) {
-        int shortestDistance = distances[currentNode];
-
-        Edge* shortestEdge = nullptr;
-        for (Edge* edge = currentNode->getFirstEdge(); edge != nullptr; edge = edge->getNextEdge()) {
-            Node* neighbor = (currentNode == edge->getHead()) ? edge->getTail() : edge->getHead();
-            int weight = edge->getWeight();
-
-            if (distances[neighbor] + weight == shortestDistance) {
-                shortestEdge = edge;
-                break;
-            }
-        }
-
-        if (shortestEdge) {
-            Node* neighborNode = (currentNode == shortestEdge->getHead()) ? shortestEdge->getTail() : shortestEdge->getHead();
-            shortestPathGraph->createOrUpdateNode(currentNode->getId(), currentNode->getWeight());
-            shortestPathGraph->createOrUpdateNode(neighborNode->getId(), neighborNode->getWeight());
-            shortestPathGraph->createEdge(currentNode, neighborNode, shortestEdge->getWeight());
-            currentNode = neighborNode;
-            continue;
-        }
-
-        break;
-    }
-
-    return shortestPathGraph;
-}
-
 Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* targetNode) {
     if (graph == nullptr || sourceNode == nullptr || targetNode == nullptr) {
         return nullptr;
@@ -214,7 +142,7 @@ Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* target
 
     // Step 1: Initialize the distance matrix.
     int numNodes = graph->getNumNodes();
-    std::vector<std::vector<int>> distance(numNodes, std::vector<int>(numNodes, std::numeric_limits<int>::max()));
+    vector<vector<int>> distance(numNodes, vector<int>(numNodes, numeric_limits<int>::max()));
 
     for (Node* node = graph->getFirstNode(); node != nullptr; node = node->getNextNode()) {
         distance[node->getId()][node->getId()] = 0;
@@ -231,8 +159,8 @@ Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* target
     for (int k = 0; k < numNodes; ++k) {
         for (int i = 0; i < numNodes; ++i) {
             for (int j = 0; j < numNodes; ++j) {
-                if (distance[i][k] != std::numeric_limits<int>::max() &&
-                    distance[k][j] != std::numeric_limits<int>::max() &&
+                if (distance[i][k] != numeric_limits<int>::max() &&
+                    distance[k][j] != numeric_limits<int>::max() &&
                     distance[i][k] + distance[k][j] < distance[i][j]) {
                     distance[i][j] = distance[i][k] + distance[k][j];
                 }
@@ -242,7 +170,7 @@ Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* target
 
     // Step 3: Extract the shortest path from sourceNode to targetNode.
     int shortestDistance = distance[sourceNode->getId()][targetNode->getId()];
-    if (shortestDistance == std::numeric_limits<int>::max()) {
+    if (shortestDistance == numeric_limits<int>::max()) {
         return nullptr;
     }
 
@@ -264,4 +192,53 @@ Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* target
     }
 
     return shortestPathGraph;
+}
+
+void depthFirstSearch(Node* node, unordered_set<Node*>& visited) {
+    if (visited.find(node) != visited.end()) {
+        return;
+    }
+
+    visited.insert(node);
+
+    for (Edge* edge = node->getFirstEdge(); edge != nullptr; edge = edge->getNextEdge()) {
+        Node* neighbor = (node == edge->getHead()) ? edge->getTail() : edge->getHead();
+        depthFirstSearch(neighbor, visited);
+    }
+}
+
+vector<Node*> getDirectTransitiveClosureByNode(Node* node) {
+    vector<Node*> directTransitiveClosure;
+    unordered_set<Node*> visited;
+
+    depthFirstSearch(node, visited);
+
+    for (Node* visitedNode : visited) {
+        directTransitiveClosure.push_back(visitedNode);
+    }
+
+    return directTransitiveClosure;
+}
+
+vector<Node*> getIndirectTransitiveClosureByNode(Graph* graph, Node* node) {
+    vector<Node*> indirectTransitiveClosure;
+    Node* firstNode = graph->getFirstNode();
+
+    if (firstNode == nullptr) {
+        return indirectTransitiveClosure;
+    }
+
+    for (Node* currentNode = firstNode; currentNode != nullptr; currentNode = currentNode->getNextNode()) {
+        if (currentNode == node) {
+            continue;
+        }
+
+        vector<Node*> directTransitiveClosure = getDirectTransitiveClosureByNode(currentNode);
+
+        if (find(directTransitiveClosure.begin(), directTransitiveClosure.end(), node) != directTransitiveClosure.end()) {
+            indirectTransitiveClosure.push_back(currentNode);
+        }
+    }
+
+    return indirectTransitiveClosure;
 }

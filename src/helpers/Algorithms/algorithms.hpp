@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 #include "../../lib/Edge/edge.hpp"
@@ -14,8 +15,14 @@ vector<Node*> getClosedNeighborhoodNodesByNode(Node* node);
 vector<Node*> getArticulationNodesInGraph(Graph* graph);
 vector<Edge*> getBridgeEdgesInGraph(Graph* graph);
 
+// error
 Graph* getMinimumPathAndCostByDijkstra(Graph* graph, Node* sourceNode, Node* targetNode);
+
+// error
 Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* targetNode);
-Graph* getMinimumPathAndCostByBellmanFord(Graph* graph, Node* sourceNode, Node* targetNode);
+
+void depthFirstSearch(Node* node, unordered_set<Node*>& visited);
+vector<Node*> getDirectTransitiveClosureByNode(Node* node);
+vector<Node*> getIndirectTransitiveClosureByNode(Graph* graph, Node* node);
 
 #endif
