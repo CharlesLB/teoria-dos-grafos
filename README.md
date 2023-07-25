@@ -7,12 +7,12 @@
 - [x] e) Provide the order of the graph.
 - [x] f) Check if the graph is trivial.
 - [x] g) Check if the graph is null.
-- [ ] h) Display the open neighborhood of a given node provided by the user.
-- [ ] i) Display the closed neighborhood of a given node provided by the user.
+- [x] h) Display the open neighborhood of a given node provided by the user.
+- [x] i) Display the closed neighborhood of a given node provided by the user.
 - [x] j) Check if the graph is a multigraph.
 - [x] k) Check if the graph is complete.
 - [x] l) Check if the graph is bipartite.
-- [ ] m) Given two vertices provided by the user, display the shortest path and its cost between those vertices (using either Dijkstra's or Floyd's algorithm, as requested by the user).
+- [x] m) Given two vertices provided by the user, display the shortest path and its cost between those vertices (using either Dijkstra's or Floyd's algorithm, as requested by the user).
 - [x] n) Return the degree of the graph.
 - [ ] o) Return the direct transitive closure of a given node provided by the user.
 - [ ] p) Return the indirect transitive closure of a given node provided by the user.

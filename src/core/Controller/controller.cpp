@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "../../helpers/Algorithms/algorithms.hpp"
 #include "../../helpers/Validators/validators.hpp"
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
@@ -214,11 +215,21 @@ void Controller::getNodeDegree(Graph* graph) {
 }
 
 void Controller::checkGraphRegular(Graph* graph) {
-    // TODO
+    cout << "Enter the degree to check if the graph is regular: ";
+    int degree = Reader::readInt();
+
+    bool isRegular = checkGraphIsKRegularByK(graph, degree);
+
+    if (isRegular) {
+        cout << "The graph is " << degree << "-regular\n";
+        return;
+    }
+
+    cout << "The graph is not " << degree << "-regular\n";
 }
 
 void Controller::getGraphOrder(Graph* graph) {
-    // TODO
+    cout << "The graph order is " << graph->getNumNodes() << "\n";
 }
 
 void Controller::isGraphTrivial(Graph* graph) {
@@ -244,11 +255,33 @@ void Controller::isGraphNull(Graph* graph) {
 }
 
 void Controller::showOpenNeighborhood(Graph* graph) {
-    // TODO
+    Node* node = Manager::selectNode(graph);
+    vector<Node*> openNeightborhoodNodes = getOpenNeighborhoodNodesByNode(node);
+
+    cout << "The open neighborhood of node " << node->getId() << " is: {";
+    for (int i = 0; i < openNeightborhoodNodes.size(); i++) {
+        if (i == openNeightborhoodNodes.size() - 1) {
+            cout << openNeightborhoodNodes[i]->getId() << "}\n";
+            break;
+        }
+
+        cout << openNeightborhoodNodes[i]->getId() << ", ";
+    }
 }
 
 void Controller::showClosedNeighborhood(Graph* graph) {
-    // TODO
+    Node* node = Manager::selectNode(graph);
+    vector<Node*> closeNeightborhoodNodes = getClosedNeighborhoodNodesByNode(node);
+
+    cout << "The open neighborhood of node " << node->getId() << " is: {";
+    for (int i = 0; i < closeNeightborhoodNodes.size(); i++) {
+        if (i == closeNeightborhoodNodes.size() - 1) {
+            cout << closeNeightborhoodNodes[i]->getId() << "}\n";
+            break;
+        }
+
+        cout << closeNeightborhoodNodes[i]->getId() << ", ";
+    }
 }
 
 void Controller::checkMultigraph(Graph* graph) {
@@ -285,11 +318,55 @@ void Controller::checkBipartiteGraph(Graph* graph) {
 }
 
 void Controller::getMinimumPathAndCost(Graph* graph) {
-    // TODO
+    // Given two vertices provided by the user, display the shortest path and its cost between those vertices (using either Dijkstra's or Floyd's algorithm, as requested by the user).
+
+    cout << "Select the start node\n";
+    Node* startNode = Manager::selectNode(graph);
+
+    cout << "Select the end node\n";
+    Node* endNode = Manager::selectNode(graph);
+
+    char option;
+
+    string options[] = {"Dijkstra's algorithm", "Floyd's algorithm", "Bellman Ford's algorithm", "Exit", ""};
+
+    Graph* minimumPathGraph;
+
+    Writer::printMenu(options);
+    option = Reader::readChar();
+
+    switch (option) {
+        case 'a':
+            cout << "Dijkstra's algorithm\n";
+            minimumPathGraph = getMinimumPathAndCostByDijkstra(graph, startNode, endNode);
+            cout << "End of Dijkstra's algorithm\n";
+            break;
+
+        case 'b':
+            cout << "Floyd's algorithm\n";
+            minimumPathGraph = getMinimumPathAndCostByFloyd(graph, startNode, endNode);
+            cout << "End of Floyd's algorithm\n";
+            break;
+
+        case 'c':
+            cout << "Bellman Ford's algorithm\n";
+            minimumPathGraph = getMinimumPathAndCostByBellmanFord(graph, startNode, endNode);
+            cout << "End of Bellman Ford's algorithm\n";
+            break;
+
+        case 'd':
+            return;
+
+        default:
+            cout << "Invalid option\n";
+            break;
+    }
+
+    Writer::printGraphInDotFile(minimumPathGraph, "minimumPathGraph.dot");
 }
 
 void Controller::getGraphDegree(Graph* graph) {
-    // TODO
+    cout << "The graph degree is " << graph->getDegree() << "\n";
 }
 
 void Controller::getDirectTransitiveClosure(Graph* graph) {

@@ -17,6 +17,7 @@ class Manager {
    public:
     static void processOperation(Graph* graph);
     static void getNodeDegree(Graph* graph);
+    static Node* selectNode(Graph* graph);
 
    private:
     static void createOrUpdateNode(Graph* graph);

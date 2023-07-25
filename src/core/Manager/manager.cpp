@@ -8,7 +8,6 @@
 #include <iostream>
 #include <sstream>
 
-// #include "../../helpers/Validators/validators.hpp"
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
@@ -206,7 +205,27 @@ void Manager::getNodeDegree(Graph* graph) {
     if (graph->isDirected()) {
         cout << "Node's degree in: " << node->getDegreeIn() << endl;
         cout << "Node's degree out: " << node->getDegreeOut() << endl;
-    } else {
-        cout << "Node's degree: " << node->getDegree(graph->isDirected()) / 2 << endl;
+        return;
+    }
+
+    cout << "Node's degree: " << node->getDegree(graph->isDirected()) / 2 << endl;
+}
+
+Node* Manager::selectNode(Graph* graph) {
+    int id;
+    Node* node;
+
+    while (true) {
+        cout << "Enter the node's id (int): ";
+        id = Reader::readInt();
+
+        node = graph->findNodeById(id);
+
+        if (node == nullptr) {
+            cout << "Node doesn't exist. Please try again.\n";
+            continue;
+        }
+
+        return node;
     }
 }
