@@ -317,6 +317,7 @@ void Controller::checkBipartiteGraph(Graph* graph) {
     cout << "The graph is not bipartite\n";
 }
 
+// Exercício C e D
 void Controller::getMinimumPathAndCost(Graph* graph) {
     // Given two vertices provided by the user, display the shortest path and its cost between those vertices (using either Dijkstra's or Floyd's algorithm, as requested by the user).
 
@@ -363,6 +364,7 @@ void Controller::getGraphDegree(Graph* graph) {
     cout << "The graph degree is " << graph->getDegree() << "\n";
 }
 
+// Exercício A
 void Controller::getDirectTransitiveClosure(Graph* graph) {
     Node* node = Manager::selectNode(graph);
 
@@ -387,6 +389,7 @@ void Controller::getDirectTransitiveClosure(Graph* graph) {
     }
 }
 
+// Exercício B
 void Controller::getIndirectTransitiveClosure(Graph* graph) {
     Node* node = Manager::selectNode(graph);
 
@@ -438,18 +441,19 @@ void Controller::checkEulerianGraph(Graph* graph) {
     cout << "The graph is not eulerian\n";
 }
 
+// Exercício I
 void Controller::getArticulationNodes(Graph* graph) {
     // TODO
 }
 
 void Controller::getBridgeEdges(Graph* graph) {
-    // TODO
 }
 
 void Controller::getGraphMetrics(Graph* graph) {
     // TODO
 }
 
+// Exercício E e F
 void Controller::getMinimumSpanningTree(Graph* graph) {
     // TODO
 }
@@ -457,3 +461,7 @@ void Controller::getMinimumSpanningTree(Graph* graph) {
 void Controller::getMinimumPath(Graph* graph) {
     // TODO
 }
+
+// Exercício G
+
+// Exercício H

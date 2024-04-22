@@ -1,3 +1,11 @@
+# Como rodar
+
+g++ *.c* -o execGrupoX
+Usage: ./execGrupoX <input_file> <output_file> <directed[0,1]> <weightedEdge[0,1]> <weightedNode[0,1]>
+
+Example: ./execGrupoX input.txt output.txt 1 1 1
+
+
 # To-do
 
 - [x] a) Read graph from a file (according to the given input) and write to a file in the same format.

@@ -29,6 +29,7 @@ bool checkGraphIsNull(Graph* graph) {
     return (graph->getNumNodes() == 0 && graph->getNumEdges() == 0);
 }
 
+// TODO: Essa função não funciona para multigrafos
 bool checkGraphIsComplete(Graph* graph) {
     int numNodes = graph->getNumNodes();
     int maxEdges = numNodes * (numNodes - 1);

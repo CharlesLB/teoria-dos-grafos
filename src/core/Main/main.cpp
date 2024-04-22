@@ -24,7 +24,8 @@ int Main::main(int argc, char* argv[]) {
         cout << "Missing arguments.\n";
         cout << "Usage: " << argv[0] << " <input_file>"
              << " <output_file>"
-             << " <directed[0,1]> <weightedEdge[0,1]> <weightedNode[0,1]>";
+             << " <directed[0,1]> <weightedEdge[0,1]> <weightedNode[0,1]>"
+             << endl;
         return 1;
     }
 
