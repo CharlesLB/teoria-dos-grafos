@@ -319,8 +319,6 @@ void Controller::checkBipartiteGraph(Graph* graph) {
 
 // Exercício C e D
 void Controller::getMinimumPathAndCost(Graph* graph) {
-    // Given two vertices provided by the user, display the shortest path and its cost between those vertices (using either Dijkstra's or Floyd's algorithm, as requested by the user).
-
     cout << "Select the start node\n";
     Node* startNode = Manager::selectNode(graph);
 
@@ -329,7 +327,7 @@ void Controller::getMinimumPathAndCost(Graph* graph) {
 
     char option;
 
-    string options[] = {"Dijkstra's algorithm", "Floyd's algorithm", "Bellman Ford's algorithm", "Exit", ""};
+    string options[] = {"Dijkstra's algorithm", "Floyd's algorithm", "Exit", ""};
 
     Graph* minimumPathGraph;
 
@@ -349,7 +347,7 @@ void Controller::getMinimumPathAndCost(Graph* graph) {
             cout << "End of Floyd's algorithm\n";
             break;
 
-        case 'd':
+        case 'c':
             return;
 
         default:
