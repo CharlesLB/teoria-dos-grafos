@@ -15,10 +15,7 @@ vector<Node*> getClosedNeighborhoodNodesByNode(Node* node);
 vector<Node*> getArticulationNodesInGraph(Graph* graph);
 vector<Edge*> getBridgeEdgesInGraph(Graph* graph);
 
-// error
 Graph* getMinimumPathAndCostByDijkstra(Graph* graph, Node* sourceNode, Node* targetNode);
-
-// error
 Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* targetNode);
 
 void depthFirstSearch(Node* node, unordered_set<Node*>& visited);

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 
@@ -413,7 +414,27 @@ void Controller::getIndirectTransitiveClosure(Graph* graph) {
 }
 
 void Controller::getDegreeSequence(Graph* graph) {
-    // TODO
+    if (graph == nullptr || graph->getNumNodes() == 0) {
+        std::cout << "Grafo inválido ou vazio." << std::endl;
+        return;
+    }
+
+    std::vector<int> degrees;
+
+    Node* currentNode = graph->getFirstNode();
+    while (currentNode != nullptr) {
+        int degree = currentNode->getDegree(graph->isDirected());
+        degrees.push_back(degree);
+        currentNode = currentNode->getNextNode();
+    }
+
+    std::sort(degrees.begin(), degrees.end(), std::greater<int>());
+
+    std::cout << "Sequência de Graus: ";
+    for (int degree : degrees) {
+        std::cout << degree << " ";
+    }
+    std::cout << std::endl;
 }
 
 void Controller::getInducedSubgraph(Graph* graph) {
