@@ -1,4 +1,9 @@
-# Como rodar
+# Teoria dos grafos
+
+Este trabalho foi desenvolvido como parte da disciplina Teoria dos Grafos - UFJF, ministrada pelo professor Stenio Sã.
+
+
+## Como rodar
 
 ```bash
 g++ *.c* -o execGrupoX
@@ -16,7 +21,7 @@ Example:
 g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output.txt 1 1 1
 ```
 
-# To-do
+## To-do
 
 - [x] a) Read graph from a file (according to the given input) and write to a file in the same format.
 - [x] b) Add and remove nodes and edges.
@@ -44,9 +49,9 @@ g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output
 - [x] x) Present the radius, diameter, center, and periphery of the graph.
 - [x] y) Present the Minimum Spanning Tree (MST) of the graph, or for disconnected graphs, the minimum-cost forests.
 
-# Commands
+## Commands
 
-## Create SVG from DOT
+### Create SVG from DOT
 
 Install Graphviz:
 
