@@ -434,7 +434,7 @@ void Controller::getGraphComplement(Graph* graph) {
 }
 
 void Controller::getStronglyConnectedComponents(Graph* graph) {
-    // TODO
+    printStronglyConnectedComponents(graph);
 }
 
 void Controller::checkEulerianGraph(Graph* graph) {

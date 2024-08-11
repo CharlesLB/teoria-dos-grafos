@@ -37,7 +37,7 @@ g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output
 - [x] q) Present the degree sequence.
 - [x] r) Present the subgraph induced by a given set of vertices provided by the user.
 - [x] s) Present the complement of the graph.
-- [ ] t) For directed graphs, present the strongly connected components.
+- [x] t) For directed graphs, present the strongly connected components.
 - [x] u) Check if the graph is Eulerian.
 - [ ] v) Present the articulation points in the graph.
 - [ ] w) Present the bridge edges in the graph.

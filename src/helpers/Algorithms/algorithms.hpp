@@ -1,8 +1,11 @@
 #ifndef ALGORITHMS_H
 #define ALGORITHMS_H
 
+#include <algorithm>
 #include <iostream>
+#include <stack>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
@@ -20,6 +23,11 @@ Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* target
 Graph* getComplementGraph(Graph* graph);
 
 Graph* createInducedSubgraph(Graph* graph, const vector<Node*>& selectedNodes);
+
+void printStronglyConnectedComponents(Graph* graph);
+void fillOrder(Node* node, stack<Node*>& Stack, unordered_map<Node*, bool>& visited);
+void DFSUtil(Node* node, unordered_map<Node*, bool>& visited, vector<Node*>& component);
+Graph* getTranspose(Graph* graph);
 
 void depthFirstSearch(Node* node, unordered_set<Node*>& visited);
 vector<Node*> getDirectTransitiveClosureByNode(Node* node);

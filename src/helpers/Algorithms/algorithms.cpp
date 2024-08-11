@@ -3,6 +3,7 @@
 #include <limits>
 #include <map>
 #include <queue>
+#include <stack>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -75,13 +76,13 @@ Graph* getMinimumPathAndCostByDijkstra(Graph* graph, Node* sourceNode, Node* tar
         return nullptr;
     }
 
-    std::unordered_map<Node*, int> distances;
-    std::unordered_map<Node*, Node*> previousNodes;
-    std::priority_queue<std::pair<int, Node*>, std::vector<std::pair<int, Node*>>, std::greater<>> priorityQueue;
+    unordered_map<Node*, int> distances;
+    unordered_map<Node*, Node*> previousNodes;
+    priority_queue<pair<int, Node*>, vector<pair<int, Node*>>, greater<>> priorityQueue;
 
     for (Edge* edge : graph->getEdges()) {
-        distances[edge->getHead()] = std::numeric_limits<int>::max();
-        distances[edge->getTail()] = std::numeric_limits<int>::max();
+        distances[edge->getHead()] = numeric_limits<int>::max();
+        distances[edge->getTail()] = numeric_limits<int>::max();
     }
     distances[sourceNode] = 0;
 
@@ -131,8 +132,8 @@ Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* target
         return nullptr;
     }
 
-    std::vector<std::vector<int>> dist(numNodes, std::vector<int>(numNodes, std::numeric_limits<int>::max()));
-    std::vector<std::vector<Node*>> next(numNodes, std::vector<Node*>(numNodes, nullptr));
+    vector<vector<int>> dist(numNodes, vector<int>(numNodes, numeric_limits<int>::max()));
+    vector<vector<Node*>> next(numNodes, vector<Node*>(numNodes, nullptr));
 
     for (Edge* edge : graph->getEdges()) {
         if (edge == nullptr || edge->getHead() == nullptr || edge->getTail() == nullptr) {
@@ -164,7 +165,7 @@ Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* target
     for (int k = 0; k < numNodes; ++k) {
         for (int i = 0; i < numNodes; ++i) {
             for (int j = 0; j < numNodes; ++j) {
-                if (dist[i][k] != std::numeric_limits<int>::max() && dist[k][j] != std::numeric_limits<int>::max()) {
+                if (dist[i][k] != numeric_limits<int>::max() && dist[k][j] != numeric_limits<int>::max()) {
                     if (dist[i][j] > dist[i][k] + dist[k][j]) {
                         dist[i][j] = dist[i][k] + dist[k][j];
                         next[i][j] = next[i][k];
@@ -203,7 +204,7 @@ Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* target
 
 Graph* getComplementGraph(Graph* graph) {
     if (graph == nullptr || graph->getNumNodes() == 0) {
-        std::cout << "Grafo inválido ou vazio." << std::endl;
+        cout << "Grafo inválido ou vazio." << endl;
         return nullptr;
     }
 
@@ -238,6 +239,90 @@ Graph* getComplementGraph(Graph* graph) {
 
     return complementGraph;
 };
+
+void printStronglyConnectedComponents(Graph* graph) {
+    stack<Node*> Stack;
+    unordered_map<Node*, bool> visited;
+
+    Node* startNode = graph->getFirstNode();
+    while (startNode != nullptr) {
+        if (!visited[startNode]) {
+            fillOrder(startNode, Stack, visited);
+        }
+        startNode = startNode->getNextNode();
+    }
+
+    Graph* transposedGraph = getTranspose(graph);
+
+    visited.clear();
+
+    while (!Stack.empty()) {
+        Node* node = Stack.top();
+        Stack.pop();
+
+        if (!visited[node]) {
+            vector<Node*> component;
+            DFSUtil(node, visited, component);
+
+            cout << "Strongly Connected Component: ";
+            for (Node* n : component) {
+                cout << n->getId() << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    delete transposedGraph;
+}
+
+void fillOrder(Node* node, stack<Node*>& Stack, unordered_map<Node*, bool>& visited) {
+    visited[node] = true;
+
+    for (Edge* edge : node->getEdges()) {
+        Node* adjacent = edge->getTail();
+        if (!visited[adjacent]) {
+            fillOrder(adjacent, Stack, visited);
+        }
+    }
+
+    Stack.push(node);
+}
+
+void DFSUtil(Node* node, unordered_map<Node*, bool>& visited, vector<Node*>& component) {
+    visited[node] = true;
+    component.push_back(node);
+
+    for (Edge* edge : node->getEdges()) {
+        Node* adjacent = edge->getTail();
+        if (!visited[adjacent]) {
+            DFSUtil(adjacent, visited, component);
+        }
+    }
+}
+
+Graph* getTranspose(Graph* graph) {
+    Graph* transposedGraph = new Graph(graph->isDirected(), graph->isWeightedEdges(), graph->isWeightedNodes());
+
+    Node* node = graph->getFirstNode();
+    while (node != nullptr) {
+        transposedGraph->createOrUpdateNode(node->getId(), node->getWeight());
+        node = node->getNextNode();
+    }
+
+    node = graph->getFirstNode();
+    while (node != nullptr) {
+        for (Edge* edge : node->getEdges()) {
+            Node* head = edge->getHead();
+            Node* tail = edge->getTail();
+            transposedGraph->createEdge(transposedGraph->findNodeById(tail->getId()),
+                                        transposedGraph->findNodeById(head->getId()),
+                                        edge->getWeight());
+        }
+        node = node->getNextNode();
+    }
+
+    return transposedGraph;
+}
 
 void depthFirstSearch(Node* node, unordered_set<Node*>& visited) {
     if (visited.find(node) != visited.end()) {
