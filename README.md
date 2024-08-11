@@ -1,10 +1,20 @@
 # Como rodar
 
+```bash
 g++ *.c* -o execGrupoX
-Usage: ./execGrupoX <input_file> <output_file> <directed[0,1]> <weightedEdge[0,1]> <weightedNode[0,1]>
+```
 
-Example: ./execGrupoX input.txt output.txt 1 1 1
+Usage:
 
+```bash
+./execGrupoX <input_file> <output_file> <directed[0,1]> <weightedEdge[0,1]> <weightedNode[0,1]>
+```
+
+Example:
+
+```bash
+g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output.txt 1 1 1
+```
 
 # To-do
 
@@ -38,6 +48,14 @@ Example: ./execGrupoX input.txt output.txt 1 1 1
 # Commands
 
 ## Create SVG from DOT
+
+Install Graphviz:
+
+```bash
+sudo apt install graphviz
+```
+
+Run:
 
 ```bash
  sfdp -x -Goverlap=scale  -Tsvg x.dot > x.svg
