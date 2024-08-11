@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <limits>
 #include <sstream>
 
 #include "../../helpers/Algorithms/algorithms.hpp"
@@ -387,11 +388,11 @@ void Controller::getIndirectTransitiveClosure(Graph* graph) {
 
 void Controller::getDegreeSequence(Graph* graph) {
     if (graph == nullptr || graph->getNumNodes() == 0) {
-        std::cout << "Grafo inválido ou vazio." << std::endl;
+        cout << "Grafo inválido ou vazio." << endl;
         return;
     }
 
-    std::vector<int> degrees;
+    vector<int> degrees;
 
     Node* currentNode = graph->getFirstNode();
     while (currentNode != nullptr) {
@@ -400,13 +401,13 @@ void Controller::getDegreeSequence(Graph* graph) {
         currentNode = currentNode->getNextNode();
     }
 
-    std::sort(degrees.begin(), degrees.end(), std::greater<int>());
+    sort(degrees.begin(), degrees.end(), greater<int>());
 
-    std::cout << "Sequência de Graus: ";
+    cout << "Sequência de Graus: ";
     for (int degree : degrees) {
-        std::cout << degree << " ";
+        cout << degree << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
 }
 
 void Controller::getInducedSubgraph(Graph* graph) {
@@ -471,9 +472,27 @@ void Controller::getBridgeEdges(Graph* graph) {
     Writer::printVectorEdges(bridgeEdges);
 }
 
-// Exercício H
+// Exercício H // não funciona muito bem
 void Controller::getGraphMetrics(Graph* graph) {
-    // TODO
+    GraphMetrics metrics = getGraphMetricsInGraph(graph);
+
+    std::cout << "Diâmetro do grafo: " << metrics.diameter << std::endl;
+    std::cout << "Raio do grafo: " << metrics.radius << std::endl;
+
+    std::cout << "Centro do grafo: ";
+    for (int node : metrics.center) {
+        std::cout << node << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Periferia do grafo: ";
+    for (int node : metrics.periphery) {
+        std::cout << node << " ";
+    }
+    std::cout << std::endl;
+
+    delete graph;
+    return;
 }
 
 void Controller::getMinimumSpanningTree(Graph* graph) {

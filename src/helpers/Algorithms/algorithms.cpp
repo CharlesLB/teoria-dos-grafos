@@ -1,3 +1,5 @@
+#include "algorithms.hpp"
+
 #include <algorithm>
 #include <iostream>
 #include <limits>
@@ -485,4 +487,81 @@ Graph* createInducedSubgraph(Graph* graph, const vector<Node*>& selectedNodes) {
     }
 
     return subgraph;
+}
+
+GraphMetrics getGraphMetricsInGraph(Graph* graph) {
+    int numNodes = graph->getNumNodes();
+
+    if (graph == nullptr || numNodes == 0) {
+        cerr << "Grafo inválido ou vazio." << endl;
+        return {-1, -1, {}, {}};
+    }
+
+    vector<vector<int>> dist(numNodes + 1, vector<int>(numNodes + 1, numeric_limits<int>::max()));
+
+    for (Edge* edge : graph->getEdges()) {
+        if (edge == nullptr || edge->getHead() == nullptr || edge->getTail() == nullptr) {
+            continue;
+        }
+        int u = edge->getHead()->getId();
+        int v = edge->getTail()->getId();
+        int weight = edge->getWeight();
+
+        if (u < 0 || u > numNodes || v < 0 || v > numNodes) {
+            continue;
+        }
+
+        dist[u][v] = weight;
+        if (!graph->isDirected()) {
+            dist[v][u] = weight;
+        }
+    }
+
+    for (int i = 1; i <= numNodes; ++i) {
+        dist[i][i] = 0;
+    }
+
+    for (int k = 1; k <= numNodes; ++k) {
+        for (int i = 1; i <= numNodes; ++i) {
+            for (int j = 1; j <= numNodes; ++j) {
+                if (dist[i][k] != numeric_limits<int>::max() && dist[k][j] != numeric_limits<int>::max()) {
+                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                }
+            }
+        }
+    }
+
+    int diameter = 0;
+    int radius = numeric_limits<int>::max();
+    vector<int> eccentricities(numNodes + 1, 0);
+
+    for (int i = 1; i <= numNodes; ++i) {
+        int maxDistance = 0;
+        for (int j = 1; j <= numNodes; ++j) {
+            if (dist[i][j] != numeric_limits<int>::max()) {
+                maxDistance = max(maxDistance, dist[i][j]);
+            }
+        }
+        eccentricities[i] = maxDistance;
+        if (maxDistance < radius) {
+            radius = maxDistance;
+        }
+        if (maxDistance > diameter) {
+            diameter = maxDistance;
+        }
+    }
+
+    vector<int> center;
+    vector<int> periphery;
+
+    for (int i = 1; i <= numNodes; ++i) {
+        if (eccentricities[i] == radius) {
+            center.push_back(i);
+        }
+        if (eccentricities[i] == diameter) {
+            periphery.push_back(i);
+        }
+    }
+
+    return {diameter, radius, center, periphery};
 }
