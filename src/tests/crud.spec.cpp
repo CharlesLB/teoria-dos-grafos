@@ -8,10 +8,16 @@
 #include <iostream>
 #include <sstream>
 
+#include "../core/Controller/controller.cpp"
+#include "../core/Manager/manager.cpp"
+#include "../core/Reader/reader.cpp"
 #include "../core/Writer/writer.cpp"
+#include "../helpers/Algorithms/algorithms.cpp"
+#include "../helpers/Validators/validators.cpp"
 #include "../lib/Edge/edge.cpp"
 #include "../lib/Graph/graph.cpp"
 #include "../lib/Node/node.cpp"
+#include "../utils/filesystem/filesystem.cpp"
 #include "../utils/tests/tests.cpp"
 
 string name = "CRUD";
@@ -21,7 +27,6 @@ int main() {
 
     Graph* graph = new Graph(1, 1, 1);
 
-    // Create nodes
     it("Create nodes");
 
     Node* node1 = graph->createOrUpdateNode(1, 10);
@@ -35,7 +40,6 @@ int main() {
     expect(graph->getFirstNode()->getNextNode()->getId(), 2, "Second node should be node 2");
     expect(graph->getFirstNode()->getNextNode()->getNextNode()->getId(), 1, "Third node should be node 1");
 
-    // Create edges
     it("Create edges");
 
     Edge* edge1 = graph->createEdge(node1, node2, 10);
@@ -58,7 +62,6 @@ int main() {
     expect(graph->getFirstNode()->getNextNode()->getNextNode()->getDegreeIn(), 1, "Third node should have degree in 1");
     expect(graph->getFirstNode()->getNextNode()->getNextNode()->getDegreeOut(), 2, "Third node should have degree out 2");
 
-    // Update nodes
     it("Update nodes");
 
     Node* node4 = graph->createOrUpdateNode(1, 40);
@@ -67,8 +70,6 @@ int main() {
 
     expect(graph->getNumNodes(), 3, "Should have 3 nodes");
     expect(graph->getNumEdges(), 4, "Should have 4 edges");
-
-     // delete edges
 
     it("Delete edges");
 
@@ -84,6 +85,5 @@ int main() {
     expect(graph->getFirstNode()->getNextNode()->getNextNode()->getDegreeIn(), 1, "Third node should have degree in 1");
     expect(graph->getFirstNode()->getNextNode()->getNextNode()->getDegreeOut(), 1, "Third node should have degree out 1");
 
-    // Writer::printGraph(graph);
     return 0;
 }

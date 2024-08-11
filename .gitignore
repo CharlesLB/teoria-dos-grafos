@@ -19,3 +19,6 @@
 
 # build
 execGrupoX
+
+# tests
+/__tests__
