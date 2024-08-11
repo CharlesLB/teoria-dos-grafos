@@ -249,3 +249,28 @@ vector<Node*> getIndirectTransitiveClosureByNode(Graph* graph, Node* node) {
 
     return indirectTransitiveClosure;
 }
+
+Graph* createInducedSubgraph(Graph* graph, const vector<Node*>& selectedNodes) {
+    Graph* subgraph = new Graph(graph->isDirected(), graph->isWeightedEdges(), graph->isWeightedNodes());
+
+    for (Node* node : selectedNodes) {
+        subgraph->createOrUpdateNode(node->getId(), node->getWeight());
+    }
+
+    for (Node* node : selectedNodes) {
+        for (Edge* edge : node->getEdges()) {
+            Node* head = edge->getHead();
+            Node* tail = edge->getTail();
+
+            if (find(selectedNodes.begin(), selectedNodes.end(), head) != selectedNodes.end() &&
+                find(selectedNodes.begin(), selectedNodes.end(), tail) != selectedNodes.end()) {
+                subgraph->createEdge(
+                    subgraph->createOrUpdateNode(head->getId(), head->getWeight()),
+                    subgraph->createOrUpdateNode(tail->getId(), tail->getWeight()),
+                    edge->getWeight());
+            }
+        }
+    }
+
+    return subgraph;
+}

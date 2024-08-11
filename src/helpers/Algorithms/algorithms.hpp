@@ -17,6 +17,7 @@ vector<Edge*> getBridgeEdgesInGraph(Graph* graph);
 
 Graph* getMinimumPathAndCostByDijkstra(Graph* graph, Node* sourceNode, Node* targetNode);
 Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* targetNode);
+Graph* createInducedSubgraph(Graph* graph, const vector<Node*>& selectedNodes);
 
 void depthFirstSearch(Node* node, unordered_set<Node*>& visited);
 vector<Node*> getDirectTransitiveClosureByNode(Node* node);

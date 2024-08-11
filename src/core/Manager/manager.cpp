@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 
@@ -228,4 +229,26 @@ Node* Manager::selectNode(Graph* graph) {
 
         return node;
     }
+}
+
+vector<Node*> Manager::selectNodes(Graph* graph) {
+    vector<Node*> selectedNodes;
+    char continueSelection;
+
+    do {
+        cout << "Select a node:\n";
+        Node* selectedNode = Manager::selectNode(graph);
+
+        if (selectedNode != nullptr && find(selectedNodes.begin(), selectedNodes.end(), selectedNode) == selectedNodes.end()) {
+            selectedNodes.push_back(selectedNode);
+        } else {
+            cout << "Invalid selection or node already selected. Try again.\n";
+        }
+
+        cout << "Do you want to select another node? (y/n): ";
+        cin >> continueSelection;
+
+    } while (continueSelection == 'y' || continueSelection == 'Y');
+
+    return selectedNodes;
 }

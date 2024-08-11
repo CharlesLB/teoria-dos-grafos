@@ -438,7 +438,16 @@ void Controller::getDegreeSequence(Graph* graph) {
 }
 
 void Controller::getInducedSubgraph(Graph* graph) {
-    // TODO
+    cout << "Select the nodes to create the induced subgraph\n";
+    vector<Node*> selectedNodes = Manager::selectNodes(graph);
+
+    Graph* subgraph = createInducedSubgraph(graph, selectedNodes);
+
+    if (subgraph != nullptr) {
+        cout << "Subgraph induced by the selected nodes has been created.\n";
+    } else {
+        cout << "Failed to create the induced subgraph.\n";
+    }
 }
 
 void Controller::getGraphComplement(Graph* graph) {
