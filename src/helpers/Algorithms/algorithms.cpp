@@ -70,12 +70,12 @@ vector<Node*> getArticulationNodesInGraph(Graph* graph) {
     return articulationNodes;
 }
 
-void DFSArticulationPoints(Node* node, int parent, std::unordered_map<Node*, bool>& visited,
-                           std::unordered_map<Node*, int>& discoveryTime,
-                           std::unordered_map<Node*, int>& low,
-                           std::unordered_map<Node*, Node*>& parentMap,
-                           std::unordered_map<Node*, bool>& articulationPoint,
-                           int& time, std::vector<Node*>& articulationNodes) {
+void DFSArticulationPoints(Node* node, int parent, unordered_map<Node*, bool>& visited,
+                           unordered_map<Node*, int>& discoveryTime,
+                           unordered_map<Node*, int>& low,
+                           unordered_map<Node*, Node*>& parentMap,
+                           unordered_map<Node*, bool>& articulationPoint,
+                           int& time, vector<Node*>& articulationNodes) {
     visited[node] = true;
     discoveryTime[node] = low[node] = ++time;
     int children = 0;
@@ -88,7 +88,7 @@ void DFSArticulationPoints(Node* node, int parent, std::unordered_map<Node*, boo
             parentMap[adjacent] = node;
             DFSArticulationPoints(adjacent, node->getId(), visited, discoveryTime, low, parentMap, articulationPoint, time, articulationNodes);
 
-            low[node] = std::min(low[node], low[adjacent]);
+            low[node] = min(low[node], low[adjacent]);
 
             if (parent == -1 && children > 1) {
                 articulationPoint[node] = true;
@@ -98,18 +98,55 @@ void DFSArticulationPoints(Node* node, int parent, std::unordered_map<Node*, boo
                 articulationPoint[node] = true;
             }
         } else if (adjacent != parentMap[node]) {
-            low[node] = std::min(low[node], discoveryTime[adjacent]);
+            low[node] = min(low[node], discoveryTime[adjacent]);
         }
     }
 
-    if (articulationPoint[node] && std::find(articulationNodes.begin(), articulationNodes.end(), node) == articulationNodes.end()) {
+    if (articulationPoint[node] && find(articulationNodes.begin(), articulationNodes.end(), node) == articulationNodes.end()) {
         articulationNodes.push_back(node);
     }
 }
 
 vector<Edge*> getBridgeEdgesInGraph(Graph* graph) {
     vector<Edge*> bridgeEdges;
+    unordered_map<Node*, bool> visited;
+    unordered_map<Node*, int> discoveryTime;
+    unordered_map<Node*, int> low;
+    int time = 0;
+
+    Node* startNode = graph->getFirstNode();
+    while (startNode != nullptr) {
+        if (!visited[startNode]) {
+            DFSBridgeEdges(startNode, -1, visited, discoveryTime, low, time, bridgeEdges);
+        }
+        startNode = startNode->getNextNode();
+    }
+
     return bridgeEdges;
+}
+
+void DFSBridgeEdges(Node* node, int parent, unordered_map<Node*, bool>& visited,
+                    unordered_map<Node*, int>& discoveryTime,
+                    unordered_map<Node*, int>& low,
+                    int& time, vector<Edge*>& bridgeEdges) {
+    visited[node] = true;
+    discoveryTime[node] = low[node] = ++time;
+
+    for (Edge* edge : node->getEdges()) {
+        Node* adjacent = edge->getTail();
+
+        if (!visited[adjacent]) {
+            DFSBridgeEdges(adjacent, node->getId(), visited, discoveryTime, low, time, bridgeEdges);
+
+            low[node] = min(low[node], low[adjacent]);
+
+            if (low[adjacent] > discoveryTime[node]) {
+                bridgeEdges.push_back(edge);
+            }
+        } else if (adjacent->getId() != parent) {
+            low[node] = min(low[node], discoveryTime[adjacent]);
+        }
+    }
 }
 
 struct NodeDistance {

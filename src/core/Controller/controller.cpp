@@ -48,7 +48,7 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
         "Apresentar as arestas ponte",
         "Apresentar o raio, o diâmetro, o centro e a periferia do grafo",
         "Apresentar a AGM do grafo ou, para grafos desconexos, as florestas de custo mínimo",
-        "Apresentar o caminho mínimo entre dois vértices usando o algoritmo de Dijkstra ou de Floyd (escolha do usuário)", "Exit", ""};
+        "Exit", ""};
 
     while (true) {
         Writer::printMenu(options);
@@ -157,10 +157,6 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
 
             case 'y':
                 getMinimumSpanningTree(graph);
-                break;
-
-            case 'z':
-                getMinimumPath(graph);
                 break;
 
             default:
@@ -457,36 +453,29 @@ void Controller::getArticulationNodes(Graph* graph) {
         return;
     }
 
-    cout << "The articulation nodes in the graph are: {";
+    cout << "The articulation nodes in the graph are:";
 
-    for (int i = 0; i < articulationNodes.size(); i++) {
-        cout << articulationNodes[i]->getId();
-
-        if (i == articulationNodes.size() - 1) {
-            cout << "}\n";
-            break;
-        }
-
-        cout << ", ";
-    }
+    Writer::printVectorNodes(articulationNodes);
 }
 
 void Controller::getBridgeEdges(Graph* graph) {
+    vector<Edge*> bridgeEdges = getBridgeEdgesInGraph(graph);
+
+    if (bridgeEdges.size() == 0) {
+        cout << "There are no bridge edges in the graph\n";
+        return;
+    }
+
+    cout << "The bridge edges in the graph are:";
+
+    Writer::printVectorEdges(bridgeEdges);
 }
 
+// Exercício H
 void Controller::getGraphMetrics(Graph* graph) {
     // TODO
 }
 
-// Exercício E e F
 void Controller::getMinimumSpanningTree(Graph* graph) {
     // TODO
 }
-
-void Controller::getMinimumPath(Graph* graph) {
-    // TODO
-}
-
-// Exercício G
-
-// Exercício H

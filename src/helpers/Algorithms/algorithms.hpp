@@ -25,6 +25,10 @@ void DFSArticulationPoints(Node* node, int parent, std::unordered_map<Node*, boo
                            int& time, std::vector<Node*>& articulationNodes);
 
 vector<Edge*> getBridgeEdgesInGraph(Graph* graph);
+void DFSBridgeEdges(Node* node, int parent, std::unordered_map<Node*, bool>& visited,
+                    std::unordered_map<Node*, int>& discoveryTime,
+                    std::unordered_map<Node*, int>& low,
+                    int& time, std::vector<Edge*>& bridgeEdges);
 
 Graph* getMinimumPathAndCostByDijkstra(Graph* graph, Node* sourceNode, Node* targetNode);
 Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* targetNode);

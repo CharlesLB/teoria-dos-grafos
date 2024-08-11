@@ -238,3 +238,24 @@ void Writer::printGraphInTxtFile(Graph* graph, string fileName) {
 
     cout << "File saved in: " << filePath << endl;
 }
+
+void Writer::printVectorNodes(vector<Node*> nodes) {
+    cout << "{";
+
+    for (int i = 0; i < nodes.size(); i++) {
+        cout << nodes[i]->getId();
+
+        if (i == nodes.size() - 1) {
+            cout << "}\n";
+            break;
+        }
+
+        cout << ", ";
+    }
+}
+
+void Writer::printVectorEdges(vector<Edge*> edges) {
+    for (Edge* edge : edges) {
+        cout << "(" << edge->getHead()->getId() << ", " << edge->getTail()->getId() << ") ";
+    }
+}

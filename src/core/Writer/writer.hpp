@@ -15,6 +15,8 @@ class Writer {
     static void printGraph(Graph* graph);
     static void printGraphInDotFile(Graph* graph, string fileName);
     static void printGraphInTxtFile(Graph* graph, string fileName);
+    static void printVectorNodes(vector<Node*> nodes);
+    static void printVectorEdges(vector<Edge*> edges);
 
    private:
     static void printNodes(Graph* graph);
