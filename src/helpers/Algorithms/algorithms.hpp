@@ -13,13 +13,6 @@
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
 
-struct GraphMetrics {
-    int diameter;
-    int radius;
-    vector<int> center;
-    vector<int> periphery;
-};
-
 vector<Node*> getOpenNeighborhoodNodesByNode(Node* node);
 vector<Node*> getClosedNeighborhoodNodesByNode(Node* node);
 
@@ -52,8 +45,17 @@ void depthFirstSearch(Node* node, unordered_set<Node*>& visited);
 vector<Node*> getDirectTransitiveClosureByNode(Node* node);
 vector<Node*> getIndirectTransitiveClosureByNode(Graph* graph, Node* node);
 
+struct GraphMetrics {
+    int diameter;
+    int radius;
+    vector<int> center;
+    vector<int> periphery;
+};
+
 GraphMetrics getGraphMetricsInGraph(Graph* graph);
 
-Graph* getMinimumSpanningTreeByKruskal(Graph* graph, vector<Node*> vertexSubset);
+Graph* getMinimumSpanningTreeByKruskal(Graph* graph, vector<Node*>& vertexSubset);
+
+Graph* getMinimumSpanningTreeByPrim(Graph* originalGraph, vector<Node*>& nodeVector);
 
 #endif

@@ -589,7 +589,7 @@ void unionSets(int parent[], int rank[], int x, int y) {
     }
 }
 
-Graph* getMinimumSpanningTreeByKruskal(Graph* originalGraph, vector<Node*> nodeVector) {
+Graph* getMinimumSpanningTreeByKruskal(Graph* originalGraph, vector<Node*>& nodeVector) {
     Graph* mstGraph = new Graph(originalGraph->isDirected(), originalGraph->isWeightedEdges(), originalGraph->isWeightedNodes());
 
     map<int, int> nodeIndex;
@@ -627,6 +627,62 @@ Graph* getMinimumSpanningTreeByKruskal(Graph* originalGraph, vector<Node*> nodeV
         if (find(parent.data(), u) != find(parent.data(), v)) {
             mstGraph->createEdge(edge->getHead(), edge->getTail(), edge->getWeight());
             unionSets(parent.data(), rank.data(), u, v);
+        }
+    }
+
+    return mstGraph;
+}
+
+struct CompareEdge {
+    bool operator()(Edge* e1, Edge* e2) {
+        return e1->getWeight() > e2->getWeight();
+    }
+};
+
+Graph* getMinimumSpanningTreeByPrim(Graph* originalGraph, vector<Node*>& nodeVector) {
+    Graph* mstGraph = new Graph(originalGraph->isDirected(), originalGraph->isWeightedEdges(), originalGraph->isWeightedNodes());
+
+    if (nodeVector.empty()) return mstGraph;
+
+    std::map<int, Node*> nodeMap;
+    for (Node* node : nodeVector) {
+        nodeMap[node->getId()] = node;
+        mstGraph->createOrUpdateNode(node->getId(), node->getWeight());
+    }
+
+    std::priority_queue<Edge*, std::vector<Edge*>, CompareEdge> edgeQueue;
+
+    std::set<int> visited;
+
+    Node* startNode = nodeVector[0];
+    visited.insert(startNode->getId());
+
+    for (Edge* edge : startNode->getEdges()) {
+        if (nodeMap.find(edge->getTail()->getId()) != nodeMap.end()) {
+            edgeQueue.push(edge);
+        }
+    }
+
+    while (!edgeQueue.empty()) {
+        Edge* minEdge = edgeQueue.top();
+        edgeQueue.pop();
+
+        Node* u = minEdge->getHead();
+        Node* v = minEdge->getTail();
+
+        if (visited.find(v->getId()) != visited.end()) {
+            continue;
+        }
+
+        mstGraph->createEdge(u, v, minEdge->getWeight());
+
+        visited.insert(v->getId());
+
+        for (Edge* edge : v->getEdges()) {
+            if (visited.find(edge->getTail()->getId()) == visited.end() &&
+                nodeMap.find(edge->getTail()->getId()) != nodeMap.end()) {
+                edgeQueue.push(edge);
+            }
         }
     }
 

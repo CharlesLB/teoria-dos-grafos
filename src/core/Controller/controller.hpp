@@ -39,7 +39,8 @@ class Controller {
     static void getArticulationNodes(Graph* graph);
     static void getBridgeEdges(Graph* graph);
     static void getGraphMetrics(Graph* graph);
-    static void getMinimumSpanningTree(Graph* graph);
+    static void getMinimumSpanningTreeKruscal(Graph* graph);
+    static void getMinimumSpanningTreePrim(Graph* graph);
 };
 
 #endif

@@ -48,7 +48,8 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
         "Apresentar os nós de articulação",
         "Apresentar as arestas ponte",
         "Apresentar o raio, o diâmetro, o centro e a periferia do grafo",
-        "Apresentar a AGM do grafo ou, para grafos desconexos, as florestas de custo mínimo",
+        "Apresentar a AGM do grafo ou, para grafos desconexos, as florestas de custo mínimo com Kruskal",
+        "Apresentar a AGM do grafo ou, para grafos desconexos, as florestas de custo mínimo com Prim",
         "Exit", ""};
 
     while (true) {
@@ -157,7 +158,11 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
                 break;
 
             case 'y':
-                getMinimumSpanningTree(graph);
+                getMinimumSpanningTreeKruscal(graph);
+                break;
+
+            case 'z':
+                getMinimumSpanningTreePrim(graph);
                 break;
 
             default:
@@ -495,9 +500,16 @@ void Controller::getGraphMetrics(Graph* graph) {
     return;
 }
 
-void Controller::getMinimumSpanningTree(Graph* graph) {
+void Controller::getMinimumSpanningTreeKruscal(Graph* graph) {
     vector<Node*> selectedNodes = Manager::selectNodes(graph);
 
     Graph* minimumSpanningTree = getMinimumSpanningTreeByKruskal(graph, selectedNodes);
     Writer::printGraphOptions(minimumSpanningTree, "minimumSpanningTreeKruskal");
+}
+
+void Controller::getMinimumSpanningTreePrim(Graph* graph) {
+    vector<Node*> selectedNodes = Manager::selectNodes(graph);
+
+    Graph* minimumSpanningTree = getMinimumSpanningTreeByPrim(graph, selectedNodes);
+    Writer::printGraphOptions(minimumSpanningTree, "minimumSpanningTreePrim");
 }
