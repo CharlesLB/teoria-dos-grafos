@@ -39,7 +39,7 @@ g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output
 - [x] s) Present the complement of the graph.
 - [x] t) For directed graphs, present the strongly connected components.
 - [x] u) Check if the graph is Eulerian.
-- [ ] v) Present the articulation points in the graph.
+- [x] v) Present the articulation points in the graph.
 - [ ] w) Present the bridge edges in the graph.
 - [ ] x) Present the radius, diameter, center, and periphery of the graph.
 - [ ] y) Present the Minimum Spanning Tree (MST) of the graph, or for disconnected graphs, the minimum-cost forests.

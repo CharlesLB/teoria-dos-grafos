@@ -15,7 +15,15 @@
 
 vector<Node*> getOpenNeighborhoodNodesByNode(Node* node);
 vector<Node*> getClosedNeighborhoodNodesByNode(Node* node);
+
 vector<Node*> getArticulationNodesInGraph(Graph* graph);
+void DFSArticulationPoints(Node* node, int parent, std::unordered_map<Node*, bool>& visited,
+                           std::unordered_map<Node*, int>& discoveryTime,
+                           std::unordered_map<Node*, int>& low,
+                           std::unordered_map<Node*, Node*>& parentMap,
+                           std::unordered_map<Node*, bool>& articulationPoint,
+                           int& time, std::vector<Node*>& articulationNodes);
+
 vector<Edge*> getBridgeEdgesInGraph(Graph* graph);
 
 Graph* getMinimumPathAndCostByDijkstra(Graph* graph, Node* sourceNode, Node* targetNode);

@@ -52,7 +52,59 @@ vector<Node*> getClosedNeighborhoodNodesByNode(Node* node) {
 
 vector<Node*> getArticulationNodesInGraph(Graph* graph) {
     vector<Node*> articulationNodes;
+    unordered_map<Node*, bool> visited;
+    unordered_map<Node*, int> discoveryTime;
+    unordered_map<Node*, int> low;
+    unordered_map<Node*, Node*> parentMap;
+    unordered_map<Node*, bool> articulationPoint;
+    int time = 0;
+
+    Node* startNode = graph->getFirstNode();
+    while (startNode != nullptr) {
+        if (!visited[startNode]) {
+            DFSArticulationPoints(startNode, -1, visited, discoveryTime, low, parentMap, articulationPoint, time, articulationNodes);
+        }
+        startNode = startNode->getNextNode();
+    }
+
     return articulationNodes;
+}
+
+void DFSArticulationPoints(Node* node, int parent, std::unordered_map<Node*, bool>& visited,
+                           std::unordered_map<Node*, int>& discoveryTime,
+                           std::unordered_map<Node*, int>& low,
+                           std::unordered_map<Node*, Node*>& parentMap,
+                           std::unordered_map<Node*, bool>& articulationPoint,
+                           int& time, std::vector<Node*>& articulationNodes) {
+    visited[node] = true;
+    discoveryTime[node] = low[node] = ++time;
+    int children = 0;
+
+    for (Edge* edge : node->getEdges()) {
+        Node* adjacent = edge->getTail();
+
+        if (!visited[adjacent]) {
+            children++;
+            parentMap[adjacent] = node;
+            DFSArticulationPoints(adjacent, node->getId(), visited, discoveryTime, low, parentMap, articulationPoint, time, articulationNodes);
+
+            low[node] = std::min(low[node], low[adjacent]);
+
+            if (parent == -1 && children > 1) {
+                articulationPoint[node] = true;
+            }
+
+            if (parent != -1 && low[adjacent] >= discoveryTime[node]) {
+                articulationPoint[node] = true;
+            }
+        } else if (adjacent != parentMap[node]) {
+            low[node] = std::min(low[node], discoveryTime[adjacent]);
+        }
+    }
+
+    if (articulationPoint[node] && std::find(articulationNodes.begin(), articulationNodes.end(), node) == articulationNodes.end()) {
+        articulationNodes.push_back(node);
+    }
 }
 
 vector<Edge*> getBridgeEdgesInGraph(Graph* graph) {

@@ -450,7 +450,25 @@ void Controller::checkEulerianGraph(Graph* graph) {
 
 // Exercício I
 void Controller::getArticulationNodes(Graph* graph) {
-    // TODO
+    vector<Node*> articulationNodes = getArticulationNodesInGraph(graph);
+
+    if (articulationNodes.size() == 0) {
+        cout << "There are no articulation nodes in the graph\n";
+        return;
+    }
+
+    cout << "The articulation nodes in the graph are: {";
+
+    for (int i = 0; i < articulationNodes.size(); i++) {
+        cout << articulationNodes[i]->getId();
+
+        if (i == articulationNodes.size() - 1) {
+            cout << "}\n";
+            break;
+        }
+
+        cout << ", ";
+    }
 }
 
 void Controller::getBridgeEdges(Graph* graph) {
