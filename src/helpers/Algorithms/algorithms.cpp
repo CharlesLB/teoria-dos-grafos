@@ -201,6 +201,44 @@ Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* target
     return minimumPathGraph;
 }
 
+Graph* getComplementGraph(Graph* graph) {
+    if (graph == nullptr || graph->getNumNodes() == 0) {
+        std::cout << "Grafo inválido ou vazio." << std::endl;
+        return nullptr;
+    }
+
+    Graph* complementGraph = new Graph(graph->isDirected(), graph->isWeightedEdges(), graph->isWeightedNodes());
+
+    Node* currentNode = graph->getFirstNode();
+    while (currentNode != nullptr) {
+        complementGraph->createOrUpdateNode(currentNode->getId(), currentNode->getWeight());
+        currentNode = currentNode->getNextNode();
+    }
+
+    Node* nodeU = graph->getFirstNode();
+    while (nodeU != nullptr) {
+        Node* nodeV = nodeU->getNextNode();
+        while (nodeV != nullptr) {
+            if (graph->findEdgeByNodes(nodeU, nodeV) == nullptr) {
+                complementGraph->createEdge(
+                    complementGraph->findNodeById(nodeU->getId()),
+                    complementGraph->findNodeById(nodeV->getId()),
+                    1);
+                if (!graph->isDirected()) {
+                    complementGraph->createEdge(
+                        complementGraph->findNodeById(nodeV->getId()),
+                        complementGraph->findNodeById(nodeU->getId()),
+                        1);
+                }
+            }
+            nodeV = nodeV->getNextNode();
+        }
+        nodeU = nodeU->getNextNode();
+    }
+
+    return complementGraph;
+};
+
 void depthFirstSearch(Node* node, unordered_set<Node*>& visited) {
     if (visited.find(node) != visited.end()) {
         return;

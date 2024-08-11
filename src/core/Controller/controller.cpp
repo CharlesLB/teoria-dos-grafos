@@ -429,7 +429,8 @@ void Controller::getInducedSubgraph(Graph* graph) {
 }
 
 void Controller::getGraphComplement(Graph* graph) {
-    // TODO
+    Graph* complementGraph = getComplementGraph(graph);
+    Writer::printGraphOptions(complementGraph, "complementGraph");
 }
 
 void Controller::getStronglyConnectedComponents(Graph* graph) {
