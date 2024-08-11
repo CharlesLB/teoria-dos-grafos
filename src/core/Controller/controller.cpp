@@ -180,31 +180,7 @@ void Controller::exitSystem() {
 }
 
 void Controller::printGraphToFile(Graph* graph, string outputPath) {
-    char option;
-
-    string options[] = {"Imprimir em arquivo .dot", "Imprimir em arquivo .txt", "Exit", ""};
-
-    while (true) {
-        Writer::printMenu(options);
-        option = Reader::readChar();
-
-        switch (option) {
-            case 'a':
-                Writer::printGraphInDotFile(graph, outputPath);
-                break;
-
-            case 'b':
-                Writer::printGraphInTxtFile(graph, outputPath);
-                break;
-
-            case 'c':
-                return;
-
-            default:
-                cout << "Invalid option\n";
-                break;
-        }
-    }
+    Writer::printGraphOptions(graph, outputPath);
 }
 
 void Controller::nodeAndEdgeInsertionDeletion(Graph* graph) {
@@ -356,7 +332,7 @@ void Controller::getMinimumPathAndCost(Graph* graph) {
             break;
     }
 
-    Writer::printGraphInDotFile(minimumPathGraph, "minimumPathGraph.dot");
+    Writer::printGraphOptions(minimumPathGraph, "minimumPathGraph.dot");
 }
 
 void Controller::getGraphDegree(Graph* graph) {
