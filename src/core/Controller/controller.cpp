@@ -332,7 +332,7 @@ void Controller::getMinimumPathAndCost(Graph* graph) {
             break;
     }
 
-    Writer::printGraphOptions(minimumPathGraph, "minimumPathGraph.dot");
+    Writer::printGraphOptions(minimumPathGraph, "minimumPathGraph");
 }
 
 void Controller::getGraphDegree(Graph* graph) {
@@ -424,6 +424,8 @@ void Controller::getInducedSubgraph(Graph* graph) {
     } else {
         cout << "Failed to create the induced subgraph.\n";
     }
+
+    Writer::printGraphOptions(subgraph, "subgraph");
 }
 
 void Controller::getGraphComplement(Graph* graph) {
