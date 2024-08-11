@@ -15,6 +15,7 @@
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
 #include "../../utils/filesystem/filesystem.hpp"
+#include "../Reader/reader.hpp"
 
 using namespace std;
 
@@ -57,6 +58,38 @@ void Writer::printEdges(Graph* graph) {
         std::cout << "Head Node ID: " << edge->getHead()->getId() << std::endl;
         std::cout << "Tail Node ID: " << edge->getTail()->getId() << std::endl;
         std::cout << std::endl;
+    }
+}
+
+void Writer::printGraphOptions(Graph* graph, string fileName) {
+    std::cout << "Choose an option:\n"
+              << std::endl;
+
+    std::string options[] = {"Print Graph", "Print Graph in Dot File", "Print Graph in Txt File", "Exit", ""};
+
+    printMenu(options);
+
+    char option = Reader::readChar();
+
+    switch (option) {
+        case 'a':
+            printGraph(graph);
+            break;
+
+        case 'b':
+            printGraphInDotFile(graph, fileName);
+            break;
+
+        case 'c':
+            printGraphInTxtFile(graph, fileName);
+            break;
+
+        case 'd':
+            return;
+
+        default:
+            std::cout << "Invalid option\n";
+            break;
     }
 }
 

@@ -11,6 +11,7 @@ using namespace std;
 class Writer {
    public:
     static void printMenu(string* options);
+    static void printGraphOptions(Graph* graph, string fileName);
     static void printGraph(Graph* graph);
     static void printGraphInDotFile(Graph* graph, string fileName);
     static void printGraphInTxtFile(Graph* graph, string fileName);
