@@ -42,7 +42,7 @@ g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output
 - [x] v) Present the articulation points in the graph.
 - [x] w) Present the bridge edges in the graph.
 - [x] x) Present the radius, diameter, center, and periphery of the graph.
-- [ ] y) Present the Minimum Spanning Tree (MST) of the graph, or for disconnected graphs, the minimum-cost forests.
+- [x] y) Present the Minimum Spanning Tree (MST) of the graph, or for disconnected graphs, the minimum-cost forests.
 
 # Commands
 
