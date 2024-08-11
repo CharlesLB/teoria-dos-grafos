@@ -472,7 +472,7 @@ void Controller::getBridgeEdges(Graph* graph) {
     Writer::printVectorEdges(bridgeEdges);
 }
 
-// Exercício H // não funciona muito bem
+// Exercício H
 void Controller::getGraphMetrics(Graph* graph) {
     GraphMetrics metrics = getGraphMetricsInGraph(graph);
 
@@ -496,5 +496,8 @@ void Controller::getGraphMetrics(Graph* graph) {
 }
 
 void Controller::getMinimumSpanningTree(Graph* graph) {
-    // TODO
+    vector<Node*> selectedNodes = Manager::selectNodes(graph);
+
+    Graph* minimumSpanningTree = getMinimumSpanningTreeByKruskal(graph, selectedNodes);
+    Writer::printGraphOptions(minimumSpanningTree, "minimumSpanningTreeKruskal");
 }

@@ -54,4 +54,6 @@ vector<Node*> getIndirectTransitiveClosureByNode(Graph* graph, Node* node);
 
 GraphMetrics getGraphMetricsInGraph(Graph* graph);
 
+Graph* getMinimumSpanningTreeByKruskal(Graph* graph, vector<Node*> vertexSubset);
+
 #endif

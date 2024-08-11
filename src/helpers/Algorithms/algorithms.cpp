@@ -5,6 +5,7 @@
 #include <limits>
 #include <map>
 #include <queue>
+#include <set>
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
@@ -564,4 +565,70 @@ GraphMetrics getGraphMetricsInGraph(Graph* graph) {
     }
 
     return {diameter, radius, center, periphery};
+}
+
+int find(int parent[], int i) {
+    if (parent[i] == i)
+        return i;
+    return parent[i] = find(parent, parent[i]);
+}
+
+void unionSets(int parent[], int rank[], int x, int y) {
+    int rootX = find(parent, x);
+    int rootY = find(parent, y);
+
+    if (rootX != rootY) {
+        if (rank[rootX] > rank[rootY]) {
+            parent[rootY] = rootX;
+        } else if (rank[rootX] < rank[rootY]) {
+            parent[rootX] = rootY;
+        } else {
+            parent[rootY] = rootX;
+            rank[rootX]++;
+        }
+    }
+}
+
+Graph* getMinimumSpanningTreeByKruskal(Graph* originalGraph, vector<Node*> nodeVector) {
+    Graph* mstGraph = new Graph(originalGraph->isDirected(), originalGraph->isWeightedEdges(), originalGraph->isWeightedNodes());
+
+    map<int, int> nodeIndex;
+    int index = 0;
+
+    for (Node* node : nodeVector) {
+        nodeIndex[node->getId()] = index++;
+        mstGraph->createOrUpdateNode(node->getId(), node->getWeight());
+    }
+
+    vector<Edge*> edgeList;
+
+    for (Edge* edge : originalGraph->getEdges()) {
+        if (nodeIndex.find(edge->getHead()->getId()) != nodeIndex.end() &&
+            nodeIndex.find(edge->getTail()->getId()) != nodeIndex.end()) {
+            edgeList.push_back(edge);
+        }
+    }
+
+    sort(edgeList.begin(), edgeList.end(), [](Edge* e1, Edge* e2) {
+        return e1->getWeight() < e2->getWeight();
+    });
+
+    vector<int> parent(nodeIndex.size());
+    vector<int> rank(nodeIndex.size(), 0);
+
+    for (int i = 0; i < nodeIndex.size(); i++) {
+        parent[i] = i;
+    }
+
+    for (Edge* edge : edgeList) {
+        int u = nodeIndex[edge->getHead()->getId()];
+        int v = nodeIndex[edge->getTail()->getId()];
+
+        if (find(parent.data(), u) != find(parent.data(), v)) {
+            mstGraph->createEdge(edge->getHead(), edge->getTail(), edge->getWeight());
+            unionSets(parent.data(), rank.data(), u, v);
+        }
+    }
+
+    return mstGraph;
 }

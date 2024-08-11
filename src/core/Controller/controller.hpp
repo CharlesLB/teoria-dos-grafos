@@ -40,7 +40,6 @@ class Controller {
     static void getBridgeEdges(Graph* graph);
     static void getGraphMetrics(Graph* graph);
     static void getMinimumSpanningTree(Graph* graph);
-    static void getMinimumPath(Graph* graph);
 };
 
 #endif
