@@ -237,30 +237,28 @@ void Controller::showOpenNeighborhood(Graph* graph) {
     Node* node = Manager::selectNode(graph);
     vector<Node*> openNeightborhoodNodes = getOpenNeighborhoodNodesByNode(node);
 
-    cout << "The open neighborhood of node " << node->getId() << " is: {";
-    for (int i = 0; i < openNeightborhoodNodes.size(); i++) {
-        if (i == openNeightborhoodNodes.size() - 1) {
-            cout << openNeightborhoodNodes[i]->getId() << "}\n";
-            break;
-        }
+    cout << "The open neighborhood of node is " << node->getId();
 
-        cout << openNeightborhoodNodes[i]->getId() << ", ";
+    if (openNeightborhoodNodes.size() == 0) {
+        cout << "empty\n";
+        return;
     }
+
+    Writer::printVectorNodes(openNeightborhoodNodes);
 }
 
 void Controller::showClosedNeighborhood(Graph* graph) {
     Node* node = Manager::selectNode(graph);
     vector<Node*> closeNeightborhoodNodes = getClosedNeighborhoodNodesByNode(node);
 
-    cout << "The open neighborhood of node " << node->getId() << " is: {";
-    for (int i = 0; i < closeNeightborhoodNodes.size(); i++) {
-        if (i == closeNeightborhoodNodes.size() - 1) {
-            cout << closeNeightborhoodNodes[i]->getId() << "}\n";
-            break;
-        }
+    cout << "The closed neighborhood of node is " << node->getId();
 
-        cout << closeNeightborhoodNodes[i]->getId() << ", ";
+    if (closeNeightborhoodNodes.size() == 0) {
+        cout << "empty\n";
+        return;
     }
+
+    Writer::printVectorNodes(closeNeightborhoodNodes);
 }
 
 void Controller::checkMultigraph(Graph* graph) {
