@@ -345,23 +345,14 @@ void Controller::getDirectTransitiveClosure(Graph* graph) {
 
     vector<Node*> directTransitiveClosureGraph = getDirectTransitiveClosureByNode(node);
 
+    cout << "The direct transitive closure of node " << node->getId() << " is ";
+
     if (directTransitiveClosureGraph.size() == 0) {
-        cout << "The direct transitive closure of node " << node->getId() << " is empty\n";
+        cout << "empty\n";
         return;
     }
 
-    cout << "The direct transitive closure of node " << node->getId() << " is: {";
-
-    for (int i = 0; i < directTransitiveClosureGraph.size(); i++) {
-        cout << "(" << node->getId() << ", " << directTransitiveClosureGraph[i]->getId() << ")";
-
-        if (i == directTransitiveClosureGraph.size() - 1) {
-            cout << "}\n";
-            break;
-        }
-
-        cout << ", ";
-    }
+    Writer::printVectorNodes(directTransitiveClosureGraph);
 }
 
 // Exercício B
@@ -370,23 +361,14 @@ void Controller::getIndirectTransitiveClosure(Graph* graph) {
 
     vector<Node*> indirectTransitiveClosureGraph = getIndirectTransitiveClosureByNode(graph, node);
 
+    cout << "The indirect transitive closure of node " << node->getId() << " is ";
+
     if (indirectTransitiveClosureGraph.size() == 0) {
-        cout << "The indirect transitive closure of node " << node->getId() << " is empty\n";
+        cout << "empty\n";
         return;
     }
 
-    cout << "The indirect transitive closure of node " << node->getId() << " is: \n {";
-
-    for (int i = 0; i < indirectTransitiveClosureGraph.size(); i++) {
-        cout << "(" << indirectTransitiveClosureGraph[i]->getId() << ", " << node->getId() << ")";
-
-        if (i == indirectTransitiveClosureGraph.size() - 1) {
-            cout << "}\n";
-            break;
-        }
-
-        cout << ", ";
-    }
+    Writer::printVectorNodes(indirectTransitiveClosureGraph);
 }
 
 void Controller::getDegreeSequence(Graph* graph) {
@@ -419,11 +401,12 @@ void Controller::getInducedSubgraph(Graph* graph) {
 
     Graph* subgraph = createInducedSubgraph(graph, selectedNodes);
 
-    if (subgraph != nullptr) {
-        cout << "Subgraph induced by the selected nodes has been created.\n";
-    } else {
+    if (subgraph == nullptr) {
         cout << "Failed to create the induced subgraph.\n";
+        return;
     }
+
+    cout << "Subgraph induced by the selected nodes has been created.\n";
 
     Writer::printGraphOptions(subgraph, "subgraph");
 }
