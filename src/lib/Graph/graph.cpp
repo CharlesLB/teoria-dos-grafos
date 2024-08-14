@@ -62,7 +62,7 @@ Node* Graph::findNodeById(int id) {
 
 Edge* Graph::findEdgeByNodes(Node* head, Node* tail) {
     if (head == nullptr || tail == nullptr) {
-        std::cout << "Invalid nodes for searching an edge." << std::endl;
+        cout << "Invalid nodes for searching an edge." << endl;
         return nullptr;
     }
 
@@ -100,7 +100,7 @@ Node* Graph::createOrUpdateNode(int id, int weight) {
 
 Edge* Graph::createEdge(Node* head, Node* tail, int weight) {
     if (head == nullptr || tail == nullptr) {
-        std::cout << "Invalid nodes for creating an edge." << std::endl;
+        cout << "Invalid nodes for creating an edge." << endl;
         return nullptr;
     }
 
@@ -126,7 +126,7 @@ Edge* Graph::createEdge(Node* head, Node* tail, int weight) {
 
 void Graph::deleteEdge(Edge* edge) {
     if (edge == nullptr) {
-        std::cout << "Edge is null." << std::endl;
+        cout << "Edge is null." << endl;
         return;
     }
 
@@ -153,11 +153,11 @@ void Graph::deleteEdge(Edge* edge) {
 
 void Graph::deleteNode(Node* node) {
     if (node == nullptr) {
-        std::cout << "Node is null." << std::endl;
+        cout << "Node is null." << endl;
         return;
     }
 
-    std::vector<Edge*> edgesToRemove = node->getEdges();
+    vector<Edge*> edgesToRemove = node->getEdges();
     for (Edge* edge : edgesToRemove) {
         deleteEdge(edge);
     }
@@ -179,7 +179,7 @@ void Graph::deleteNode(Node* node) {
         currentNode = currentNode->getNextNode();
     }
 
-    std::cout << "Node not found in the graph." << std::endl;
+    cout << "Node not found in the graph." << endl;
 }
 
 int Graph::getDegree() {

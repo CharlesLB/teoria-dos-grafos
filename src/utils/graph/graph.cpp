@@ -10,7 +10,7 @@
 Graph* createGraphCopy(Graph* graph) {
     Graph* copiedGraph = new Graph(graph->isDirected(), graph->isWeightedEdges(), graph->isWeightedNodes());
 
-    std::unordered_map<Node*, Node*> nodeMap;
+    unordered_map<Node*, Node*> nodeMap;
 
     Node* originalNode = graph->getFirstNode();
     while (originalNode != nullptr) {
@@ -41,9 +41,9 @@ Graph* createGraphCopy(Graph* graph) {
 
 struct convertMultigraphToGraphPairHash {
     template <class T1, class T2>
-    std::size_t operator()(const std::pair<T1, T2>& pair) const {
-        auto hash1 = std::hash<T1>{}(pair.first);
-        auto hash2 = std::hash<T2>{}(pair.second);
+    size_t operator()(const pair<T1, T2>& pair) const {
+        auto hash1 = hash<T1>{}(pair.first);
+        auto hash2 = hash<T2>{}(pair.second);
         return hash1 ^ hash2;
     }
 };
@@ -51,16 +51,16 @@ struct convertMultigraphToGraphPairHash {
 Graph* convertMultigraphToGraph(Graph* multigraph) {
     Graph* graph = new Graph(multigraph->isDirected(), multigraph->isWeightedEdges(), multigraph->isWeightedNodes());
 
-    std::unordered_set<std::pair<Node*, Node*>, convertMultigraphToGraphPairHash> uniqueEdges;
+    unordered_set<pair<Node*, Node*>, convertMultigraphToGraphPairHash> uniqueEdges;
 
     for (Edge* edge : multigraph->getEdges()) {
         Node* head = edge->getHead();
         Node* tail = edge->getTail();
 
-        if (uniqueEdges.find(std::make_pair(head, tail)) == uniqueEdges.end()) {
+        if (uniqueEdges.find(make_pair(head, tail)) == uniqueEdges.end()) {
             graph->createEdge(head, tail, edge->getWeight());
 
-            uniqueEdges.insert(std::make_pair(head, tail));
+            uniqueEdges.insert(make_pair(head, tail));
         }
     }
 

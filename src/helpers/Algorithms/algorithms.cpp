@@ -644,15 +644,15 @@ Graph* getMinimumSpanningTreeByPrim(Graph* originalGraph, vector<Node*>& nodeVec
 
     if (nodeVector.empty()) return mstGraph;
 
-    std::map<int, Node*> nodeMap;
+    map<int, Node*> nodeMap;
     for (Node* node : nodeVector) {
         nodeMap[node->getId()] = node;
         mstGraph->createOrUpdateNode(node->getId(), node->getWeight());
     }
 
-    std::priority_queue<Edge*, std::vector<Edge*>, CompareEdge> edgeQueue;
+    priority_queue<Edge*, vector<Edge*>, CompareEdge> edgeQueue;
 
-    std::set<int> visited;
+    set<int> visited;
 
     Node* startNode = nodeVector[0];
     visited.insert(startNode->getId());
