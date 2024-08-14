@@ -15,8 +15,8 @@
 
 vector<Node*> getOpenNeighborhoodNodesByNode(Node* node);
 vector<Node*> getClosedNeighborhoodNodesByNode(Node* node);
-
 vector<Node*> getArticulationNodesInGraph(Graph* graph);
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -42,6 +42,8 @@ void DFSBridgeEdges(Node* node, int parent, unordered_map<Node*, bool>& visited,
 >>>>>>> fcdcef4 (🐛 remove useless exports)
 =======
 >>>>>>> fec38ea (✨ finish 2024 homework)
+=======
+>>>>>>> 0556ce4 (🐛 remove useless exports)
 vector<Edge*> getBridgeEdgesInGraph(Graph* graph);
 void DFSBridgeEdges(Node* node, int parent, unordered_map<Node*, bool>& visited,
                     unordered_map<Node*, int>& discoveryTime,
@@ -57,17 +59,13 @@ void DFSBridgeEdges(Node* node, int parent, unordered_map<Node*, bool>& visited,
 Graph* getMinimumPathAndCostByDijkstra(Graph* graph, Node* sourceNode, Node* targetNode);
 Graph* getMinimumPathAndCostByFloyd(Graph* graph, Node* sourceNode, Node* targetNode);
 Graph* getComplementGraph(Graph* graph);
-
 Graph* createInducedSubgraph(Graph* graph, const vector<Node*>& selectedNodes);
-
 void printStronglyConnectedComponents(Graph* graph);
-void fillOrder(Node* node, stack<Node*>& Stack, unordered_map<Node*, bool>& visited);
-void DFSUtil(Node* node, unordered_map<Node*, bool>& visited, vector<Node*>& component);
-Graph* getTranspose(Graph* graph);
-
-void depthFirstSearch(Node* node, unordered_set<Node*>& visited);
 vector<Node*> getDirectTransitiveClosureByNode(Node* node);
 vector<Node*> getIndirectTransitiveClosureByNode(Graph* graph, Node* node);
+Graph* getMinimumSpanningTreeByKruskal(Graph* graph, vector<Node*>& vertexSubset);
+Graph* getMinimumSpanningTreeByPrim(Graph* originalGraph, vector<Node*>& nodeVector);
+void printDepthFirstSearchTree(Graph* graph, int startId);
 
 struct GraphMetrics {
     int diameter;
