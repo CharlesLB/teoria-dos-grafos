@@ -25,31 +25,14 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
 
     string options[] = {
         "Impressão do grafo em um arquivo",
-        "Inclusão e exclusão de nó e de aresta",
-        "Retornar o grau de um dado nó informado pelo usuário (caso seja um dígrafo, informar grau de entrada e de saída)",
-        "Verificar a k-regularidade do grafo (k informado pelo usuário)",
-        "Informar a ordem do grafo",
-        "Informar se o grafo é trivial",
-        "Informar se o grafo é nulo",
-        "Mostrar a vizinhança aberta de um dado nó informado pelo usuário",
-        "Mostrar a vizinhança fechada de um dado nó informado pelo usuário",
-        "Verificar se o grafo é um multigrafo",
-        "Verificar se o grafo é completo",
-        "Verificar se o grafo é bipartido",
-        "Dados dois vértices informados pelo usuário, mostrar o caminho mínimo e seu custo entre esses vértices (utilizar o algoritmo de Dijkstra ou de Floyd, conforme o usuário solicite)",
-        "Retornar o grau do grafo",
-        "Retornar o fecho transitivo direto de um dado nó informado pelo usuário",
-        "Retornar o fecho transitivo indireto de um dado nó informado pelo usuário",
-        "Apresentar a sequência de graus",
-        "Apresentar o subgrafo induzido por um dado conjunto de vértices informado pelo usuário",
-        "Apresentar o complementar do grafo",
-        "Para digrafos, apresentar as componentes fortemente conexas",
-        "Verificar se o grafo é eulerianos",
-        "Apresentar os nós de articulação",
-        "Apresentar as arestas ponte",
-        "Apresentar o raio, o diâmetro, o centro e a periferia do grafo",
-        "Apresentar a AGM do grafo ou, para grafos desconexos, as florestas de custo mínimo com Kruskal",
-        "Apresentar a AGM do grafo ou, para grafos desconexos, as florestas de custo mínimo com Prim",
+        "[a] Obter fecho transitivo direto de um nó",
+        "[b] Obter fecho transitivo indireto de um nó",
+        "[c] e [d] Caminho mínimo e custo entre dois vértices",
+        "[e] Árvore geradora mínima com Prim",
+        "[f] Árvore geradora mínima com Kruskal",
+        "[g] Árvore de profundidade",
+        "[h] Obter raio, diâmetro, centro e periferia do grafo",
+        "[i] Obter o conjunto de nós de articulação",
         "Exit", ""};
 
     while (true) {
@@ -66,103 +49,35 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
                 break;
 
             case 'b':
-                nodeAndEdgeInsertionDeletion(graph);
-                break;
-
-            case 'c':
-                getNodeDegree(graph);
-                break;
-
-            case 'd':
-                checkGraphRegular(graph);
-                break;
-
-            case 'e':
-                getGraphOrder(graph);
-                break;
-
-            case 'f':
-                isGraphTrivial(graph);
-                break;
-
-            case 'g':
-                isGraphNull(graph);
-                break;
-
-            case 'h':
-                showOpenNeighborhood(graph);
-                break;
-
-            case 'i':
-                showClosedNeighborhood(graph);
-                break;
-
-            case 'j':
-                checkMultigraph(graph);
-                break;
-
-            case 'k':
-                checkCompleteGraph(graph);
-                break;
-
-            case 'l':
-                checkBipartiteGraph(graph);
-                break;
-
-            case 'm':
-                getMinimumPathAndCost(graph);
-                break;
-
-            case 'n':
-                getGraphDegree(graph);
-                break;
-
-            case 'o':
                 getDirectTransitiveClosure(graph);
                 break;
 
-            case 'p':
+            case 'c':
                 getIndirectTransitiveClosure(graph);
                 break;
 
-            case 'q':
-                getDegreeSequence(graph);
+            case 'd':
+                getMinimumPathAndCost(graph);
                 break;
 
-            case 'r':
-                getInducedSubgraph(graph);
-                break;
-
-            case 's':
-                getGraphComplement(graph);
-                break;
-
-            case 't':
-                getStronglyConnectedComponents(graph);
-                break;
-
-            case 'u':
-                checkEulerianGraph(graph);
-                break;
-
-            case 'v':
-                getArticulationNodes(graph);
-                break;
-
-            case 'w':
-                getBridgeEdges(graph);
-                break;
-
-            case 'x':
-                getGraphMetrics(graph);
-                break;
-
-            case 'y':
+            case 'e':
                 getMinimumSpanningTreeKruscal(graph);
                 break;
 
-            case 'z':
+            case 'f':
                 getMinimumSpanningTreePrim(graph);
+                break;
+
+            case 'g':
+                getDepthFirstSearchTree(graph);
+                break;
+
+            case 'h':
+                getGraphMetrics(graph);
+                break;
+
+            case 'i':
+                getArticulationNodes(graph);
                 break;
 
             default:
@@ -493,4 +408,11 @@ void Controller::getMinimumSpanningTreePrim(Graph* graph) {
 
     Graph* minimumSpanningTree = getMinimumSpanningTreeByPrim(graph, selectedNodes);
     Writer::printGraphOptions(minimumSpanningTree, "minimumSpanningTreePrim");
+}
+
+void Controller::getDepthFirstSearchTree(Graph* graph) {
+    cout << "Select the start node\n";
+    Node* startNode = Manager::selectNode(graph);
+
+    printDepthFirstSearchTree(graph, startNode);
 }

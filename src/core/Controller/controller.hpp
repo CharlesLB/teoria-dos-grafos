@@ -41,6 +41,7 @@ class Controller {
     static void getGraphMetrics(Graph* graph);
     static void getMinimumSpanningTreeKruscal(Graph* graph);
     static void getMinimumSpanningTreePrim(Graph* graph);
+    static void getDepthFirstSearchTree(Graph* graph);
 };
 
 #endif
