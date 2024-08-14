@@ -22,12 +22,12 @@ using namespace std;
 string output_directory = "./output/";
 
 void Writer::printMenu(string* options) {
-    std::cout << "\nChoose an option:\n"
-              << std::endl;
+    cout << "\nChoose an option:\n"
+         << endl;
 
     char index = 'a';
-    for (const std::string* option = options; *option != ""; option++) {
-        std::cout << "(" << index << ") " << *option << std::endl;
+    for (const string* option = options; *option != ""; option++) {
+        cout << "(" << index << ") " << *option << endl;
 
         if (index == 'z') {
             index = '0';
@@ -40,32 +40,32 @@ void Writer::printMenu(string* options) {
 void Writer::printNodes(Graph* graph) {
     Node* currentNode = graph->getFirstNode();
     while (currentNode != nullptr) {
-        std::cout << "Node ID: " << currentNode->getId() << std::endl;
-        std::cout << "Weight: " << currentNode->getWeight() << std::endl;
-        std::cout << "Degree In: " << currentNode->getDegreeIn() << std::endl;
-        std::cout << "Degree Out: " << currentNode->getDegreeOut() << std::endl;
-        std::cout << std::endl;
+        cout << "Node ID: " << currentNode->getId() << endl;
+        cout << "Weight: " << currentNode->getWeight() << endl;
+        cout << "Degree In: " << currentNode->getDegreeIn() << endl;
+        cout << "Degree Out: " << currentNode->getDegreeOut() << endl;
+        cout << endl;
 
         currentNode = currentNode->getNextNode();
     }
 }
 
 void Writer::printEdges(Graph* graph) {
-    std::vector<Edge*> edges = graph->getEdges();
+    vector<Edge*> edges = graph->getEdges();
 
     for (Edge* edge : edges) {
-        std::cout << "Weight: " << edge->getWeight() << std::endl;
-        std::cout << "Head Node ID: " << edge->getHead()->getId() << std::endl;
-        std::cout << "Tail Node ID: " << edge->getTail()->getId() << std::endl;
-        std::cout << std::endl;
+        cout << "Weight: " << edge->getWeight() << endl;
+        cout << "Head Node ID: " << edge->getHead()->getId() << endl;
+        cout << "Tail Node ID: " << edge->getTail()->getId() << endl;
+        cout << endl;
     }
 }
 
 void Writer::printGraphOptions(Graph* graph, string fileName) {
-    std::cout << "Choose an option:\n"
-              << std::endl;
+    cout << "Choose an option:\n"
+         << endl;
 
-    std::string options[] = {"Print Graph", "Print Graph in Dot File", "Print Graph in Txt File", "Exit", ""};
+    string options[] = {"Print Graph", "Print Graph in Dot File", "Print Graph in Txt File", "Exit", ""};
 
     printMenu(options);
 
@@ -88,26 +88,26 @@ void Writer::printGraphOptions(Graph* graph, string fileName) {
             return;
 
         default:
-            std::cout << "Invalid option\n";
+            cout << "Invalid option\n";
             break;
     }
 }
 
 void Writer::printGraph(Graph* graph) {
-    std::cout << "Directed: " << graph->isDirected() << std::endl;
-    std::cout << "Weighted Nodes: " << graph->isWeightedNodes() << std::endl;
-    std::cout << "Weighted Edges: " << graph->isWeightedEdges() << std::endl;
-    std::cout << std::endl;
+    cout << "Directed: " << graph->isDirected() << endl;
+    cout << "Weighted Nodes: " << graph->isWeightedNodes() << endl;
+    cout << "Weighted Edges: " << graph->isWeightedEdges() << endl;
+    cout << endl;
 
-    std::cout << "Nodes:" << std::endl;
+    cout << "Nodes:" << endl;
     printNodes(graph);
 
-    std::cout << "\n Edges:" << std::endl;
+    cout << "\n Edges:" << endl;
     printEdges(graph);
 }
 
 void Writer::printGraphInDotFile(Graph* graph, string fileName) {
-    std::vector<string> dotFile;
+    vector<string> dotFile;
     string rawFileName = getRawFileName(fileName);
 
     if (graph->isDirected()) {
@@ -161,7 +161,7 @@ vector<string> Writer::getGraphDotFile(Graph* graph) {
         currentNode = currentNode->getNextNode();
     }
 
-    std::vector<Edge*> edges = graph->getEdges();
+    vector<Edge*> edges = graph->getEdges();
 
     for (Edge* edge : edges) {
         string edgeLine = "    " + to_string(edge->getHead()->getId()) + " -- " + to_string(edge->getTail()->getId());
@@ -200,7 +200,7 @@ vector<string> Writer::getDigraphDotFile(Graph* graph) {
         currentNode = currentNode->getNextNode();
     }
 
-    std::vector<Edge*> edges = graph->getEdges();
+    vector<Edge*> edges = graph->getEdges();
 
     for (Edge* edge : edges) {
         string edgeLine = "    " + to_string(edge->getHead()->getId()) + " -> " + to_string(edge->getTail()->getId());
@@ -220,18 +220,18 @@ vector<string> Writer::getDigraphDotFile(Graph* graph) {
 }
 
 void Writer::printGraphInTxtFile(Graph* graph, string fileName) {
-    std::vector<Edge*> edges = graph->getEdges();
+    vector<Edge*> edges = graph->getEdges();
     Node* node = graph->getFirstNode();
     string rawFileName = getRawFileName(fileName);
 
-    std::string filePath = output_directory + rawFileName + ".txt";
+    string filePath = output_directory + rawFileName + ".txt";
 
     ofstream file(filePath);
 
-    file << graph->getNumNodes() << std::endl;
+    file << graph->getNumNodes() << endl;
 
     for (Edge* edge : edges) {
-        file << edge->getHead()->getId() << " " << edge->getTail()->getId() << " " << edge->getWeight() << std::endl;
+        file << edge->getHead()->getId() << " " << edge->getTail()->getId() << " " << edge->getWeight() << endl;
     }
 
     file.close();

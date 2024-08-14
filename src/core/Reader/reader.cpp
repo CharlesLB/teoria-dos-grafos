@@ -13,7 +13,7 @@
 
 vector<string> Reader::readLines(string filename) {
     FILE* file = openFile(filename);
-    std::vector<std::string> lines;
+    vector<string> lines;
 
     char buffer[256];
     while (fgets(buffer, sizeof(buffer), file)) {
@@ -27,7 +27,7 @@ vector<string> Reader::readLines(string filename) {
 
 Graph* Reader::graph(string filename, bool directed, bool weightedEdges, bool weightedNodes) {
     FILE* file = openFile(filename);
-    std::vector<std::string> lines;
+    vector<string> lines;
 
     Graph* graph = new Graph(directed, weightedEdges, weightedNodes);
 
@@ -41,8 +41,8 @@ Graph* Reader::graph(string filename, bool directed, bool weightedEdges, bool we
     lines.erase(lines.begin());
 
     if (weightedEdges) {
-        for (const std::string& line : lines) {
-            std::istringstream iss(line);
+        for (const string& line : lines) {
+            istringstream iss(line);
             int source, destination, weight;
             iss >> source >> destination >> weight;
 
@@ -55,8 +55,8 @@ Graph* Reader::graph(string filename, bool directed, bool weightedEdges, bool we
         return graph;
     }
 
-    for (const std::string& line : lines) {
-        std::istringstream iss(line);
+    for (const string& line : lines) {
+        istringstream iss(line);
         int source, destination;
         iss >> source >> destination;
 
@@ -82,13 +82,13 @@ FILE* Reader::openFile(string filename) {
 
 char Reader::readChar() {
     char ch;
-    std::cout << "Enter a character: ";
-    std::cin >> ch;
+    cout << "Enter a character: ";
+    cin >> ch;
 
-    while (std::cin.fail()) {
-        std::cout << "Invalid input. Please enter a character: ";
-        std::cin.clear();
-        std::cin >> ch;
+    while (cin.fail()) {
+        cout << "Invalid input. Please enter a character: ";
+        cin.clear();
+        cin >> ch;
     }
 
     return ch;
@@ -96,25 +96,25 @@ char Reader::readChar() {
 
 int Reader::readInt() {
     int num;
-    std::cout << "Enter an integer: ";
-    std::cin >> num;
+    cout << "Enter an integer: ";
+    cin >> num;
 
-    while (std::cin.fail()) {
-        std::cout << "Invalid input. Please enter an integer: ";
-        std::cin.clear();
-        std::cin >> num;
+    while (cin.fail()) {
+        cout << "Invalid input. Please enter an integer: ";
+        cin.clear();
+        cin >> num;
     }
 
     return num;
 }
 
 void Reader::continueConfirmation() {
-    std::string answer;
+    string answer;
     do {
-        std::cout << "Continue? (y/n): ";
-        std::cin >> answer;
+        cout << "Continue? (y/n): ";
+        cin >> answer;
         if (answer != "y" && answer != "n") {
-            std::cout << "Invalid input. Please enter 'y' or 'n'." << std::endl;
+            cout << "Invalid input. Please enter 'y' or 'n'." << endl;
         }
     } while (answer != "y" && answer != "n");
 

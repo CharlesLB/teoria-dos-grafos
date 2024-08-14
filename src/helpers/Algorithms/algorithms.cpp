@@ -688,3 +688,41 @@ Graph* getMinimumSpanningTreeByPrim(Graph* originalGraph, vector<Node*>& nodeVec
 
     return mstGraph;
 }
+
+void dfsHelper(Node* node, std::unordered_set<int>& visited, std::vector<Edge*>& treeEdges, std::vector<Edge*>& backEdges) {
+    visited.insert(node->getId());
+
+    for (Edge* edge : node->getEdges()) {
+        Node* adjacent = edge->getTail();
+
+        if (visited.find(adjacent->getId()) == visited.end()) {
+            treeEdges.push_back(edge);
+            dfsHelper(adjacent, visited, treeEdges, backEdges);
+        } else {
+            backEdges.push_back(edge);
+        }
+    }
+}
+
+void printDepthFirstSearchTree(Graph* graph, Node* startNode) {
+    if (!startNode) {
+        std::cout << "Node not found." << std::endl;
+        return;
+    }
+
+    std::unordered_set<int> visited;
+    std::vector<Edge*> treeEdges;
+    std::vector<Edge*> backEdges;
+
+    dfsHelper(startNode, visited, treeEdges, backEdges);
+
+    std::cout << "DFS Tree Edges:" << std::endl;
+    for (Edge* edge : treeEdges) {
+        std::cout << edge->getHead()->getId() << " -> " << edge->getTail()->getId() << std::endl;
+    }
+
+    std::cout << "Back Edges:" << std::endl;
+    for (Edge* edge : backEdges) {
+        std::cout << edge->getHead()->getId() << " -> " << edge->getTail()->getId() << std::endl;
+    }
+}
