@@ -37,8 +37,8 @@ bool checkGraphIsComplete(Graph* graph) {
 }
 
 bool checkGraphIsBipartite(Graph* graph) {
-    std::unordered_map<Node*, int> nodeColors;
-    std::queue<Node*> bfsQueue;
+    unordered_map<Node*, int> nodeColors;
+    queue<Node*> bfsQueue;
     Node* startNode = graph->getFirstNode();
     bfsQueue.push(startNode);
     nodeColors[startNode] = 0;
@@ -62,7 +62,7 @@ bool checkGraphIsBipartite(Graph* graph) {
         }
     }
 
-    std::unordered_set<int> colors;
+    unordered_set<int> colors;
 
     for (const auto& entry : nodeColors) {
         colors.insert(entry.second);
@@ -98,20 +98,20 @@ bool checkGraphIsEulerian(Graph* graph) {
 
 struct checkGraphIsMultigraphPairHash {
     template <class T1, class T2>
-    std::size_t operator()(const std::pair<T1, T2>& pair) const {
-        auto hash1 = std::hash<T1>{}(pair.first);
-        auto hash2 = std::hash<T2>{}(pair.second);
+    size_t operator()(const pair<T1, T2>& pair) const {
+        auto hash1 = hash<T1>{}(pair.first);
+        auto hash2 = hash<T2>{}(pair.second);
         return hash1 ^ hash2;
     }
 };
 
 bool checkGraphIsMultigraph(Graph* graph) {
-    std::unordered_map<std::pair<int, int>, int, checkGraphIsMultigraphPairHash> edgeCounts;
+    unordered_map<pair<int, int>, int, checkGraphIsMultigraphPairHash> edgeCounts;
 
     for (Edge* edge : graph->getEdges()) {
         int source = edge->getHead()->getId();
         int destination = edge->getTail()->getId();
-        std::pair<int, int> edgePair = std::make_pair(source, destination);
+        pair<int, int> edgePair = make_pair(source, destination);
         edgeCounts[edgePair]++;
     }
 

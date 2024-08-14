@@ -462,20 +462,20 @@ void Controller::getBridgeEdges(Graph* graph) {
 void Controller::getGraphMetrics(Graph* graph) {
     GraphMetrics metrics = getGraphMetricsInGraph(graph);
 
-    std::cout << "Diâmetro do grafo: " << metrics.diameter << std::endl;
-    std::cout << "Raio do grafo: " << metrics.radius << std::endl;
+    cout << "Diâmetro do grafo: " << metrics.diameter << endl;
+    cout << "Raio do grafo: " << metrics.radius << endl;
 
-    std::cout << "Centro do grafo: ";
+    cout << "Centro do grafo: ";
     for (int node : metrics.center) {
-        std::cout << node << " ";
+        cout << node << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
 
-    std::cout << "Periferia do grafo: ";
+    cout << "Periferia do grafo: ";
     for (int node : metrics.periphery) {
-        std::cout << node << " ";
+        cout << node << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
 
     delete graph;
     return;
