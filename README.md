@@ -21,6 +21,11 @@ Example:
 g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output.txt 1 1 1
 ```
 
+## Versions
+
+- `master`: 2023-2, com o Stênio Sã
+- `feat/University-2024-2`, com a Luciana Brugiolo Gonçalve
+
 ## To-do
 
 - [x] a) Read graph from a file (according to the given input) and write to a file in the same format.
