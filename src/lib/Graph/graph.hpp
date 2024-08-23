@@ -32,7 +32,6 @@ class Graph {
 
    private:
     Node* firstNode;
-    vector<Edge*> edges;
 
     int totalNodes;
     int totalEdges;

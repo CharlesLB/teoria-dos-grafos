@@ -15,10 +15,6 @@ Graph::~Graph() {
         delete currentNode;
         currentNode = nextNode;
     }
-
-    for (Edge* edge : edges) {
-        delete edge;
-    }
 }
 
 Node* Graph::getFirstNode() {
@@ -26,6 +22,20 @@ Node* Graph::getFirstNode() {
 }
 
 vector<Edge*> Graph::getEdges() {
+    vector<Edge*> edges;
+    Node* currentNode = this->getFirstNode();
+
+    while (currentNode != nullptr) {
+        Edge* currentEdge = currentNode->getFirstEdge();
+
+        while (currentEdge != nullptr) {
+            edges.push_back(currentEdge);
+            currentEdge = currentEdge->getNextEdge();
+        }
+
+        currentNode = currentNode->getNextNode();
+    }
+
     return edges;
 }
 
@@ -66,11 +76,15 @@ Edge* Graph::findEdgeByNodes(Node* head, Node* tail) {
         return nullptr;
     }
 
-    for (Edge* edge : edges) {
-        if (edge->getHead() == head && edge->getTail() == tail) {
-            return edge;
+    Edge* currentEdge = head->getFirstEdge();
+
+    while (currentEdge != nullptr) {
+        if (currentEdge->getTail() == tail) {
+            return currentEdge;
         }
+        currentEdge = currentEdge->getNextEdge();
     }
+
     return nullptr;
 }
 
@@ -119,7 +133,6 @@ Edge* Graph::createEdge(Node* head, Node* tail, int weight) {
         head->incrementDegreeIn();
     }
 
-    edges.push_back(newEdge);
     totalEdges++;
     return newEdge;
 }
@@ -139,14 +152,7 @@ void Graph::deleteEdge(Edge* edge) {
         tailNode->removeEdge(edge);
     }
 
-    for (auto it = edges.begin(); it != edges.end(); ++it) {
-        if (*it == edge) {
-            edges.erase(it);
-            break;
-        }
-    }
-
-    totalEdges = edges.size();
+    totalEdges = totalEdges - 1;
 
     delete edge;
 }
