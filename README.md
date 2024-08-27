@@ -23,8 +23,8 @@ g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output
 
 ## Versions
 
-- `master`: 2023-2, com o Stênio Sã
-- `feat/University-2024-2`, com a Luciana Brugiolo Gonçalve
+- `master`: 2023-2, com Stênio Sã
+- `feat/University-2024-2:`, 2024-1. com Luciana Brugiolo Gonçalves
 
 ## To-do
 
