@@ -20,6 +20,11 @@ Example:
 g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output.txt 1 1 1
 ```
 
+## Tags
+
+- `2023-2`: 2023-2, com Stênio Sã
+- `2024-1:`, 2024-1. com Luciana Brugiolo Gonçalves
+
 ## Funcionalidades
 
 ### a) Fecho Transitivo Direto
