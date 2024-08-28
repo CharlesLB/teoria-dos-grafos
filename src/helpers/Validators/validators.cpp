@@ -8,7 +8,6 @@
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
-#include "../../utils/graph/graph.hpp"
 
 bool checkGraphIsKRegularByK(Graph* graph, int k) {
     Node* currentNode = graph->getFirstNode();

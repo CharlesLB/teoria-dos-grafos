@@ -14,7 +14,6 @@
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
-#include "../../utils/graph/graph.hpp"
 
 vector<Node*> getOpenNeighborhoodNodesByNode(Node* node) {
     vector<Node*> openNeighborhoodNodes;
