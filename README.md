@@ -21,10 +21,10 @@ Example:
 g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output.txt 1 1 1
 ```
 
-## Versions
+## Tags
 
-- `master`: 2023-2, com Stênio Sã
-- `feat/University-2024-2:`, 2024-1. com Luciana Brugiolo Gonçalves
+- `2023-2`: 2023-2, com Stênio Sã
+- `2024-1:`, 2024-1. com Luciana Brugiolo Gonçalves
 
 ## To-do
 
