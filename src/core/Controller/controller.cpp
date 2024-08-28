@@ -41,9 +41,6 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
         bool invalidOption = false;
 
         switch (option) {
-            case '0':
-                exitSystem();
-                break;
             case 'a':
                 printGraphToFile(graph, argv[2]);
                 break;
@@ -78,6 +75,10 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
 
             case 'i':
                 getArticulationNodes(graph);
+                break;
+
+            case 'j':
+                exitSystem();
                 break;
 
             default:
