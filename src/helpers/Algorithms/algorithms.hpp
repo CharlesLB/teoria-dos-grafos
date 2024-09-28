@@ -55,7 +55,9 @@ struct GraphMetrics {
 GraphMetrics getGraphMetricsInGraph(Graph* graph);
 
 Graph* getMinimumSpanningTreeByKruskal(Graph* graph, vector<Node*>& vertexSubset);
-
 Graph* getMinimumSpanningTreeByPrim(Graph* originalGraph, vector<Node*>& nodeVector);
+
+void dfsHelper(Node* node, unordered_set<int>& visited, vector<Edge*>& treeEdges, vector<Edge*>& backEdges);
+void printDepthFirstSearchTree(Graph* graph, Node* startNode);
 
 #endif

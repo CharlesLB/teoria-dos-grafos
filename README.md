@@ -1,7 +1,6 @@
 # Teoria dos grafos
 
-Este trabalho foi desenvolvido como parte da disciplina Teoria dos Grafos - UFJF, ministrada pelo professor Stenio Sã.
-
+Este trabalho foi desenvolvido como parte da disciplina Teoria dos Grafos - UFJF, ministrada pelo professor Luciana Brugiolo.
 
 ## Como rodar
 
@@ -24,36 +23,56 @@ g++ *.c* -o execGrupoX && ./execGrupoX ./input/weighted_graphs/\_test.txt output
 ## Tags
 
 - `2023-2`: 2023-2, com Stênio Sã
-- `2024-1`: 2024-1. com Luciana Brugiolo Gonçalves
+- `2024-1:`, 2024-1. com Luciana Brugiolo Gonçalves
 
-## To-do
+## Funcionalidades
 
-- [x] a) Read graph from a file (according to the given input) and write to a file in the same format.
-- [x] b) Add and remove nodes and edges.
-- [x] c) Return the degree of a given node provided by the user (in case of a directed graph, provide both the in-degree and out-degree).
-- [x] d) Check the k-regularity of the graph (where k is provided by the user).
-- [x] e) Provide the order of the graph.
-- [x] f) Check if the graph is trivial.
-- [x] g) Check if the graph is null.
-- [x] h) Display the open neighborhood of a given node provided by the user.
-- [x] i) Display the closed neighborhood of a given node provided by the user.
-- [x] j) Check if the graph is a multigraph.
-- [x] k) Check if the graph is complete.
-- [x] l) Check if the graph is bipartite.
-- [x] m) Given two vertices provided by the user, display the shortest path and its cost between those vertices (using either Dijkstra's or Floyd's algorithm, as requested by the user).
-- [x] n) Return the degree of the graph.
-- [x] o) Return the direct transitive closure of a given node provided by the user.
-- [x] p) Return the indirect transitive closure of a given node provided by the user.
-- [x] q) Present the degree sequence.
-- [x] r) Present the subgraph induced by a given set of vertices provided by the user.
-- [x] s) Present the complement of the graph.
-- [x] t) For directed graphs, present the strongly connected components.
-- [x] u) Check if the graph is Eulerian.
-- [x] v) Present the articulation points in the graph.
-- [x] w) Present the bridge edges in the graph.
-- [x] x) Present the radius, diameter, center, and periphery of the graph.
-- [x] y) Present the Minimum Spanning Tree (MST) of the graph, or for disconnected graphs, the minimum-cost forests using Kruscal.
-- [x] z) Present the Minimum Spanning Tree (MST) of the graph, or for disconnected graphs, the minimum-cost forests using Prim.
+### a) Fecho Transitivo Direto
+
+- **Parâmetro:** ID de um vértice em um grafo direcionado.
+- **Saída:** O fecho transitivo direto deste vértice, ou seja, o conjunto de vértices que podem ser alcançados a partir do vértice dado.
+
+### b) Fecho Transitivo Indireto
+
+- **Parâmetro:** ID de um vértice em um grafo direcionado.
+- **Saída:** O fecho transitivo indireto deste vértice, ou seja, o conjunto de vértices que podem alcançar o vértice dado.
+
+### c) Caminho Mínimo com Dijkstra
+
+- **Parâmetro:** Dois IDs de vértices do grafo.
+- **Saída:** O caminho mínimo entre estes dois vértices utilizando o algoritmo de Dijkstra.
+
+### d) Caminho Mínimo com Floyd-Warshall
+
+- **Parâmetro:** Dois IDs de vértices do grafo.
+- **Saída:** O caminho mínimo entre estes dois vértices utilizando o algoritmo de Floyd-Warshall.
+
+### e) Árvore Geradora Mínima (Prim)
+
+- **Parâmetro:** Um subconjunto de vértices do grafo.
+- **Saída:** A Árvore Geradora Mínima sobre o subgrafo vértice-induzido pelo subconjunto utilizando o algoritmo de Prim.
+
+### f) Árvore Geradora Mínima (Kruskal)
+
+convertMultigraphToGraph
+
+- **Parâmetro:** Um subconjunto de vértices do grafo.
+- **Saída:** A Árvore Geradora Mínima sobre o subgrafo vértice-induzido pelo subconjunto utilizando o algoritmo de Kruskal.
+
+### g) Caminhamento em Profundidade
+
+- **Parâmetro:** ID de um vértice do grafo.
+- **Saída:** A árvore resultante do caminhamento em profundidade a partir do vértice dado, destacando as arestas de retorno.
+
+### h) Raio, Diâmetro, Centro e Periferia do Grafo
+
+- **Parâmetro:** Um grafo ponderado (direcionado ou não).
+- **Saída:** O raio, diâmetro, centro e periferia do grafo.
+
+### i) Conjunto de Vértices de Articulação
+
+- **Parâmetro:** Um grafo não direcionado.
+- **Saída:** O conjunto de vértices de articulação do grafo.
 
 ## Commands
 
