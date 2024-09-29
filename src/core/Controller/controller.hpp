@@ -11,7 +11,8 @@ using namespace std;
 class Graph;
 class Controller {
    public:
-    static void processOperation(char* argv[], bool hasWeightedNode, bool hasWeightedEdge, bool isDirected, Graph* graph);
+    static void processOperation(char* argv[], Graph* graph);
+    static void processOperationAMPL(char* argv[], Graph* graph);
 
    private:
     static void exitSystem();
@@ -42,6 +43,11 @@ class Controller {
     static void getMinimumSpanningTreeKruscal(Graph* graph);
     static void getMinimumSpanningTreePrim(Graph* graph);
     static void getDepthFirstSearchTree(Graph* graph);
+
+    // MGGPP
+    static void runGreedyAlgorithm(Graph* graph);
+    static void runGRASPAlgorithm(Graph* graph);
+    static void runReactiveGRASPAlgorithm(Graph* graph);
 };
 
 #endif

@@ -54,7 +54,7 @@ int Main::DATProcess(int argc, char *argv[]) {
         return 1;
     }
 
-    Controller::processOperation(argv, weightedNode, weightedEdge, directed, graph);
+    Controller::processOperation(argv, graph);
 
     return 0;
 }
@@ -74,6 +74,8 @@ int Main::AMPLProcess(int argc, char *argv[]) {
         cout << "Error reading graph from file " << inputPath << endl;
         return 1;
     }
+
+    Controller::processOperationAMPL(argv, graph);
 
     return 0;
 }

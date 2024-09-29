@@ -10,6 +10,7 @@
 #include <sstream>
 
 #include "../../helpers/Algorithms/algorithms.hpp"
+#include "../../helpers/MGGPPAlgorithms/MGGPPAlgorithms.hpp"
 #include "../../helpers/Validators/validators.hpp"
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
@@ -20,7 +21,7 @@
 
 using namespace std;
 
-void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWeightedEdge, bool isDirected, Graph* graph) {
+void Controller::processOperation(char* argv[], Graph* graph) {
     char option;
 
     string options[] = {
@@ -78,6 +79,53 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
                 break;
 
             case 'j':
+                exitSystem();
+                break;
+
+            default:
+                invalidOption = true;
+                cout << "Invalid option\n";
+                break;
+        }
+
+        if (invalidOption) continue;
+        Reader::continueConfirmation();
+    }
+}
+
+void Controller::processOperationAMPL(char* argv[], Graph* graph) {
+    char option;
+
+    string options[] = {
+        "Impressão do grafo em um arquivo",
+        "MGGPP com algoritmo guloso",
+        "MGGPP com algoritmo guloso randomizado adaptativo",
+        "MGGPP com algoritmo guloso randomizado adaptativo reativo",
+        "Exit", ""};
+
+    while (true) {
+        Writer::printMenu(options);
+        option = Reader::readChar();
+        bool invalidOption = false;
+
+        switch (option) {
+            case 'a':
+                printGraphToFile(graph, argv[2]);
+                break;
+
+            case 'b':
+                runGreedyAlgorithm(graph);
+                break;
+
+            case 'c':
+                runGRASPAlgorithm(graph);
+                break;
+
+            case 'd':
+                runReactiveGRASPAlgorithm(graph);
+                break;
+
+            case 'e':
                 exitSystem();
                 break;
 
@@ -416,4 +464,16 @@ void Controller::getDepthFirstSearchTree(Graph* graph) {
     Node* startNode = Manager::selectNode(graph);
 
     printDepthFirstSearchTree(graph, startNode);
+}
+
+void Controller::runGreedyAlgorithm(Graph* graph) {
+    Graph* MGGPPGraph = getMGGPPByGreedyAlgorithm(graph);
+}
+
+void Controller::runGRASPAlgorithm(Graph* graph) {
+    Graph* MGGPPGraph = getMGGPPByGRASPAlgorithm(graph);
+}
+
+void Controller::runReactiveGRASPAlgorithm(Graph* graph) {
+    Graph* MGGPPGraph = getMGGPPByReactiveGRASPAlgorithm(graph);
 }

@@ -12,6 +12,7 @@
 #include "./src/core/Reader/reader.cpp"
 #include "./src/core/Writer/writer.cpp"
 #include "./src/helpers/Algorithms/algorithms.cpp"
+#include "./src/helpers/MGGPPAlgorithms/MGGPPAlgorithms.cpp"
 #include "./src/helpers/Validators/validators.cpp"
 #include "./src/lib/Edge/edge.cpp"
 #include "./src/lib/Graph/graph.cpp"
