@@ -476,16 +476,15 @@ void Controller::runGreedyAlgorithm(Graph* graph, int numClusters) {
         Writer::printGraphInDotFile(MGGPPGraph[i], "MGGPPGraph" + to_string(i));
     }
 
-    for (int i = 0; i < MGGPPGraph.size(); i++) {
-        /* code */
-    }
-
-    for (int i = 0; i < numClusters; i++) {
+    int sum = 0;
+    int gap = 0;
+    for (int i = 0; i < numClusters; i++, sum = 0) {
         cout << "Cluster " << i << ": ";
         for (Node* node : MGGPPGraph[i]->getNodes()) {
+            sum += node->getWeight();
             cout << node->getId() << " ";
         }
-        cout << endl;
+        cout << "    sum   " << sum << endl;
     }
 }
 

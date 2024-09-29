@@ -27,6 +27,7 @@ Node* checkIfNodeHasDegreeOne(Node* currentNode);
 void deleteNodeFromGraph(Graph* graph, Node* node, unordered_map<int, int>& nodesDegree);
 void addNodeToCluster(Graph* cluster, Node* node, Node* parentNode, int& clusterWeight);
 int getClusterWeight(Graph* graph, int numClusters);
+int getClusterSizeLimit(Graph* graph, int numClusters);
 int getSmallerDegreeNode(std::unordered_map<int, int>& nodesDegree);
 
 Graph* mergeGraphs(vector<Graph*> graphs);

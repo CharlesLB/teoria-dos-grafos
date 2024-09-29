@@ -1,5 +1,7 @@
 #include "MGGPPAlgorithms.hpp"
 
+#include <math.h>
+
 #include <algorithm>
 #include <iostream>
 #include <set>
@@ -15,6 +17,7 @@
 
 vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
     int clusterWeightLimit = getClusterWeightLimit(graph, numClusters);
+
     int clusterWeight = 0;
     Node *nextNode, *oldNode, *oneDegreeNode, *currentNode;
 
@@ -22,6 +25,7 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
     unordered_map<int, int> nodesDegree = getNodeDegreeMap(graph);
 
     for (int clusterIndex = 0; graph->getFirstNode() != nullptr; clusterIndex++) {
+        clusterWeightLimit = getClusterWeightLimit(graph, numClusters - clusterIndex);
         cout << "Iniciando cluster " << clusterIndex << endl;
 
         nodesDegree = getNodeDegreeMap(graph);
@@ -34,8 +38,8 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
         cout << "Adicionando nó inicial " << currentNode->getId() << " ao cluster com peso " << currentNode->getWeight() << endl;
         clusterWeight += currentNode->getWeight();
 
-        while (clusterWeight < clusterWeightLimit || cluster->getNumNodes() < 2) {
-            Node* nextNode = getNextNode(currentNode);  // 15
+        while ((clusterWeight < clusterWeightLimit || cluster->getNumNodes() < 2)) {
+            Node* nextNode = getNextNode(currentNode);
 
             if (nextNode == nullptr) {
                 cout << "Próximo nó é nulo. Saindo do loop." << endl;
@@ -102,6 +106,12 @@ int getClusterWeightLimit(Graph* graph, int numClusters) {
     int weightLimit = clusterWeight / numClusters;
     cout << "Limite de peso do cluster: " << weightLimit << endl;
     return weightLimit;
+}
+
+int getClusterSizeLimit(Graph* graph, int numClusters) {
+    int totalNodes = graph->getNumNodes();
+
+    return ceil(totalNodes / numClusters);
 }
 
 /**
