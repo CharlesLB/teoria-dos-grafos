@@ -14,8 +14,8 @@
 #include "../../lib/Node/node.hpp"
 
 vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters);
-Node* findConnectedNode(Graph* graph, Node* node, const vector<Node*>& nodeList);
-Node* findNodeConnectedTo(Graph* graph, Node* newNode, Graph* cluster);
+int getClusterWeight(Graph* graph, int numClusters);
+vector<pair<int, int>> getNodeDegreeOrdered(Graph* graph);
 
 Graph* getMGGPPByGRASPAlgorithm(Graph* graph, int numClusters);
 

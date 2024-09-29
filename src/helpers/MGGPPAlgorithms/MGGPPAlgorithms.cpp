@@ -14,111 +14,47 @@
 #include "../../lib/Node/node.hpp"
 
 vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
-    vector<Graph*> clusters;
-    vector<Node*> uninsertedNodes;
-    unordered_set<int> visitedNodes;  // Conjunto de nós já visitados
-    Node* currentNode = graph->getFirstNode();
+    int clusterWeight = getClusterWeight(graph, numClusters);
+    vector<Graph*> clusters(numClusters);
+    vector<pair<int, int>> nodesDegree = getNodeDegreeOrdered(graph);
 
-    // Calcula o peso total dos vértices no grafo
-    int totalWeight = 0;
-    while (currentNode != nullptr) {
-        totalWeight += currentNode->getWeight();
-        uninsertedNodes.push_back(currentNode);
-        currentNode = currentNode->getNextNode();
-    }
+    while (graph->getFirstNode() != nullptr) {
+        Node* currentNode = graph->findNodeById(nodesDegree[0].first);
 
-    // Ordena os nós por peso decrescente para começar pelo maior peso
-    sort(uninsertedNodes.begin(), uninsertedNodes.end(), [](Node* a, Node* b) {
-        return a->getWeight() > b->getWeight();
-    });
-
-    // Peso alvo por cluster
-    int targetWeightPerCluster = totalWeight / numClusters;
-
-    // Inicializa clusters vazios
-    for (int i = 0; i < numClusters; ++i) {
-        clusters.push_back(new Graph(graph->isDirected(), graph->isWeightedEdges(), graph->isWeightedNodes()));
-    }
-
-    // Variável para acompanhar o peso acumulado em cada cluster
-    vector<int> clusterWeights(numClusters, 0);
-
-    // Itera sobre todos os nós, começando do maior peso
-    int clusterIndex = 0;
-    while (!uninsertedNodes.empty() && clusterIndex < numClusters) {
-        Node* currentNode = uninsertedNodes.front();     // Começa com o nó de maior peso
-        uninsertedNodes.erase(uninsertedNodes.begin());  // Remove da lista de não inseridos
-
-        if (visitedNodes.count(currentNode->getId())) {
-            continue;  // Pula nós já visitados
-        }
-
-        Graph* currentCluster = clusters[clusterIndex];
-        currentCluster->createOrUpdateNode(currentNode->getId(), currentNode->getWeight());
-        clusterWeights[clusterIndex] += currentNode->getWeight();
-        visitedNodes.insert(currentNode->getId());  // Marca o nó como visitado
-
-        // Insere todas as arestas conectadas ao nó atual no cluster, mas respeita o limite de peso
-        vector<Node*> connectedNodes;
-        vector<Edge*> nodeEdges = currentNode->getEdges();
-        for (Edge* edge : nodeEdges) {
-            Node* head = edge->getHead();
-            Node* tail = edge->getTail();
-            Node* connectedNode = (head == currentNode) ? tail : head;
-
-            // Se o nó conectado ainda não foi visitado
-            if (!visitedNodes.count(connectedNode->getId())) {
-                if (clusterWeights[clusterIndex] + connectedNode->getWeight() <= targetWeightPerCluster) {
-                    // Adiciona o nó conectado no cluster
-                    currentCluster->createOrUpdateNode(connectedNode->getId(), connectedNode->getWeight());
-                    currentCluster->createEdge(currentNode, connectedNode, edge->getWeight());
-                    clusterWeights[clusterIndex] += connectedNode->getWeight();
-                    visitedNodes.insert(connectedNode->getId());
-                    connectedNodes.push_back(connectedNode);
-                } else {
-                    // Se atingir o limite de peso, pula para o próximo cluster
-                    uninsertedNodes.push_back(connectedNode);
-                }
-            }
-        }
-
-        // Se o peso do cluster atingiu o limite, passa para o próximo cluster
-        if (clusterWeights[clusterIndex] >= targetWeightPerCluster && clusterIndex < numClusters - 1) {
-            clusterIndex++;
-        }
-
-        // Continua com os próximos nós conectados (bfs-like)
-        for (Node* nextNode : connectedNodes) {
-            uninsertedNodes.push_back(nextNode);
-        }
+        // code here
     }
 
     return clusters;
 }
 
-// Função auxiliar para encontrar um nó conectado
-Node* findConnectedNode(Graph* graph, Node* node, const vector<Node*>& nodeList) {
-    for (Node* potentialNode : nodeList) {
-        if (graph->findEdgeByNodes(node, potentialNode) != nullptr) {
-            cout << "Nó " << node->getId() << " está conectado ao nó " << potentialNode->getId() << "." << endl;
-            return potentialNode;
-        }
+vector<pair<int, int>> getNodeDegreeOrdered(Graph* graph) {
+    vector<pair<int, int>> nodesDegree;
+
+    Node* currentNode = graph->getFirstNode();
+
+    while (currentNode != nullptr) {
+        nodesDegree.push_back({currentNode->getId(), currentNode->getDegree(false)});
+        currentNode = currentNode->getNextNode();
     }
-    cout << "Nó " << node->getId() << " não está conectado a nenhum dos nós restantes." << endl;
-    return nullptr;
+
+    sort(nodesDegree.begin(), nodesDegree.end(),
+         [](const pair<int, int>& a, const pair<int, int>& b) {
+             return a.second < b.second;
+         });
+
+    return nodesDegree;
 }
 
-// Função auxiliar para encontrar um nó no cluster conectado a um novo nó
-Node* findNodeConnectedTo(Graph* graph, Node* newNode, Graph* cluster) {
-    Node* clusterNode = cluster->getFirstNode();
-    while (clusterNode != nullptr) {
-        if (graph->findEdgeByNodes(newNode, clusterNode) != nullptr) {
-            cout << "Nó " << newNode->getId() << " está conectado ao nó " << clusterNode->getId() << " no cluster." << endl;
-            return clusterNode;
-        }
-        clusterNode = clusterNode->getNextNode();
+int getClusterWeight(Graph* graph, int numClusters) {
+    int clusterWeight = 0;
+
+    Node* currentNode = graph->getFirstNode();
+    for (int i = 0; i < numClusters; i++) {
+        clusterWeight += currentNode->getWeight();
+        currentNode = currentNode->getNextNode();
     }
-    return nullptr;
+
+    return clusterWeight / numClusters;
 }
 
 Graph* getMGGPPByGRASPAlgorithm(Graph* graph, int numClusters) {
