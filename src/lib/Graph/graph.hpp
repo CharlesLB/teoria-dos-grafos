@@ -15,6 +15,7 @@ class Graph {
 
     Node* getFirstNode();
     vector<Edge*> getEdges();
+    vector<Node*> getNodes();
     int getNumNodes();
     int getNumEdges();
     bool isWeightedEdges();

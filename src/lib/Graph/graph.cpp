@@ -39,6 +39,18 @@ vector<Edge*> Graph::getEdges() {
     return edges;
 }
 
+vector<Node*> Graph::getNodes() {
+    vector<Node*> nodes;
+    Node* currentNode = this->getFirstNode();
+
+    while (currentNode != nullptr) {
+        nodes.push_back(currentNode);
+        currentNode = currentNode->getNextNode();
+    }
+
+    return nodes;
+}
+
 int Graph::getNumNodes() {
     return totalNodes;
 }
@@ -189,7 +201,7 @@ void Graph::deleteNode(Node* node) {
                 firstNode = currentNode->getNextNode();
             }
             totalNodes--;
-            delete currentNode;
+            // delete currentNode;
             return;
         }
         prevNode = currentNode;

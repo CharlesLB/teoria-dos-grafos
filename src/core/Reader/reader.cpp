@@ -112,7 +112,7 @@ int Reader::readInt() {
 pair<Graph *, int> Reader::graphAMPL(string filename) {
     GraphAMPL graphAMPL = getDataFromAMPL(filename);
 
-    Graph *graph = new Graph(true, true, true);
+    Graph *graph = new Graph(false, true, true);
 
     for (int i = 1; i <= graphAMPL.numClusters; i++) {
         graph->createOrUpdateNode(i, 1);
@@ -131,6 +131,7 @@ pair<Graph *, int> Reader::graphAMPL(string filename) {
         }
 
         graph->createEdge(sourceNode, destinationNode, 1);
+        // graph->createEdge(destinationNode, sourceNode, 1);
     }
 
     return make_pair(graph, graphAMPL.numClusters);
@@ -152,6 +153,7 @@ GraphAMPL Reader::getDataFromAMPL(string filename) {
             stringstream ss(line);
             int vertex;
             while (ss >> vertex) {
+                cout << vertex << endl;
                 graphAMPL.nodes.insert(vertex);
             }
         } else if (line.find("param w :=") != string::npos) {
@@ -175,6 +177,10 @@ GraphAMPL Reader::getDataFromAMPL(string filename) {
                 // Do nothing
             }
         }
+    }
+
+    for (size_t i = 0; i < graphAMPL.nodes.size(); i++) {
+        cout << graphAMPL.nodeWeights[i].first << " " << graphAMPL.nodeWeights[i].second << endl;
     }
 
     file.close();

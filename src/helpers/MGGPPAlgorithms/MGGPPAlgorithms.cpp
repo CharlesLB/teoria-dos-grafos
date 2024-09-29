@@ -16,29 +16,26 @@
 vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
     int clusterWeightLimit = getClusterWeightLimit(graph, numClusters);
     int clusterWeight = 0;
-    Node *nextNode, *oldNode, *oneDegreeNode;
+    Node *nextNode, *oldNode, *oneDegreeNode, *currentNode;
 
     vector<Graph*> clusters(numClusters);
-    vector<pair<int, int>> nodesDegree = getNodeDegreeOrdered(graph);
+    unordered_map<int, int> nodesDegree = getNodeDegreeMap(graph);
 
     for (int clusterIndex = 0; graph->getFirstNode() != nullptr; clusterIndex++) {
         cout << "Iniciando cluster " << clusterIndex << endl;
 
-        // printar o nodesDegree
-        for (auto node : nodesDegree) {
-            cout << "Nó " << node.first << " tem grau " << node.second << endl;
-        }
-
+        nodesDegree = getNodeDegreeMap(graph);
         Graph* cluster = new Graph(graph->isDirected(), graph->isWeightedEdges(), graph->isWeightedNodes());
         clusters[clusterIndex] = cluster;
         clusterWeight = 0;
 
-        Node* currentNode = graph->findNodeById(nodesDegree[0].first);
+        currentNode = graph->findNodeById(getSmallerDegreeNode(nodesDegree));
         cluster->createOrUpdateNode(currentNode->getId(), currentNode->getWeight());
         cout << "Adicionando nó inicial " << currentNode->getId() << " ao cluster com peso " << currentNode->getWeight() << endl;
+        clusterWeight += currentNode->getWeight();
 
-        while (clusterWeight < clusterWeightLimit) {
-            Node* nextNode = getNextNode(currentNode);
+        while (clusterWeight < clusterWeightLimit || cluster->getNumNodes() < 2) {
+            Node* nextNode = getNextNode(currentNode);  // 15
 
             if (nextNode == nullptr) {
                 cout << "Próximo nó é nulo. Saindo do loop." << endl;
@@ -46,11 +43,11 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
             }
 
             addNodeToCluster(cluster, nextNode, currentNode, clusterWeight);
-            cout << "Adicionando nó " << nextNode->getId() << " ao cluster com peso " << nextNode->getWeight() << endl;
 
-            if (nextNode->getDegree(false) == 1) {
+            if (nextNode->getDegreeOut() == 1) {
                 cout << "O nó " << nextNode->getId() << " tem grau 1. Removendo do grafo." << endl;
-                deleteNodeFromGraph(graph, currentNode, nodesDegree);
+                graph->deleteNode(nextNode);
+                nodesDegree.erase(nextNode->getId());
                 continue;
             }
 
@@ -58,7 +55,10 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
             currentNode = nextNode;
 
             cout << "Removendo nó " << oldNode->getId() << " do grafo." << endl;
-            deleteNodeFromGraph(graph, oldNode, nodesDegree);
+            graph->deleteNode(oldNode);
+            nodesDegree.erase(oldNode->getId());
+
+            cout << "Peso do cluster: " << clusterWeight << endl;
         }
 
         oneDegreeNode = checkIfNodeHasDegreeOne(currentNode);
@@ -67,28 +67,24 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
             cout << "Adicionando nó com grau 1 " << oneDegreeNode->getId() << " ao cluster." << endl;
             graph->deleteNode(oneDegreeNode);
         }
+
+        graph->deleteNode(currentNode);
+        nodesDegree.erase(currentNode->getId());
     }
 
     return clusters;
 }
 
-// Funções auxiliares com logs
-
-vector<pair<int, int>> getNodeDegreeOrdered(Graph* graph) {
-    vector<pair<int, int>> nodesDegree;
+std::unordered_map<int, int> getNodeDegreeMap(Graph* graph) {
+    std::unordered_map<int, int> nodesDegree;
 
     Node* currentNode = graph->getFirstNode();
 
     while (currentNode != nullptr) {
-        nodesDegree.push_back({currentNode->getId(), currentNode->getDegree(false)});
-        cout << "Nó " << currentNode->getId() << " tem grau " << currentNode->getDegree(false) << endl;
+        nodesDegree[currentNode->getId()] = currentNode->getDegreeOut();
+        cout << "Nó " << currentNode->getId() << " tem grau " << currentNode->getDegreeOut() << endl;
         currentNode = currentNode->getNextNode();
     }
-
-    sort(nodesDegree.begin(), nodesDegree.end(),
-         [](const pair<int, int>& a, const pair<int, int>& b) {
-             return a.second < b.second;
-         });
 
     return nodesDegree;
 }
@@ -97,7 +93,8 @@ int getClusterWeightLimit(Graph* graph, int numClusters) {
     int clusterWeight = 0;
 
     Node* currentNode = graph->getFirstNode();
-    for (int i = 0; i < numClusters; i++) {
+    while (currentNode != nullptr) {
+        cout << "Nó " << currentNode->getId() << " tem peso " << currentNode->getWeight() << endl;
         clusterWeight += currentNode->getWeight();
         currentNode = currentNode->getNextNode();
     }
@@ -118,7 +115,7 @@ Node* getNextNode(Node* currentNode) {
     int maxWeight = 0;
 
     for (Node* neighbor : neighbors) {
-        if (neighbor->getDegree(false) == 1) {
+        if (neighbor->getDegreeOut() == 1) {
             cout << "Vizinho " << neighbor->getId() << " tem grau 1. Selecionando." << endl;
             return neighbor;
         }
@@ -145,7 +142,7 @@ Node* checkIfNodeHasDegreeOne(Node* currentNode) {
     vector<Node*> neighbors = currentNode->getNeighbors();
 
     for (Node* neighbor : neighbors) {
-        if (neighbor->getDegree(false) == 1) {
+        if (neighbor->getDegreeOut() == 1) {
             cout << "Nó vizinho " << neighbor->getId() << " tem grau 1." << endl;
             return neighbor;
         }
@@ -154,17 +151,9 @@ Node* checkIfNodeHasDegreeOne(Node* currentNode) {
     return nullptr;
 }
 
-void deleteNodeFromGraph(Graph* graph, Node* node, vector<pair<int, int>>& nodesDegree) {
-    cout << "Deletando nó " << node->getId() << " do grafo." << endl;
+void deleteNodeFromGraph(Graph* graph, Node* node, std::unordered_map<int, int>& nodesDegree) {
     graph->deleteNode(node);
-    nodesDegree.erase(
-        std::remove_if(nodesDegree.begin(), nodesDegree.end(),
-                       [&](const std::pair<int, int>& p) { return p.first == node->getId(); }),
-        nodesDegree.end());
-
-    for (auto node : nodesDegree) {
-        cout << "Nó " << node.first << " tem grau " << node.second << endl;
-    }
+    nodesDegree.erase(node->getId());
 }
 
 void addNodeToCluster(Graph* cluster, Node* node, Node* parentNode, int& clusterWeight) {
@@ -174,44 +163,18 @@ void addNodeToCluster(Graph* cluster, Node* node, Node* parentNode, int& cluster
     clusterWeight += node->getWeight();
 }
 
-Graph* mergeGraphs(vector<Graph*> subgraphs) {
-    if (subgraphs.empty()) {
-        cout << "Nenhum subgrafo para mesclar." << endl;
-        return nullptr;
-    }
+int getSmallerDegreeNode(std::unordered_map<int, int>& nodesDegree) {
+    int smallerDegree = 501;
+    int smallerDegreeNode = -1;
 
-    Graph* mergedGraph = new Graph(subgraphs[0]->isDirected(), subgraphs[0]->isWeightedEdges(), subgraphs[0]->isWeightedNodes());
-
-    set<int> insertedNodeIds;
-
-    for (Graph* subgraph : subgraphs) {
-        Node* currentNode = subgraph->getFirstNode();
-
-        while (currentNode != nullptr) {
-            int nodeId = currentNode->getId();
-
-            if (insertedNodeIds.find(nodeId) == insertedNodeIds.end()) {
-                mergedGraph->createOrUpdateNode(nodeId, currentNode->getWeight());
-                insertedNodeIds.insert(nodeId);
-                cout << "Nó " << nodeId << " adicionado ao grafo mesclado." << endl;
-            }
-
-            vector<Edge*> edges = currentNode->getEdges();
-            for (Edge* edge : edges) {
-                Node* head = edge->getHead();
-                Node* tail = edge->getTail();
-
-                if (mergedGraph->findNodeById(head->getId()) && mergedGraph->findNodeById(tail->getId())) {
-                    mergedGraph->createEdge(head, tail, edge->getWeight());
-                    cout << "Aresta criada entre " << head->getId() << " e " << tail->getId() << endl;
-                }
-            }
-
-            currentNode = currentNode->getNextNode();
+    for (auto node : nodesDegree) {
+        if (node.second < smallerDegree) {
+            smallerDegree = node.second;
+            smallerDegreeNode = node.first;
         }
     }
 
-    return mergedGraph;
+    return smallerDegreeNode;
 }
 
 Graph* getMGGPPByGRASPAlgorithm(Graph* graph, int numClusters) {

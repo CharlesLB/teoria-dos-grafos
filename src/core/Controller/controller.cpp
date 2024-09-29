@@ -472,10 +472,20 @@ void Controller::getDepthFirstSearchTree(Graph* graph) {
 void Controller::runGreedyAlgorithm(Graph* graph, int numClusters) {
     vector<Graph*> MGGPPGraph = getMGGPPByGreedyAlgorithm(graph, numClusters);
 
-    Writer::printGraphInDotFile(mergeGraphs(MGGPPGraph), "MGGPPGraph");
-
     for (int i = 0; i < MGGPPGraph.size(); i++) {
         Writer::printGraphInDotFile(MGGPPGraph[i], "MGGPPGraph" + to_string(i));
+    }
+
+    for (int i = 0; i < MGGPPGraph.size(); i++) {
+        /* code */
+    }
+
+    for (int i = 0; i < numClusters; i++) {
+        cout << "Cluster " << i << ": ";
+        for (Node* node : MGGPPGraph[i]->getNodes()) {
+            cout << node->getId() << " ";
+        }
+        cout << endl;
     }
 }
 
