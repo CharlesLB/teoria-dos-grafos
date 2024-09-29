@@ -4,8 +4,14 @@
 
 #include "../Node/node.hpp"
 
+int edgeIndex = 0;
+
 Edge::Edge(Node* head, Node* tail, int weight)
-    : head(head), tail(tail), weight(weight), nextEdge(nullptr) {}
+    : id(edgeIndex++),
+      head(head),
+      tail(tail),
+      weight(weight),
+      nextEdge(nullptr) {}
 
 Edge::~Edge() {
 }

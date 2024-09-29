@@ -14,12 +14,19 @@
 #include "../../lib/Node/node.hpp"
 
 vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters);
-int getClusterWeight(Graph* graph, int numClusters);
-vector<pair<int, int>> getNodeDegreeOrdered(Graph* graph);
 
 Graph* getMGGPPByGRASPAlgorithm(Graph* graph, int numClusters);
 
 Graph* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters);
+
+// Helper functions
+vector<pair<int, int>> getNodeDegreeOrdered(Graph* graph);
+int getClusterWeightLimit(Graph* graph, int numClusters);
+Node* getNextNode(Node* currentNode);
+Node* checkIfNodeHasDegreeOne(Node* currentNode);
+void deleteNodeFromGraph(Graph* graph, Node* node, vector<pair<int, int>>& nodesDegree);
+void addNodeToCluster(Graph* cluster, Node* node, Node* parentNode, int& clusterWeight);
+int getClusterWeight(Graph* graph, int numClusters);
 
 Graph* mergeGraphs(vector<Graph*> graphs);
 

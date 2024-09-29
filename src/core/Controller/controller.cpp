@@ -33,8 +33,7 @@ void Controller::processOperation(char* argv[], Graph* graph) {
         "[f] Árvore geradora mínima com Kruskal",
         "[g] Árvore de profundidade",
         "[h] Obter raio, diâmetro, centro e periferia do grafo",
-        "[i] Obter o conjunto de nós de articulação",
-        "Exit", ""};
+        "[i] Obter o conjunto de nós de articulação", "[j] Inserção e remoção de nós e arestas", "[k] Exit", ""};
 
     while (true) {
         Writer::printMenu(options);
@@ -79,6 +78,10 @@ void Controller::processOperation(char* argv[], Graph* graph) {
                 break;
 
             case 'j':
+                nodeAndEdgeInsertionDeletion(graph);
+                break;
+
+            case 'k':
                 exitSystem();
                 break;
 

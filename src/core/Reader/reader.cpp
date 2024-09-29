@@ -112,7 +112,7 @@ int Reader::readInt() {
 pair<Graph *, int> Reader::graphAMPL(string filename) {
     GraphAMPL graphAMPL = getDataFromAMPL(filename);
 
-    Graph *graph = new Graph(false, true, true);
+    Graph *graph = new Graph(true, true, true);
 
     for (int i = 1; i <= graphAMPL.numClusters; i++) {
         graph->createOrUpdateNode(i, 1);

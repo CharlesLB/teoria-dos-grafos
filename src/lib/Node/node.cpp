@@ -132,3 +132,15 @@ void Node::incrementDegreeIn() {
 void Node::incrementDegreeOut() {
     degreeOut++;
 }
+
+vector<Node*> Node::getNeighbors() {
+    vector<Node*> neighbors;
+    for (Edge* edge = firstEdge; edge != nullptr; edge = edge->getNextEdge()) {
+        if (edge->getHead() == this) {
+            neighbors.push_back(edge->getTail());
+        } else {
+            neighbors.push_back(edge->getHead());
+        }
+    }
+    return neighbors;
+}

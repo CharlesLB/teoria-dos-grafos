@@ -143,6 +143,8 @@ void Graph::deleteEdge(Edge* edge) {
         return;
     }
 
+    cout << "Deleting edge: " << edge->getId() << " -- " << edge->getHead()->getId() << " -> " << edge->getTail()->getId() << endl;
+
     Node* headNode = edge->getHead();
     Node* tailNode = edge->getTail();
 
@@ -152,7 +154,16 @@ void Graph::deleteEdge(Edge* edge) {
         tailNode->removeEdge(edge);
     }
 
-    totalEdges = totalEdges - 1;
+    if (!isDirected()) {
+        Edge* reverseEdge = findEdgeByNodes(tailNode, headNode);
+        if (reverseEdge != nullptr) {
+            tailNode->removeEdge(reverseEdge);
+            headNode->removeEdge(reverseEdge);
+            delete reverseEdge;
+        }
+    }
+
+    totalEdges--;
 
     delete edge;
 }
