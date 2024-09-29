@@ -16,17 +16,20 @@
 #include "../../lib/Node/node.hpp"
 
 vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
-    int clusterWeightLimit = getClusterWeightLimit(graph, numClusters);
-
     int clusterWeight = 0;
+    bool breakLoop = false;
     Node *nextNode, *oldNode, *oneDegreeNode, *currentNode;
 
     vector<Graph*> clusters(numClusters);
     unordered_map<int, int> nodesDegree = getNodeDegreeMap(graph);
 
-    for (int clusterIndex = 0; graph->getFirstNode() != nullptr; clusterIndex++) {
-        clusterWeightLimit = getClusterWeightLimit(graph, numClusters - clusterIndex);
-        cout << "Iniciando cluster " << clusterIndex << endl;
+    for (int clusterIndex = 0; graph->getFirstNode() != nullptr; clusterIndex++, breakLoop = false) {
+        pair<int, int> info = getClusterWeightLimitAndGraphWeightAverage(graph, numClusters - clusterIndex);
+
+        int clusterWeightLimit = info.first;
+        int graphWeightAverage = info.second;
+
+        cout << "\n\n\nIniciando cluster " << clusterIndex << "   com peso:" << clusterWeightLimit << endl;
 
         nodesDegree = getNodeDegreeMap(graph);
         Graph* cluster = new Graph(graph->isDirected(), graph->isWeightedEdges(), graph->isWeightedNodes());
@@ -39,9 +42,10 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
         clusterWeight += currentNode->getWeight();
 
         while ((clusterWeight < clusterWeightLimit || cluster->getNumNodes() < 2)) {
-            Node* nextNode = getNextNode(currentNode);
+            Node* nextNode = getNextNode(currentNode, graphWeightAverage);
 
             if (nextNode == nullptr) {
+                breakLoop = true;
                 cout << "Próximo nó é nulo. Saindo do loop." << endl;
                 break;
             }
@@ -65,6 +69,10 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
             cout << "Peso do cluster: " << clusterWeight << endl;
         }
 
+        if (breakLoop) {
+            break;
+        }
+
         oneDegreeNode = checkIfNodeHasDegreeOne(currentNode);
         if (oneDegreeNode != nullptr) {
             addNodeToCluster(cluster, oneDegreeNode, currentNode, clusterWeight);
@@ -86,26 +94,26 @@ std::unordered_map<int, int> getNodeDegreeMap(Graph* graph) {
 
     while (currentNode != nullptr) {
         nodesDegree[currentNode->getId()] = currentNode->getDegreeOut();
-        cout << "Nó " << currentNode->getId() << " tem grau " << currentNode->getDegreeOut() << endl;
         currentNode = currentNode->getNextNode();
     }
 
     return nodesDegree;
 }
 
-int getClusterWeightLimit(Graph* graph, int numClusters) {
-    int clusterWeight = 0;
+pair<int, int> getClusterWeightLimitAndGraphWeightAverage(Graph* graph, int numClusters) {
+    int graphWeight = 0;
 
     Node* currentNode = graph->getFirstNode();
     while (currentNode != nullptr) {
         cout << "Nó " << currentNode->getId() << " tem peso " << currentNode->getWeight() << endl;
-        clusterWeight += currentNode->getWeight();
+        graphWeight += currentNode->getWeight();
         currentNode = currentNode->getNextNode();
     }
 
-    int weightLimit = clusterWeight / numClusters;
-    cout << "Limite de peso do cluster: " << weightLimit << endl;
-    return weightLimit;
+    int clusterWeightLimit = graphWeight / numClusters;
+    int graphWeightAverage = graphWeight / graph->getNumNodes();
+    cout << "Limite de peso do cluster: " << clusterWeightLimit << endl;
+    return make_pair(clusterWeightLimit, graphWeightAverage);
 }
 
 int getClusterSizeLimit(Graph* graph, int numClusters) {
@@ -118,11 +126,14 @@ int getClusterSizeLimit(Graph* graph, int numClusters) {
  * Se o vértice do vizinho tiver grau 1, ele será selecionado.
  * Se o vértice do vizinho tiver grau maior que 1, será selecionado o vértice de maior peso.
  */
-Node* getNextNode(Node* currentNode) {
+Node* getNextNode(Node* currentNode, int graphWeightAverage) {
     vector<Node*> neighbors = currentNode->getNeighbors();
+
+    bool aboveAverage = currentNode->getWeight() >= graphWeightAverage;
 
     Node* nextNode = nullptr;
     int maxWeight = 0;
+    int minWeight = 501;
 
     for (Node* neighbor : neighbors) {
         if (neighbor->getDegreeOut() == 1) {
@@ -130,8 +141,13 @@ Node* getNextNode(Node* currentNode) {
             return neighbor;
         }
 
-        if (neighbor->getWeight() > maxWeight) {
+        if (neighbor->getWeight() > maxWeight && aboveAverage) {
             maxWeight = neighbor->getWeight();
+            nextNode = neighbor;
+        }
+
+        if (neighbor->getWeight() < minWeight && !aboveAverage) {
+            minWeight = neighbor->getWeight();
             nextNode = neighbor;
         }
     }

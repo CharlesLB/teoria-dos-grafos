@@ -21,8 +21,8 @@ Graph* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters);
 
 // Helper functions
 unordered_map<int, int> getNodeDegreeMap(Graph* graph);
-int getClusterWeightLimit(Graph* graph, int numClusters);
-Node* getNextNode(Node* currentNode);
+pair<int, int> getClusterWeightLimitAndGraphWeightAverage(Graph* graph, int numClusters);
+Node* getNextNode(Node* currentNode, int graphWeightAverage);
 Node* checkIfNodeHasDegreeOne(Node* currentNode);
 void deleteNodeFromGraph(Graph* graph, Node* node, unordered_map<int, int>& nodesDegree);
 void addNodeToCluster(Graph* cluster, Node* node, Node* parentNode, int& clusterWeight);
