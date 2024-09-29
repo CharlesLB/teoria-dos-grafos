@@ -93,7 +93,7 @@ void Controller::processOperation(char* argv[], Graph* graph) {
     }
 }
 
-void Controller::processOperationAMPL(char* argv[], Graph* graph) {
+void Controller::processOperationAMPL(char* argv[], Graph* graph, int numClusters) {
     char option;
 
     string options[] = {
@@ -114,15 +114,15 @@ void Controller::processOperationAMPL(char* argv[], Graph* graph) {
                 break;
 
             case 'b':
-                runGreedyAlgorithm(graph);
+                runGreedyAlgorithm(graph, numClusters);
                 break;
 
             case 'c':
-                runGRASPAlgorithm(graph);
+                runGRASPAlgorithm(graph, numClusters);
                 break;
 
             case 'd':
-                runReactiveGRASPAlgorithm(graph);
+                runReactiveGRASPAlgorithm(graph, numClusters);
                 break;
 
             case 'e':
@@ -466,14 +466,20 @@ void Controller::getDepthFirstSearchTree(Graph* graph) {
     printDepthFirstSearchTree(graph, startNode);
 }
 
-void Controller::runGreedyAlgorithm(Graph* graph) {
-    Graph* MGGPPGraph = getMGGPPByGreedyAlgorithm(graph);
+void Controller::runGreedyAlgorithm(Graph* graph, int numClusters) {
+    vector<Graph*> MGGPPGraph = getMGGPPByGreedyAlgorithm(graph, numClusters);
+
+    Writer::printGraphInDotFile(mergeGraphs(MGGPPGraph), "MGGPPGraph");
+
+    for (int i = 0; i < MGGPPGraph.size(); i++) {
+        Writer::printGraphInDotFile(MGGPPGraph[i], "MGGPPGraph" + to_string(i));
+    }
 }
 
-void Controller::runGRASPAlgorithm(Graph* graph) {
-    Graph* MGGPPGraph = getMGGPPByGRASPAlgorithm(graph);
+void Controller::runGRASPAlgorithm(Graph* graph, int numClusters) {
+    Graph* MGGPPGraph = getMGGPPByGRASPAlgorithm(graph, numClusters);
 }
 
-void Controller::runReactiveGRASPAlgorithm(Graph* graph) {
-    Graph* MGGPPGraph = getMGGPPByReactiveGRASPAlgorithm(graph);
+void Controller::runReactiveGRASPAlgorithm(Graph* graph, int numClusters) {
+    Graph* MGGPPGraph = getMGGPPByReactiveGRASPAlgorithm(graph, numClusters);
 }

@@ -24,7 +24,7 @@ class Reader {
     static Graph *graph(string filename, bool directed, bool weightedEdges, bool weightedNodes);
     static char readChar();
     static int readInt();
-    static Graph *graphAMPL(string filename);
+    static pair<Graph *, int> graphAMPL(string filename);
 
     static void continueConfirmation();
 

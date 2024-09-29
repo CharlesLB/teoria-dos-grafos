@@ -12,7 +12,7 @@ class Graph;
 class Controller {
    public:
     static void processOperation(char* argv[], Graph* graph);
-    static void processOperationAMPL(char* argv[], Graph* graph);
+    static void processOperationAMPL(char* argv[], Graph* graph, int numClusters);
 
    private:
     static void exitSystem();
@@ -45,9 +45,9 @@ class Controller {
     static void getDepthFirstSearchTree(Graph* graph);
 
     // MGGPP
-    static void runGreedyAlgorithm(Graph* graph);
-    static void runGRASPAlgorithm(Graph* graph);
-    static void runReactiveGRASPAlgorithm(Graph* graph);
+    static void runGreedyAlgorithm(Graph* graph, int numClusters);
+    static void runGRASPAlgorithm(Graph* graph, int numClusters);
+    static void runReactiveGRASPAlgorithm(Graph* graph, int numClusters);
 };
 
 #endif

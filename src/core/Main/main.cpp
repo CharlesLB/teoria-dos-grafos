@@ -69,13 +69,17 @@ int Main::AMPLProcess(int argc, char *argv[]) {
     string inputPath = argv[1];
     string outputPath = argv[2];
 
-    Graph *graph = Reader::graphAMPL(inputPath);
-    if (!graph) {
+    pair<Graph *, int> data = Reader::graphAMPL(inputPath);
+
+    Graph *graph = data.first;
+    int numClusters = data.second;
+
+    if (!data.first) {
         cout << "Error reading graph from file " << inputPath << endl;
         return 1;
     }
 
-    Controller::processOperationAMPL(argv, graph);
+    Controller::processOperationAMPL(argv, graph, numClusters);
 
     return 0;
 }

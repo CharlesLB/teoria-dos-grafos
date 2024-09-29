@@ -13,10 +13,14 @@
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
 
-Graph* getMGGPPByGreedyAlgorithm(Graph* graph);
+vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters);
+Node* findConnectedNode(Graph* graph, Node* node, const vector<Node*>& nodeList);
+Node* findNodeConnectedTo(Graph* graph, Node* newNode, Graph* cluster);
 
-Graph* getMGGPPByGRASPAlgorithm(Graph* graph);
+Graph* getMGGPPByGRASPAlgorithm(Graph* graph, int numClusters);
 
-Graph* getMGGPPByReactiveGRASPAlgorithm(Graph* graph);
+Graph* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters);
+
+Graph* mergeGraphs(vector<Graph*> graphs);
 
 #endif

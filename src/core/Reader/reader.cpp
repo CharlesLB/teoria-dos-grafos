@@ -109,7 +109,7 @@ int Reader::readInt() {
     return num;
 }
 
-Graph *Reader::graphAMPL(string filename) {
+pair<Graph *, int> Reader::graphAMPL(string filename) {
     GraphAMPL graphAMPL = getDataFromAMPL(filename);
 
     Graph *graph = new Graph(false, true, true);
@@ -133,7 +133,7 @@ Graph *Reader::graphAMPL(string filename) {
         graph->createEdge(sourceNode, destinationNode, 1);
     }
 
-    return graph;
+    return make_pair(graph, graphAMPL.numClusters);
 }
 
 GraphAMPL Reader::getDataFromAMPL(string filename) {
