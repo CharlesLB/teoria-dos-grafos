@@ -18,6 +18,7 @@
 #include "./src/lib/Graph/graph.cpp"
 #include "./src/lib/Node/node.cpp"
 #include "./src/utils/filesystem/filesystem.cpp"
+#include "./src/utils/graphUtils/graphUtils.cpp"
 
 using namespace std;
 

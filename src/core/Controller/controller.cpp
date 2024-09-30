@@ -15,6 +15,7 @@
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
+#include "../../utils/graphUtils/graphUtils.hpp"
 #include "../Manager/manager.hpp"
 #include "../Reader/reader.hpp"
 #include "../Writer/writer.hpp"
@@ -470,54 +471,37 @@ void Controller::getDepthFirstSearchTree(Graph* graph) {
 }
 
 void Controller::runGreedyAlgorithm(Graph* graph, int numClusters) {
-    vector<Graph*> MGGPPGraph = getMGGPPByGreedyAlgorithm(graph, numClusters, 0);
+    Graph* graphCopy = createGraphCopy(graph);
+    vector<Graph*> MGGPPGraphs = getMGGPPByGreedyAlgorithm(graphCopy, numClusters, 0);
 
-    for (int i = 0; i < MGGPPGraph.size(); i++) {
-        Writer::printGraphInDotFile(MGGPPGraph[i], "MGGPPGraph" + to_string(i));
-    }
+    delete graphCopy;
+
+    MGGPPInfo* MGGPPGraphInfo = getMGGPPInfo(MGGPPGraphs, 0);
+
+    printMGGPPInfo(MGGPPGraphInfo);
+
+    // for (int i = 0; i < MGGPPGraph.size(); i++) {
+    //     Writer::printGraphInDotFile(MGGPPGraph[i], "MGGPPGraph" + to_string(i));
+    // }
 }
 
 void Controller::runGRASPAlgorithm(Graph* graph, int numClusters) {
     cout << "Enter the alpha value.";
     float alpha = Reader::readFloat(0, 1);
 
-    vector<Graph*> MGGPPGraph = getMGGPPByGreedyAlgorithm(graph, numClusters, alpha);
+    Graph* graphCopy = createGraphCopy(graph);
+    vector<Graph*> MGGPPGraphs = getMGGPPByGreedyAlgorithm(graphCopy, numClusters, alpha);
 
-    int gap = 0;
-    int higher = 0;
-    int lower = 501;
-    int sum = 0;
+    delete graphCopy;
 
-    for (int i = 0; i < MGGPPGraph.size(); i++, gap = 0, higher = 0, lower = 501) {
-        cout << "Cluster " << i << ": ";
-        for (Node* node : MGGPPGraph[i]->getNodes()) {
-            cout << node->getId() << " ";
-
-            if (node->getWeight() > higher) {
-                higher = node->getWeight();
-            }
-
-            if (node->getWeight() < lower) {
-                lower = node->getWeight();
-            }
-        }
-
-        gap = higher - lower;
-        sum += gap;
-        cout << "    gap   " << gap << endl;
-    }
-
-    cout << "Sum of gaps: " << sum << endl;
-
-    for (int i = 0; i < MGGPPGraph.size(); i++) {
-        Writer::printGraphInDotFile(MGGPPGraph[i], "MGGPPGraph" + to_string(i));
-    }
+    MGGPPInfo* MGGPPGraphInfo = getMGGPPInfo(MGGPPGraphs, 0);
+    printMGGPPInfo(MGGPPGraphInfo);
 }
 
 void Controller::runReactiveGRASPAlgorithm(Graph* graph, int numClusters) {
-    vector<float> alphas = {0.5, 0.8};
+    vector<float> alphas = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
 
-    MGGPPInfo* MGGPPGraph = getMGGPPByReactiveGRASPAlgorithm(graph, numClusters, alphas, 100);
+    MGGPPInfo* MGGPPGraphInfo = getMGGPPByReactiveGRASPAlgorithm(graph, numClusters, alphas, 100);
 
-    printMGGPPInfo(MGGPPGraph);
+    printMGGPPInfo(MGGPPGraphInfo);
 }

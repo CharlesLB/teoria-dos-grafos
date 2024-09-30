@@ -37,7 +37,7 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float al
 MGGPPInfo* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters, vector<float> alphas, int maxIterations);
 void printMGGPPInfo(const MGGPPInfo* info);
 float getAlphaValue(vector<MGGPPAlphaTable>& alphaTable);
-MGGPPInfo* getMGGPPInfo(vector<Graph*> clusters);
+MGGPPInfo* getMGGPPInfo(vector<Graph*> clusters, float alpha);
 
 // Helper functions
 unordered_map<int, int> getNodeDegreeMap(Graph* graph);

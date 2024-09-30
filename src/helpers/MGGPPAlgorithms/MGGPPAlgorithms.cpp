@@ -14,6 +14,7 @@
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
+#include "../../utils/graphUtils/graphUtils.hpp"
 
 vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float alpha) {
     int clusterWeight = 0;
@@ -29,8 +30,6 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float al
         int clusterWeightLimit = info.first;
         int graphWeightAverage = info.second;
 
-        cout << "\n\n\nIniciando cluster " << clusterIndex << "   com peso:" << clusterWeightLimit << endl;
-
         nodesDegree = getNodeDegreeMap(graph);
         Graph* cluster = new Graph(graph->isDirected(), graph->isWeightedEdges(), graph->isWeightedNodes());
         clusters[clusterIndex] = cluster;
@@ -38,7 +37,6 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float al
 
         currentNode = graph->findNodeById(getSmallerDegreeNodeId(nodesDegree, alpha));
         cluster->createOrUpdateNode(currentNode->getId(), currentNode->getWeight());
-        cout << "Adicionando nó inicial " << currentNode->getId() << " ao cluster com peso " << currentNode->getWeight() << endl;
         clusterWeight += currentNode->getWeight();
 
         while ((clusterWeight < clusterWeightLimit || cluster->getNumNodes() < 2)) {
@@ -46,14 +44,12 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float al
 
             if (nextNode == nullptr) {
                 breakLoop = true;
-                cout << "Próximo nó é nulo. Saindo do loop." << endl;
                 break;
             }
 
             addNodeToCluster(cluster, nextNode, currentNode, clusterWeight);
 
             if (nextNode->getDegreeOut() == 1) {
-                cout << "O nó " << nextNode->getId() << " tem grau 1. Removendo do grafo." << endl;
                 graph->deleteNode(nextNode);
                 nodesDegree.erase(nextNode->getId());
                 continue;
@@ -62,11 +58,8 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float al
             oldNode = currentNode;
             currentNode = nextNode;
 
-            cout << "Removendo nó " << oldNode->getId() << " do grafo." << endl;
             graph->deleteNode(oldNode);
             nodesDegree.erase(oldNode->getId());
-
-            cout << "Peso do cluster: " << clusterWeight << endl;
         }
 
         if (breakLoop) {
@@ -76,7 +69,6 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float al
         oneDegreeNode = checkIfNodeHasDegreeOne(currentNode);
         if (oneDegreeNode != nullptr) {
             addNodeToCluster(cluster, oneDegreeNode, currentNode, clusterWeight);
-            cout << "Adicionando nó com grau 1 " << oneDegreeNode->getId() << " ao cluster." << endl;
             graph->deleteNode(oneDegreeNode);
         }
 
@@ -105,14 +97,12 @@ pair<int, int> getClusterWeightLimitAndGraphWeightAverage(Graph* graph, int numC
 
     Node* currentNode = graph->getFirstNode();
     while (currentNode != nullptr) {
-        cout << "Nó " << currentNode->getId() << " tem peso " << currentNode->getWeight() << endl;
         graphWeight += currentNode->getWeight();
         currentNode = currentNode->getNextNode();
     }
 
     int clusterWeightLimit = graphWeight / numClusters;
     int graphWeightAverage = graphWeight / graph->getNumNodes();
-    cout << "Limite de peso do cluster: " << clusterWeightLimit << endl;
     return make_pair(clusterWeightLimit, graphWeightAverage);
 }
 
@@ -137,7 +127,6 @@ Node* getNextNode(Node* currentNode, int graphWeightAverage) {
 
     for (Node* neighbor : neighbors) {
         if (neighbor->getDegreeOut() == 1) {
-            cout << "Vizinho " << neighbor->getId() << " tem grau 1. Selecionando." << endl;
             return neighbor;
         }
 
@@ -152,12 +141,6 @@ Node* getNextNode(Node* currentNode, int graphWeightAverage) {
         }
     }
 
-    if (nextNode != nullptr) {
-        cout << "Próximo nó selecionado é " << nextNode->getId() << " com peso " << nextNode->getWeight() << endl;
-    } else {
-        cout << "Nenhum próximo nó foi selecionado." << endl;
-    }
-
     return nextNode;
 }
 
@@ -169,7 +152,6 @@ Node* checkIfNodeHasDegreeOne(Node* currentNode) {
 
     for (Node* neighbor : neighbors) {
         if (neighbor->getDegreeOut() == 1) {
-            cout << "Nó vizinho " << neighbor->getId() << " tem grau 1." << endl;
             return neighbor;
         }
     }
@@ -183,7 +165,6 @@ void deleteNodeFromGraph(Graph* graph, Node* node, unordered_map<int, int>& node
 }
 
 void addNodeToCluster(Graph* cluster, Node* node, Node* parentNode, int& clusterWeight) {
-    cout << "Adicionando nó " << node->getId() << " ao cluster com peso " << node->getWeight() << endl;
     cluster->createOrUpdateNode(node->getId(), node->getWeight());
     cluster->createEdge(node, parentNode, 1);
     clusterWeight += node->getWeight();
@@ -231,9 +212,10 @@ MGGPPInfo* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters, vecto
     for (int iter = 0; iter < maxIterations; iter++) {
         float chosenAlpha = getAlphaValue(alphaTable);
 
-        vector<Graph*> clusters = getMGGPPByGreedyAlgorithm(graph, numClusters, chosenAlpha);
+        Graph* copyGraph = createGraphCopy(graph);
+        vector<Graph*> clusters = getMGGPPByGreedyAlgorithm(copyGraph, numClusters, chosenAlpha);
 
-        MGGPPInfo* currentSolution = getMGGPPInfo(clusters);
+        MGGPPInfo* currentSolution = getMGGPPInfo(clusters, chosenAlpha);
 
         if (bestSolution == nullptr || currentSolution->gapSum < bestSolution->gapSum) {
             if (bestSolution) {
@@ -281,29 +263,36 @@ float getAlphaValue(vector<MGGPPAlphaTable>& alphaTable) {
     return alphaTable.back().alpha;
 }
 
-MGGPPInfo* getMGGPPInfo(vector<Graph*> clusters) {
+MGGPPInfo* getMGGPPInfo(vector<Graph*> clusters, float alpha) {
     MGGPPInfo* info = new MGGPPInfo();
-    int clusterGap = 0;
+    int maxWeight, minWeight;
 
     for (Graph* cluster : clusters) {
         MGGPPInfoCluster clusterInfo;
         vector<int> clusterNodes;
 
-        clusterGap = 0;
+        maxWeight = 0;
+        minWeight = 501;
 
         Node* currentNode = cluster->getFirstNode();
         while (currentNode != nullptr) {
-            clusterGap += currentNode->getWeight();
+            if (currentNode->getWeight() > maxWeight) {
+                maxWeight = currentNode->getWeight();
+            }
+
+            if (currentNode->getWeight() < minWeight) {
+                minWeight = currentNode->getWeight();
+            }
 
             clusterNodes.push_back(currentNode->getId());
-
             currentNode = currentNode->getNextNode();
         }
 
-        clusterInfo.gap = clusterGap;
+        clusterInfo.gap = maxWeight - minWeight;
         clusterInfo.nodes = clusterNodes;
 
-        info->gapSum += clusterGap;
+        info->alpha = alpha;
+        info->gapSum += clusterInfo.gap;
         info->clusters.push_back(clusterInfo);
     }
 

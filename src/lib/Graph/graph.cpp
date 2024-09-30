@@ -155,8 +155,6 @@ void Graph::deleteEdge(Edge* edge) {
         return;
     }
 
-    cout << "Deleting edge: " << edge->getId() << " -- " << edge->getHead()->getId() << " -> " << edge->getTail()->getId() << endl;
-
     Node* headNode = edge->getHead();
     Node* tailNode = edge->getTail();
 
