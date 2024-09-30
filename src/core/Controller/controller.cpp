@@ -472,32 +472,6 @@ void Controller::getDepthFirstSearchTree(Graph* graph) {
 void Controller::runGreedyAlgorithm(Graph* graph, int numClusters) {
     vector<Graph*> MGGPPGraph = getMGGPPByGreedyAlgorithm(graph, numClusters, 0);
 
-    int gap = 0;
-    int higher = 0;
-    int lower = 501;
-    int sum = 0;
-
-    for (int i = 0; i < MGGPPGraph.size(); i++, gap = 0, higher = 0, lower = 501) {
-        cout << "Cluster " << i << ": ";
-        for (Node* node : MGGPPGraph[i]->getNodes()) {
-            cout << node->getId() << " ";
-
-            if (node->getWeight() > higher) {
-                higher = node->getWeight();
-            }
-
-            if (node->getWeight() < lower) {
-                lower = node->getWeight();
-            }
-        }
-
-        gap = higher - lower;
-        sum += gap;
-        cout << "    gap   " << gap << endl;
-    }
-
-    cout << "Sum of gaps: " << sum << endl;
-
     for (int i = 0; i < MGGPPGraph.size(); i++) {
         Writer::printGraphInDotFile(MGGPPGraph[i], "MGGPPGraph" + to_string(i));
     }
@@ -541,5 +515,9 @@ void Controller::runGRASPAlgorithm(Graph* graph, int numClusters) {
 }
 
 void Controller::runReactiveGRASPAlgorithm(Graph* graph, int numClusters) {
-    Graph* MGGPPGraph = getMGGPPByReactiveGRASPAlgorithm(graph, numClusters);
+    vector<float> alphas = {0.5, 0.8};
+
+    MGGPPInfo* MGGPPGraph = getMGGPPByReactiveGRASPAlgorithm(graph, numClusters, alphas, 100);
+
+    printMGGPPInfo(MGGPPGraph);
 }

@@ -87,8 +87,8 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float al
     return clusters;
 }
 
-std::unordered_map<int, int> getNodeDegreeMap(Graph* graph) {
-    std::unordered_map<int, int> nodesDegree;
+unordered_map<int, int> getNodeDegreeMap(Graph* graph) {
+    unordered_map<int, int> nodesDegree;
 
     Node* currentNode = graph->getFirstNode();
 
@@ -177,7 +177,7 @@ Node* checkIfNodeHasDegreeOne(Node* currentNode) {
     return nullptr;
 }
 
-void deleteNodeFromGraph(Graph* graph, Node* node, std::unordered_map<int, int>& nodesDegree) {
+void deleteNodeFromGraph(Graph* graph, Node* node, unordered_map<int, int>& nodesDegree) {
     graph->deleteNode(node);
     nodesDegree.erase(node->getId());
 }
@@ -189,8 +189,8 @@ void addNodeToCluster(Graph* cluster, Node* node, Node* parentNode, int& cluster
     clusterWeight += node->getWeight();
 }
 
-int getSmallerDegreeNodeId(std::unordered_map<int, int>& nodesDegree, float alpha) {
-    std::unordered_map<int, std::vector<int>> nodesDegreesMap;
+int getSmallerDegreeNodeId(unordered_map<int, int>& nodesDegree, float alpha) {
+    unordered_map<int, vector<int>> nodesDegreesMap;
 
     int smallerDegree = 501;
 
@@ -216,6 +216,118 @@ int getSmallerDegreeNodeId(std::unordered_map<int, int>& nodesDegree, float alph
     return nodesDegreesMap[smallerDegree][0];
 }
 
-Graph* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters) {
-    return graph;
+MGGPPInfo* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters, vector<float> alphas, int maxIterations) {
+    MGGPPInfo* bestSolution = nullptr;
+    vector<MGGPPAlphaTable> alphaTable(alphas.size());
+
+    for (size_t i = 0; i < alphas.size(); i++) {
+        alphaTable[i].alpha = alphas[i];
+        alphaTable[i].average = 0;
+        alphaTable[i].best = 0;
+        alphaTable[i].iterations = 0;
+        alphaTable[i].probability = 10.0;
+    }
+
+    for (int iter = 0; iter < maxIterations; iter++) {
+        float chosenAlpha = getAlphaValue(alphaTable);
+
+        vector<Graph*> clusters = getMGGPPByGreedyAlgorithm(graph, numClusters, chosenAlpha);
+
+        MGGPPInfo* currentSolution = getMGGPPInfo(clusters);
+
+        if (bestSolution == nullptr || currentSolution->gapSum < bestSolution->gapSum) {
+            if (bestSolution) {
+                delete bestSolution;
+            }
+            bestSolution = currentSolution;
+        } else {
+            delete currentSolution;
+        }
+
+        for (auto& entry : alphaTable) {
+            if (entry.alpha == chosenAlpha) {
+                entry.iterations++;
+                entry.average = ((entry.average * (entry.iterations - 1)) + currentSolution->gapSum) / entry.iterations;
+
+                if (currentSolution->gapSum < entry.best) {
+                    entry.best = currentSolution->gapSum;
+                    entry.probability *= 1.2;
+                }
+
+                break;
+            }
+        }
+    }
+
+    return bestSolution;
+}
+
+float getAlphaValue(vector<MGGPPAlphaTable>& alphaTable) {
+    double sumProbabilities = 0;
+    for (const auto& entry : alphaTable) {
+        sumProbabilities += entry.probability;
+    }
+
+    double randomValue = ((double)rand() / RAND_MAX) * sumProbabilities;
+    double cumulativeProbability = 0;
+
+    for (const auto& entry : alphaTable) {
+        cumulativeProbability += entry.probability;
+        if (randomValue <= cumulativeProbability) {
+            return entry.alpha;
+        }
+    }
+
+    return alphaTable.back().alpha;
+}
+
+MGGPPInfo* getMGGPPInfo(vector<Graph*> clusters) {
+    MGGPPInfo* info = new MGGPPInfo();
+    int clusterGap = 0;
+
+    for (Graph* cluster : clusters) {
+        MGGPPInfoCluster clusterInfo;
+        vector<int> clusterNodes;
+
+        clusterGap = 0;
+
+        Node* currentNode = cluster->getFirstNode();
+        while (currentNode != nullptr) {
+            clusterGap += currentNode->getWeight();
+
+            clusterNodes.push_back(currentNode->getId());
+
+            currentNode = currentNode->getNextNode();
+        }
+
+        clusterInfo.gap = clusterGap;
+        clusterInfo.nodes = clusterNodes;
+
+        info->gapSum += clusterGap;
+        info->clusters.push_back(clusterInfo);
+    }
+
+    return info;
+}
+
+void printMGGPPInfo(const MGGPPInfo* info) {
+    if (info == nullptr) {
+        std::cout << "MGGPPInfo is null." << std::endl;
+        return;
+    }
+
+    std::cout << "MGGPPInfo: " << std::endl;
+    std::cout << "Gap Sum: " << info->gapSum << std::endl;
+    std::cout << "Alpha: " << info->alpha << std::endl;
+
+    for (size_t i = 0; i < info->clusters.size(); ++i) {
+        const MGGPPInfoCluster& cluster = info->clusters[i];
+        std::cout << "Cluster " << i + 1 << ": " << std::endl;
+        std::cout << "  Gap: " << cluster.gap << std::endl;
+        std::cout << "  Nodes: ";
+        for (int nodeId : cluster.nodes) {
+            std::cout << nodeId << " ";
+        }
+        std::cout << std::endl;
+    }
 }

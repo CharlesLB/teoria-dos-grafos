@@ -13,9 +13,31 @@
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
 
+struct MGGPPInfoCluster {
+    int gap;
+    vector<int> nodes;
+};
+
+struct MGGPPInfo {
+    int gapSum;
+    float alpha;
+    vector<MGGPPInfoCluster> clusters;
+};
+
+struct MGGPPAlphaTable {
+    double alpha;
+    double average;
+    double best;
+    int iterations;
+    double probability;
+};
+
 vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float alpha);
 
-Graph* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters);
+MGGPPInfo* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters, vector<float> alphas, int maxIterations);
+void printMGGPPInfo(const MGGPPInfo* info);
+float getAlphaValue(vector<MGGPPAlphaTable>& alphaTable);
+MGGPPInfo* getMGGPPInfo(vector<Graph*> clusters);
 
 // Helper functions
 unordered_map<int, int> getNodeDegreeMap(Graph* graph);
