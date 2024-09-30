@@ -15,7 +15,7 @@
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
 
-vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
+vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float alpha) {
     int clusterWeight = 0;
     bool breakLoop = false;
     Node *nextNode, *oldNode, *oneDegreeNode, *currentNode;
@@ -36,7 +36,7 @@ vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters) {
         clusters[clusterIndex] = cluster;
         clusterWeight = 0;
 
-        currentNode = graph->findNodeById(getSmallerDegreeNode(nodesDegree));
+        currentNode = graph->findNodeById(getSmallerDegreeNodeId(nodesDegree, alpha));
         cluster->createOrUpdateNode(currentNode->getId(), currentNode->getWeight());
         cout << "Adicionando nó inicial " << currentNode->getId() << " ao cluster com peso " << currentNode->getWeight() << endl;
         clusterWeight += currentNode->getWeight();
@@ -189,22 +189,31 @@ void addNodeToCluster(Graph* cluster, Node* node, Node* parentNode, int& cluster
     clusterWeight += node->getWeight();
 }
 
-int getSmallerDegreeNode(std::unordered_map<int, int>& nodesDegree) {
-    int smallerDegree = 501;
-    int smallerDegreeNode = -1;
+int getSmallerDegreeNodeId(std::unordered_map<int, int>& nodesDegree, float alpha) {
+    std::unordered_map<int, std::vector<int>> nodesDegreesMap;
 
-    for (auto node : nodesDegree) {
+    int smallerDegree = 501;
+
+    for (const auto& node : nodesDegree) {
+        int nodeId = node.first;
+        int degree = node.second;
+
         if (node.second < smallerDegree) {
-            smallerDegree = node.second;
-            smallerDegreeNode = node.first;
+            smallerDegree = degree;
         }
+
+        nodesDegreesMap[degree].push_back(nodeId);
     }
 
-    return smallerDegreeNode;
-}
+    if (alpha > 0) {
+        int listSize = nodesDegreesMap[smallerDegree].size();
 
-Graph* getMGGPPByGRASPAlgorithm(Graph* graph, int numClusters) {
-    return graph;
+        int maxIndex = static_cast<int>(ceil(listSize * alpha));
+        int randomIndex = rand() % (maxIndex);
+        return nodesDegreesMap[smallerDegree][randomIndex];
+    }
+
+    return nodesDegreesMap[smallerDegree][0];
 }
 
 Graph* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters) {

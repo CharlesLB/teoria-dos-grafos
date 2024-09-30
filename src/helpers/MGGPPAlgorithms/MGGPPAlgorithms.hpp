@@ -13,9 +13,7 @@
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
 
-vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters);
-
-Graph* getMGGPPByGRASPAlgorithm(Graph* graph, int numClusters);
+vector<Graph*> getMGGPPByGreedyAlgorithm(Graph* graph, int numClusters, float alpha);
 
 Graph* getMGGPPByReactiveGRASPAlgorithm(Graph* graph, int numClusters);
 
@@ -28,7 +26,7 @@ void deleteNodeFromGraph(Graph* graph, Node* node, unordered_map<int, int>& node
 void addNodeToCluster(Graph* cluster, Node* node, Node* parentNode, int& clusterWeight);
 int getClusterWeight(Graph* graph, int numClusters);
 int getClusterSizeLimit(Graph* graph, int numClusters);
-int getSmallerDegreeNode(std::unordered_map<int, int>& nodesDegree);
+int getSmallerDegreeNodeId(std::unordered_map<int, int>& nodesDegree, float alpha);
 
 Graph* mergeGraphs(vector<Graph*> graphs);
 

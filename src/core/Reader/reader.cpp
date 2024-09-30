@@ -109,6 +109,25 @@ int Reader::readInt() {
     return num;
 }
 
+float Reader::readFloat(float minVal, float maxVal) {
+    float num;
+    cout << "Enter a float between " << minVal << " and " << maxVal << ": ";
+    cin >> num;
+
+    while (cin.fail() || num < minVal || num > maxVal) {
+        if (cin.fail()) {
+            cout << "Invalid input. Please enter a valid float: ";
+            cin.clear();
+            cin.ignore(1000, '\n');
+        } else {
+            cout << "The number must be between " << minVal << " and " << maxVal << ". Try again: ";
+        }
+        cin >> num;
+    }
+
+    return num;
+}
+
 pair<Graph *, int> Reader::graphAMPL(string filename) {
     GraphAMPL graphAMPL = getDataFromAMPL(filename);
 
