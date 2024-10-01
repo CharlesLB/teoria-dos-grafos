@@ -41,6 +41,8 @@ class Node {
     void incrementDegreeIn();
     void incrementDegreeOut();
 
+    vector<Node*> getNeighbors();
+
    private:
     int id;
     int degreeIn;

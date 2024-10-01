@@ -10,17 +10,19 @@
 #include <sstream>
 
 #include "../../helpers/Algorithms/algorithms.hpp"
+#include "../../helpers/MGGPPAlgorithms/MGGPPAlgorithms.hpp"
 #include "../../helpers/Validators/validators.hpp"
 #include "../../lib/Edge/edge.hpp"
 #include "../../lib/Graph/graph.hpp"
 #include "../../lib/Node/node.hpp"
+#include "../../utils/graphUtils/graphUtils.hpp"
 #include "../Manager/manager.hpp"
 #include "../Reader/reader.hpp"
 #include "../Writer/writer.hpp"
 
 using namespace std;
 
-void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWeightedEdge, bool isDirected, Graph* graph) {
+void Controller::processOperation(char* argv[], Graph* graph) {
     char option;
 
     string options[] = {
@@ -32,8 +34,7 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
         "[f] Árvore geradora mínima com Kruskal",
         "[g] Árvore de profundidade",
         "[h] Obter raio, diâmetro, centro e periferia do grafo",
-        "[i] Obter o conjunto de nós de articulação",
-        "Exit", ""};
+        "[i] Obter o conjunto de nós de articulação", "[j] Inserção e remoção de nós e arestas", "[k] Exit", ""};
 
     while (true) {
         Writer::printMenu(options);
@@ -78,6 +79,57 @@ void Controller::processOperation(char* argv[], bool hasWeightedNode, bool hasWe
                 break;
 
             case 'j':
+                nodeAndEdgeInsertionDeletion(graph);
+                break;
+
+            case 'k':
+                exitSystem();
+                break;
+
+            default:
+                invalidOption = true;
+                cout << "Invalid option\n";
+                break;
+        }
+
+        if (invalidOption) continue;
+        Reader::continueConfirmation();
+    }
+}
+
+void Controller::processOperationAMPL(char* argv[], Graph* graph, int numClusters) {
+    char option;
+
+    string options[] = {
+        "Impressão do grafo em um arquivo",
+        "MGGPP com algoritmo guloso",
+        "MGGPP com algoritmo guloso randomizado adaptativo",
+        "MGGPP com algoritmo guloso randomizado adaptativo reativo",
+        "Exit", ""};
+
+    while (true) {
+        Writer::printMenu(options);
+        option = Reader::readChar();
+        bool invalidOption = false;
+
+        switch (option) {
+            case 'a':
+                printGraphToFile(graph, argv[2]);
+                break;
+
+            case 'b':
+                runGreedyAlgorithm(graph, numClusters);
+                break;
+
+            case 'c':
+                runGRASPAlgorithm(graph, numClusters);
+                break;
+
+            case 'd':
+                runReactiveGRASPAlgorithm(graph, numClusters);
+                break;
+
+            case 'e':
                 exitSystem();
                 break;
 
@@ -416,4 +468,40 @@ void Controller::getDepthFirstSearchTree(Graph* graph) {
     Node* startNode = Manager::selectNode(graph);
 
     printDepthFirstSearchTree(graph, startNode);
+}
+
+void Controller::runGreedyAlgorithm(Graph* graph, int numClusters) {
+    Graph* graphCopy = createGraphCopy(graph);
+    vector<Graph*> MGGPPGraphs = getMGGPPByGreedyAlgorithm(graphCopy, numClusters, 0);
+
+    delete graphCopy;
+
+    MGGPPInfo* MGGPPGraphInfo = getMGGPPInfo(MGGPPGraphs, 0);
+
+    printMGGPPInfo(MGGPPGraphInfo);
+
+    // for (int i = 0; i < MGGPPGraph.size(); i++) {
+    //     Writer::printGraphInDotFile(MGGPPGraph[i], "MGGPPGraph" + to_string(i));
+    // }
+}
+
+void Controller::runGRASPAlgorithm(Graph* graph, int numClusters) {
+    cout << "Enter the alpha value.";
+    float alpha = Reader::readFloat(0, 1);
+
+    Graph* graphCopy = createGraphCopy(graph);
+    vector<Graph*> MGGPPGraphs = getMGGPPByGreedyAlgorithm(graphCopy, numClusters, alpha);
+
+    delete graphCopy;
+
+    MGGPPInfo* MGGPPGraphInfo = getMGGPPInfo(MGGPPGraphs, 0);
+    printMGGPPInfo(MGGPPGraphInfo);
+}
+
+void Controller::runReactiveGRASPAlgorithm(Graph* graph, int numClusters) {
+    vector<float> alphas = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
+
+    MGGPPInfo* MGGPPGraphInfo = getMGGPPByReactiveGRASPAlgorithm(graph, numClusters, alphas, 100);
+
+    printMGGPPInfo(MGGPPGraphInfo);
 }
